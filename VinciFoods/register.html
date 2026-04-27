@@ -7,62 +7,38 @@
 </head>
 <body>
     <div class="auth-container">
-        <h2 style="color:var(--accent-purple); margin-bottom: 20px;">Create Account</h2>
+        <h2>Join VinciFoods</h2>
         <form id="regForm">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="regName" placeholder="John Doe" required>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="regEmail" placeholder="email@example.com" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="regPass" placeholder="••••••••" required>
-            </div>
-            
+            <div class="form-group"><label>Full Name</label><input type="text" id="name" required></div>
+            <div class="form-group"><label>Email Address</label><input type="email" id="email" required></div>
+            <div class="form-group"><label>Password</label><input type="password" id="pass" required></div>
             <div class="terms-box">
-                <p><strong>Educational Terms:</strong> This is a project. Your data is stored locally in your browser only.</p>
-                <label style="margin-top:10px; display:block; cursor:pointer;">
-                    <input type="checkbox" id="termsCheck"> I accept the terms.
-                </label>
+                <p><strong>Terms:</strong> This is an educational demo. No real data is collected.</p>
+                <label style="cursor:pointer;"><input type="checkbox" id="check"> I accept these terms.</label>
             </div>
-
-            <button type="submit" id="submitBtn" class="submit-btn" disabled>Register</button>
+            <button type="submit" id="btn" class="submit-btn" disabled>Create Account</button>
         </form>
-        <p style="margin-top:20px;">Have an account? <a href="login.html" style="color:var(--accent-purple)">Login here</a></p>
     </div>
 
     <script>
-        const checkbox = document.getElementById('termsCheck');
-        const btn = document.getElementById('submitBtn');
         const form = document.getElementById('regForm');
+        const check = document.getElementById('check');
+        const btn = document.getElementById('btn');
 
-        checkbox.addEventListener('change', function() {
-            btn.disabled = !this.checked;
-        });
+        check.onchange = () => btn.disabled = !check.checked;
 
-        form.addEventListener('submit', function(e) {
+        form.onsubmit = (e) => {
             e.preventDefault();
-
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPass').value;
-
-            // Step 1: Create a user object
-            const newUser = {
-                username: name,
-                userEmail: email,
-                userPass: password
+            const email = document.getElementById('email').value;
+            const user = { 
+                name: document.getElementById('name').value,
+                pass: document.getElementById('pass').value 
             };
-
-            // Step 2: Save the user to localStorage using their email as the "Key"
-            localStorage.setItem(email, JSON.stringify(newUser));
-
-            alert('Account saved for ' + name + '! Redirecting to login...');
+            // Save user with email as the unique key
+            localStorage.setItem(email, JSON.stringify(user));
+            alert("Account created! Please log in.");
             window.location.href = 'login.html';
-        });
+        };
     </script>
 </body>
 </html>
