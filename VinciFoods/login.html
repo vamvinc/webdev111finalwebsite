@@ -41,7 +41,6 @@
     <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
 
     <script>
-        // --- LOGIN LOGIC ONLY ---
         const lCheck = document.getElementById('lCheck');
         const lBtn = document.getElementById('lBtn');
         lCheck.onchange = () => lBtn.disabled = !lCheck.checked;
@@ -56,7 +55,7 @@
                 const user = JSON.parse(storedUser);
                 if (user.pass === pass) {
                     localStorage.setItem('currentUser', email);
-                    alert("Welcome back!"); 
+                    alert("Welcome back, " + user.name + "!"); 
                     window.location.href = 'index.html';
                     return;
                 }
@@ -64,7 +63,6 @@
             alert("Invalid email or password!");
         };
 
-        // Simple Nav Auth Check
         const authLink = document.getElementById('authLink');
         if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
