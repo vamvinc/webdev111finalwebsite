@@ -7,17 +7,30 @@
 </head>
 <body>
     <div class="auth-container">
-        <h2>Join VinciFoods</h2>
+        <h2 style="color:var(--accent-purple); margin-bottom: 20px;">Join VinciFoods</h2>
         <form id="regForm">
-            <div class="form-group"><label>Full Name</label><input type="text" id="name" required></div>
-            <div class="form-group"><label>Email Address</label><input type="email" id="email" required></div>
-            <div class="form-group"><label>Password</label><input type="password" id="pass" required></div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="name" placeholder="Vince" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="vince@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="pass" placeholder="••••••••" required>
+            </div>
             <div class="terms-box">
-                <p><strong>Terms:</strong> This is an educational demo. No real data is collected.</p>
+                <p><strong>Educational Terms:</strong> This is a project. Your data is stored locally in your browser.</p>
                 <label style="cursor:pointer;"><input type="checkbox" id="check"> I accept these terms.</label>
             </div>
             <button type="submit" id="btn" class="submit-btn" disabled>Create Account</button>
         </form>
+        
+        <p style="margin-top:20px; text-align:center; color:var(--text-muted);">
+            Already have an account? <a href="login.html" style="color:var(--accent-purple); text-decoration: none; font-weight: bold;">Log in here</a>
+        </p>
     </div>
 
     <script>
@@ -34,9 +47,8 @@
                 name: document.getElementById('name').value,
                 pass: document.getElementById('pass').value 
             };
-            // Save user with email as the unique key
             localStorage.setItem(email, JSON.stringify(user));
-            alert("Account created! Please log in.");
+            alert("Account created! Welcome, " + user.name);
             window.location.href = 'login.html';
         };
     </script>
