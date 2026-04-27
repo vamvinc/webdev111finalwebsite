@@ -2,8 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VinciFoods | About</title>
+    <title>VinciFoods | About Us</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .about-hero {
+            padding: 80px 10%;
+            text-align: center;
+            background: linear-gradient(to bottom, #1a0f2b, var(--bg-dark));
+        }
+        .content-section { padding: 60px 10%; line-height: 1.8; }
+        .content-section h2 { color: var(--accent-purple); margin-bottom: 20px; font-size: 2rem; }
+        .mission-box {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-gold);
+            margin: 40px 0;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -16,17 +32,115 @@
         </ul>
     </nav>
 
-    <header class="hero">
-        <h1>Our Story</h1>
-        <p>Premium meals from our kitchen to your doorstep.</p>
+    <header class="about-hero">
+        <h1 style="font-size: 3rem;">Our Story</h1>
+        <p style="color: var(--text-muted); font-size: 1.2rem;">Founded in 2026, VinciFoods was built on a passion for quality and speed.</p>
     </header>
 
-    <div class="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
-    <div id="sidebar" class="cart-sidebar">
+    <section class="content-section">
+        <h2>Who We Are</h2>
+        <p>VinciFoods started as a small university project. We wanted to create a delivery service that didn't just provide food, but provided a high-contrast, visually engaging experience. Our signature purple branding represents our creativity and our commitment to being different.</p>
+        
+        <div class="mission-box">
+            <h3>Our Mission</h3>
+            <p>To deliver high-quality, chef-inspired meals with lightning speed, while maintaining the highest standards of food safety and customer satisfaction.</p>
         </div>
 
+        <h2>The Team</h2>
+        <p>Our team is composed of dedicated chefs, tech-savvy developers, and the fastest delivery riders in the city. Every member of the VinciFoods family is committed to making sure your meal is perfect every single time.</p>
+    </section>
+
+    <div class="cart-toggle" onclick="toggleCart()">
+        🛒 <span id="cart-count">0</span>
+    </div>
+
+    <div id="sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Basket</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
+        </div>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                <span>Total:</span>
+                <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
+            </div>
+            <button class="submit-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p>
+    </footer>
+
     <script>
-        // Include the same Shared Cart Engine script here to keep the cart active
+        // --- SHARED PERSISTENT CART ENGINE ---
+        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
+
+        function toggleCart() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function updateUI() {
+            const container = document.getElementById('cart-items');
+            const countLabel = document.getElementById('cart-count');
+            const totalLabel = document.getElementById('total-price');
+            
+            container.innerHTML = '';
+            let total = 0;
+
+            if (basket.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty.</p>';
+            } else {
+                basket.forEach((item, index) => {
+                    total += item.price;
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'cart-item';
+                    itemDiv.innerHTML = `
+                        <div>
+                            <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
+                            <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">Remove</button>
+                    `;
+                    container.appendChild(itemDiv);
+                });
+            }
+            countLabel.innerText = basket.length;
+            totalLabel.innerText = `$${total.toFixed(2)}`;
+            localStorage.setItem('userCart', JSON.stringify(basket));
+        }
+
+        function removeItem(index) {
+            basket.splice(index, 1);
+            updateUI();
+        }
+
+        function checkout() {
+            if (basket.length === 0) return alert("Basket is empty!");
+            if (!localStorage.getItem('currentUser')) {
+                alert("Please login first!");
+                window.location.href = 'login.html';
+            } else {
+                alert("Order Success!");
+                basket = [];
+                updateUI();
+                toggleCart();
+            }
+        }
+
+        // Initialize UI on page load
+        updateUI();
+
+        // --- AUTH NAV TOGGLE ---
+        const authLink = document.getElementById('authLink');
+        if (localStorage.getItem('currentUser')) {
+            authLink.innerText = "Logout";
+            authLink.onclick = () => {
+                localStorage.removeItem('currentUser');
+                window.location.reload();
+            };
+        }
     </script>
 </body>
 </html>
