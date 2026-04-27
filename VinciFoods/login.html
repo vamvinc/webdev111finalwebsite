@@ -20,12 +20,12 @@
         <h2>Login</h2>
         <form id="lForm">
             <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="lEmail" placeholder="vince@example.com" required>
+                <label for="lEmail">Email Address</label>
+                <input type="email" id="lEmail" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="lPass" placeholder="••••••••" required>
+                <label for="lPass">Password</label>
+                <input type="password" id="lPass" placeholder="Enter your password" required>
             </div>
             <div class="terms-box">
                 <input type="checkbox" id="lCheck">
@@ -34,30 +34,14 @@
             <button type="submit" id="lBtn" class="submit-btn" disabled>Sign In</button>
         </form>
         <p style="text-align:center; margin-top:20px; color:var(--text-muted); font-size: 0.9rem;">
-            Don't have an account? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Register here</a>
+            New here? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Register</a>
         </p>
-    </div>
-
-    <div class="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
-    <div id="sidebar" class="cart-sidebar">
-        <div class="cart-header">
-            <h3>Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
-        </div>
-        <div id="cart-items"></div>
-        <div class="cart-total">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <span>Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
-            </div>
-            <button class="submit-btn" onclick="checkout()">Checkout</button>
-        </div>
     </div>
 
     <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
 
     <script>
-        // --- LOGIN LOGIC ---
+        // --- LOGIN LOGIC ONLY ---
         const lCheck = document.getElementById('lCheck');
         const lBtn = document.getElementById('lBtn');
         lCheck.onchange = () => lBtn.disabled = !lCheck.checked;
@@ -72,7 +56,7 @@
                 const user = JSON.parse(storedUser);
                 if (user.pass === pass) {
                     localStorage.setItem('currentUser', email);
-                    alert("Welcome back, " + user.name + "!");
+                    alert("Welcome back!"); 
                     window.location.href = 'index.html';
                     return;
                 }
@@ -80,32 +64,12 @@
             alert("Invalid email or password!");
         };
 
-        // --- SHARED CART ENGINE ---
-        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
-        function toggleCart() { document.getElementById('sidebar').classList.toggle('active'); }
-        function updateUI() {
-            const container = document.getElementById('cart-items');
-            const countLabel = document.getElementById('cart-count');
-            const totalLabel = document.getElementById('total-price');
-            container.innerHTML = ''; let total = 0;
-            if (basket.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty.</p>';
-            } else {
-                basket.forEach((item, index) => {
-                    total += item.price;
-                    const div = document.createElement('div');
-                    div.className = 'cart-item';
-                    div.innerHTML = `<div><p style="font-weight:bold; font-size:0.8rem;">${item.name}</p><p style="font-size:0.7rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p></div><button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-size:0.8rem;">Remove</button>`;
-                    container.appendChild(div);
-                });
-            }
-            countLabel.innerText = basket.length;
-            totalLabel.innerText = `$${total.toFixed(2)}`;
-            localStorage.setItem('userCart', JSON.stringify(basket));
+        // Simple Nav Auth Check
+        const authLink = document.getElementById('authLink');
+        if (localStorage.getItem('currentUser')) {
+            authLink.innerText = "Logout";
+            authLink.onclick = () => { localStorage.removeItem('currentUser'); window.location.reload(); };
         }
-        function removeItem(index) { basket.splice(index, 1); updateUI(); }
-        function checkout() { if (basket.length === 0) return alert("Basket is empty!"); alert("Login required to finish order."); }
-        updateUI();
     </script>
 </body>
 </html>
