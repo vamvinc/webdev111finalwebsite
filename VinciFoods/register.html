@@ -11,21 +11,21 @@
         <form id="regForm">
             <div class="form-group">
                 <label>Full Name</label>
-                <input type="text" required>
+                <input type="text" id="regName" placeholder="John Doe" required>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" required>
+                <input type="email" id="regEmail" placeholder="email@example.com" required>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" required>
+                <input type="password" id="regPass" placeholder="••••••••" required>
             </div>
             
             <div class="terms-box">
-                <p><strong>Educational Terms:</strong> This is a project. No real data is stored. Enjoy the design!</p>
+                <p><strong>Educational Terms:</strong> This is a project. Your data is stored locally in your browser only.</p>
                 <label style="margin-top:10px; display:block; cursor:pointer;">
-                    <input type="checkbox" id="termsCheck"> I agree.
+                    <input type="checkbox" id="termsCheck"> I accept the terms.
                 </label>
             </div>
 
@@ -45,7 +45,22 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Account created! Now please log in.');
+
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPass').value;
+
+            // Step 1: Create a user object
+            const newUser = {
+                username: name,
+                userEmail: email,
+                userPass: password
+            };
+
+            // Step 2: Save the user to localStorage using their email as the "Key"
+            localStorage.setItem(email, JSON.stringify(newUser));
+
+            alert('Account saved for ' + name + '! Redirecting to login...');
             window.location.href = 'login.html';
         });
     </script>
