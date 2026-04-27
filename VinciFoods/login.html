@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VinciFoods | Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h2 style="color:var(--accent-purple); margin-bottom: 20px;">Login</h2>
+        <form id="authForm">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" required>
+            </div>
+            
+            <div class="terms-box">
+                <p><strong>Note:</strong> This site is for educational purposes. By checking this box, you acknowledge this is a demo.</p>
+                <label style="margin-top:10px; display:block; cursor:pointer;">
+                    <input type="checkbox" id="termsCheck"> I accept the terms.
+                </label>
+            </div>
+
+            <button type="submit" id="submitBtn" class="submit-btn" disabled>Login</button>
+        </form>
+        <p style="margin-top:20px;">No account? <a href="register.html" style="color:var(--accent-purple)">Register here</a></p>
+    </div>
+
+    <script>
+        const checkbox = document.getElementById('termsCheck');
+        const btn = document.getElementById('submitBtn');
+        const form = document.getElementById('authForm');
+
+        checkbox.addEventListener('change', function() {
+            btn.disabled = !this.checked;
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Login successful! Redirecting...');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
