@@ -7,62 +7,43 @@
 </head>
 <body>
     <div class="auth-container">
-        <h2 style="color:var(--accent-purple); margin-bottom: 20px;">Login</h2>
+        <h2>Welcome Back</h2>
         <form id="loginForm">
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="loginPass" placeholder="Enter your password" required>
-            </div>
-            
+            <div class="form-group"><label>Email</label><input type="email" id="email" required></div>
+            <div class="form-group"><label>Password</label><input type="password" id="pass" required></div>
             <div class="terms-box">
-                <p><strong>Note:</strong> Log in to access your VinciFoods dashboard.</p>
-                <label style="margin-top:10px; display:block; cursor:pointer;">
-                    <input type="checkbox" id="termsCheck"> I accept the terms.
-                </label>
+                <label style="cursor:pointer;"><input type="checkbox" id="check"> I am not a robot.</label>
             </div>
-
-            <button type="submit" id="submitBtn" class="submit-btn" disabled>Login</button>
+            <button type="submit" id="btn" class="submit-btn" disabled>Login</button>
         </form>
-        <p style="margin-top:20px;">No account? <a href="register.html" style="color:var(--accent-purple)">Register here</a></p>
+        <p style="margin-top:15px; text-align:center;">New here? <a href="register.html" style="color:var(--accent-purple)">Create an account</a></p>
     </div>
 
     <script>
-        const checkbox = document.getElementById('termsCheck');
-        const btn = document.getElementById('submitBtn');
         const form = document.getElementById('loginForm');
+        const check = document.getElementById('check');
+        const btn = document.getElementById('btn');
 
-        checkbox.addEventListener('change', function() {
-            btn.disabled = !this.checked;
-        });
+        check.onchange = () => btn.disabled = !check.checked;
 
-        form.addEventListener('submit', function(e) {
+        form.onsubmit = (e) => {
             e.preventDefault();
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            const storedData = localStorage.getItem(email);
 
-            const emailInput = document.getElementById('loginEmail').value;
-            const passInput = document.getElementById('loginPass').value;
-
-            // Step 1: Look for the email key in storage
-            const savedData = localStorage.getItem(emailInput);
-
-            if (savedData) {
-                // Step 2: Convert the string back into a JS object
-                const user = JSON.parse(savedData);
-
-                // Step 3: Compare passwords
-                if (user.userPass === passInput) {
-                    alert('Login successful! Welcome back, ' + user.username);
+            if (storedData) {
+                const user = JSON.parse(storedData);
+                if (user.pass === pass) {
+                    // Start session
+                    localStorage.setItem('currentUser', email);
+                    alert("Welcome, " + user.name + "!");
                     window.location.href = 'index.html';
-                } else {
-                    alert('Error: Incorrect password.');
+                    return;
                 }
-            } else {
-                alert('Error: No account found with that email. Please Register.');
             }
-        });
+            alert("Oops! Invalid email or password.");
+        };
     </script>
 </body>
 </html>
