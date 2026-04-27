@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VinciFoods | Menu</title>
+    <title>VinciFoods | Order</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,28 +17,62 @@
     </nav>
 
     <section>
-        <h2 style="color:var(--accent-purple); margin-bottom: 20px;">Signature Menu</h2>
+        <h2 style="color:var(--accent-purple); margin-bottom:30px;">Our Menu</h2>
         <div class="menu-grid">
             <div class="food-item">
                 <h3>Vinci Burger</h3>
-                <p style="color:var(--accent-gold);">$12.00</p>
-                <button class="submit-btn" onclick="alert('Added!')">Add to Cart</button>
+                <p>$12.00</p>
+                <button class="submit-btn" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
             </div>
             <div class="food-item">
                 <h3>Lavender Pasta</h3>
-                <p style="color:var(--accent-gold);">$14.50</p>
-                <button class="submit-btn" onclick="alert('Added!')">Add to Cart</button>
+                <p>$14.50</p>
+                <button class="submit-btn" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
             </div>
         </div>
     </section>
 
+    <div class="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+    <div id="sidebar" class="cart-sidebar">
+        <div class="cart-header"><h3>Your Basket</h3><button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button></div>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><span>Total:</span><span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span></div>
+            <button class="submit-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+
     <script>
-        const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
-            authLink.innerText = "Logout";
-            authLink.href = "#";
-            authLink.onclick = () => { localStorage.removeItem('currentUser'); window.location.reload(); };
+        // --- ADD TO CART SPECIFIC LOGIC ---
+        function addToCart(name, price) {
+            basket.push({ name, price });
+            updateUI();
+            document.getElementById('sidebar').classList.add('active');
         }
+
+        // --- SHARED CART ENGINE ---
+        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
+        function toggleCart() { document.getElementById('sidebar').classList.toggle('active'); }
+        function updateUI() {
+            const container = document.getElementById('cart-items');
+            const countLabel = document.getElementById('cart-count');
+            const totalLabel = document.getElementById('total-price');
+            container.innerHTML = ''; let total = 0;
+            if (basket.length === 0) { container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty.</p>';
+            } else { basket.forEach((item, index) => { total += item.price;
+                const div = document.createElement('div'); div.className = 'cart-item';
+                div.innerHTML = `<div><p style="font-weight:bold; font-size:0.9rem;">${item.name}</p><p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p></div><button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">Remove</button>`;
+                container.appendChild(div); });
+            }
+            countLabel.innerText = basket.length; totalLabel.innerText = `$${total.toFixed(2)}`;
+            localStorage.setItem('userCart', JSON.stringify(basket));
+        }
+        function removeItem(index) { basket.splice(index, 1); updateUI(); }
+        function checkout() { if (basket.length === 0) return alert("Basket is empty!"); if (!localStorage.getItem('currentUser')) { alert("Login first!"); window.location.href = 'login.html'; } else { alert("Order Success!"); basket = []; updateUI(); toggleCart(); } }
+        updateUI();
+
+        const authLink = document.getElementById('authLink');
+        if (localStorage.getItem('currentUser')) { authLink.innerText = "Logout"; authLink.onclick = () => { localStorage.removeItem('currentUser'); window.location.reload(); }; }
     </script>
 </body>
 </html>
