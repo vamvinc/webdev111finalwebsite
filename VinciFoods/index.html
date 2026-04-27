@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Home</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,29 +11,29 @@
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="order.html">Order</a></li>
-            <li><a href="login.html">Login</a></li>
+            <li><a href="login.html" id="authLink">Login</a></li>
         </ul>
     </nav>
 
     <header class="hero">
-        <h1>Freshly Made. Promptly Delivered.</h1>
-        <p>Experience the finest dining from the comfort of your home.</p>
-        <a href="order.html" class="cta-button">Browse Menu</a>
+        <h1>Deliciousness Delivered.</h1>
+        <p>Premium meals from our kitchen to your doorstep.</p>
+        <br>
+        <a href="order.html" class="cta-button">Start Your Order</a>
     </header>
 
-    <section class="features">
-        <div class="feature-card">
-            <h3>Fast Delivery</h3>
-            <p>Hot food at your door in under 30 minutes.</p>
-        </div>
-        <div class="feature-card">
-            <h3>Top Quality</h3>
-            <p>Ingredients sourced from local organic farms.</p>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 VinciFoods. Educational Demo.</p>
-    </footer>
+    <script>
+        const authLink = document.getElementById('authLink');
+        // Check if someone is logged in
+        if (localStorage.getItem('currentUser')) {
+            authLink.innerText = "Logout";
+            authLink.href = "#";
+            authLink.onclick = () => {
+                localStorage.removeItem('currentUser');
+                alert("You have logged out.");
+                window.location.reload();
+            };
+        }
+    </script>
 </body>
 </html>
