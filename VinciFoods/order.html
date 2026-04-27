@@ -2,8 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VinciFoods | Order</title>
+    <title>VinciFoods | Order Now</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Extra styling for menu categories */
+        .category-section { padding: 60px 10%; border-bottom: 1px solid #2d1b4d; }
+        .category-title { font-size: 2rem; margin-bottom: 30px; color: var(--accent-purple); border-left: 5px solid var(--accent-gold); padding-left: 15px; }
+        
+        .food-item p { font-size: 0.9rem; color: var(--text-muted); margin: 10px 0; }
+        .food-price { color: var(--accent-gold); font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; display: block; }
+        
+        .order-hero {
+            padding: 60px 10%;
+            text-align: center;
+            background: linear-gradient(to bottom, #1a0f2b, var(--bg-dark));
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -15,30 +29,79 @@
         </ul>
     </nav>
 
-    <div class="menu-grid">
-        <div class="food-item">
-            <h3>Vinci Burger</h3>
-            <p style="color:var(--text-muted)">Double beef with purple onion jam.</p>
-            <p style="color:var(--accent-gold); margin: 10px 0;">$12.99</p>
-            <button class="submit-btn" onclick="alert('Added to cart!')">Order Now</button>
+    <header class="order-hero">
+        <h1 style="color: var(--text-white); font-size: 2.5rem;">Our Menu</h1>
+        <p style="color: var(--text-muted);">Choose from our chef-curated selection of premium meals.</p>
+    </header>
+
+    <section class="category-section">
+        <h2 class="category-title">Signature Pizzas</h2>
+        <div class="menu-grid">
+            <div class="food-item">
+                <h3>Vinci Special</h3>
+                <p>Signature purple beet-infused dough, premium mozzarella, and fresh basil.</p>
+                <span class="food-price">$16.00</span>
+                <button class="submit-btn" onclick="addToCart('Vinci Special')">Add to Order</button>
+            </div>
+            <div class="food-item">
+                <h3>Truffle Mushroom</h3>
+                <p>Wild mushrooms, roasted garlic, and a drizzle of white truffle oil.</p>
+                <span class="food-price">$18.50</span>
+                <button class="submit-btn" onclick="addToCart('Truffle Mushroom')">Add to Order</button>
+            </div>
+            <div class="food-item">
+                <h3>The Meat Classic</h3>
+                <p>Pepperoni, Italian sausage, and smoked bacon on a spicy tomato base.</p>
+                <span class="food-price">$17.00</span>
+                <button class="submit-btn" onclick="addToCart('The Meat Classic')">Add to Order</button>
+            </div>
         </div>
-        <div class="food-item">
-            <h3>Truffle Pasta</h3>
-            <p style="color:var(--text-muted)">Creamy pasta with black truffle oil.</p>
-            <p style="color:var(--accent-gold); margin: 10px 0;">$16.50</p>
-            <button class="submit-btn" onclick="alert('Added to cart!')">Order Now</button>
+    </section>
+
+    <section class="category-section" style="background: #160d26;">
+        <h2 class="category-title">Sides & Refreshments</h2>
+        <div class="menu-grid">
+            <div class="food-item">
+                <h3>Lavender Fries</h3>
+                <p>Crispy fries seasoned with sea salt and dried lavender herbs.</p>
+                <span class="food-price">$6.50</span>
+                <button class="submit-btn" onclick="addToCart('Lavender Fries')">Add to Order</button>
+            </div>
+            <div class="food-item">
+                <h3>Purple Haze Soda</h3>
+                <p>Sparkling blueberry and lemon infusion.</p>
+                <span class="food-price">$4.00</span>
+                <button class="submit-btn" onclick="addToCart('Purple Haze Soda')">Add to Order</button>
+            </div>
+            <div class="food-item">
+                <h3>Garlic Knots</h3>
+                <p>Warm, buttery knots tossed in fresh garlic and parsley.</p>
+                <span class="food-price">$5.99</span>
+                <button class="submit-btn" onclick="addToCart('Garlic Knots')">Add to Order</button>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p>
+    </footer>
 
     <script>
+        // Authentication Button Logic
         const authLink = document.getElementById('authLink');
         if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
             authLink.href = "#";
             authLink.onclick = () => {
                 localStorage.removeItem('currentUser');
+                alert("Logged out!");
                 window.location.reload();
             };
+        }
+
+        // Simple Cart Notification
+        function addToCart(itemName) {
+            alert(itemName + " has been added to your order!");
         }
     </script>
 </body>
