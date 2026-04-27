@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>VinciFoods | Home</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Extra styling for the homepage sections */
+        section { padding: 80px 10%; border-bottom: 1px solid #2d1b4d; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: var(--accent-purple); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .info-card { background: var(--bg-card); padding: 30px; border-radius: 15px; text-align: center; }
+        .info-card h3 { color: var(--accent-gold); margin-bottom: 15px; }
+    </style>
 </head>
 <body>
     <nav>
@@ -17,20 +25,62 @@
 
     <header class="hero">
         <h1>Deliciousness Delivered.</h1>
-        <p>Premium meals from our kitchen to your doorstep.</p>
+        <p>Premium meals from our kitchen to your doorstep in 30 minutes.</p>
         <br>
-        <a href="order.html" class="cta-button">Start Your Order</a>
+        <a href="order.html" class="cta-button" style="width: auto;">Start Your Order</a>
     </header>
+
+    <section id="about">
+        <h2 class="section-title">Why VinciFoods?</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Fresh Ingredients</h3>
+                <p>We source everything from local organic farms to ensure every bite is peak quality.</p>
+            </div>
+            <div class="info-card">
+                <h3>Expert Chefs</h3>
+                <p>Our kitchen is led by world-class chefs who specialize in comfort food with a gourmet twist.</p>
+            </div>
+            <div class="info-card">
+                <h3>Eco-Friendly</h3>
+                <p>All our packaging is 100% biodegradable. We care about the food and the planet.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" style="background: #160d26;">
+        <h2 class="section-title">How It Works</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <h2 style="color: var(--accent-purple);">01</h2>
+                <h3>Choose Your Meal</h3>
+                <p>Browse our extensive menu of pizzas, burgers, and pasta.</p>
+            </div>
+            <div class="info-card">
+                <h2 style="color: var(--accent-purple);">02</h2>
+                <h3>Fast Preparation</h3>
+                <p>Our team starts cooking the moment you hit "Order."</p>
+            </div>
+            <div class="info-card">
+                <h2 style="color: var(--accent-purple);">03</h2>
+                <h3>Track Delivery</h3>
+                <p>Watch your driver arrive in real-time on our live map.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p>
+    </footer>
 
     <script>
         const authLink = document.getElementById('authLink');
-        // Check if someone is logged in
         if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
             authLink.href = "#";
             authLink.onclick = () => {
                 localStorage.removeItem('currentUser');
-                alert("You have logged out.");
+                alert("Logged out!");
                 window.location.reload();
             };
         }
