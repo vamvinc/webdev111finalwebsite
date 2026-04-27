@@ -20,48 +20,32 @@
         <h2>Register</h2>
         <form id="rForm">
             <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="rName" placeholder="Vince" required>
+                <label for="rName">Full Name</label>
+                <input type="text" id="rName" placeholder="Enter your name" required>
             </div>
             <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="rEmail" placeholder="vince@example.com" required>
+                <label for="rEmail">Email Address</label>
+                <input type="email" id="rEmail" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="rPass" placeholder="••••••••" required>
+                <label for="rPass">Password</label>
+                <input type="password" id="rPass" placeholder="Create a password" required>
             </div>
             <div class="terms-box">
                 <input type="checkbox" id="rCheck">
-                <label for="rCheck" style="cursor:pointer;">Accept terms & conditions</label>
+                <label for="rCheck" style="cursor:pointer;">I accept the terms</label>
             </div>
-            <button type="submit" id="rBtn" class="submit-btn" disabled>Create Account</button>
+            <button type="submit" id="rBtn" class="submit-btn" disabled>Register Now</button>
         </form>
         <p style="text-align:center; margin-top:20px; color:var(--text-muted); font-size: 0.9rem;">
-            Already have an account? <a href="login.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Login here</a>
+            Already have an account? <a href="login.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Login</a>
         </p>
-    </div>
-
-    <div class="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
-    <div id="sidebar" class="cart-sidebar">
-        <div class="cart-header">
-            <h3>Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
-        </div>
-        <div id="cart-items"></div>
-        <div class="cart-total">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <span>Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
-            </div>
-            <button class="submit-btn" onclick="checkout()">Checkout</button>
-        </div>
     </div>
 
     <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
 
     <script>
-        // --- REGISTER LOGIC ---
+        // --- REGISTRATION LOGIC ONLY ---
         const rCheck = document.getElementById('rCheck');
         const rBtn = document.getElementById('rBtn');
         rCheck.onchange = () => rBtn.disabled = !rCheck.checked;
@@ -74,36 +58,15 @@
                 pass: document.getElementById('rPass').value
             };
             localStorage.setItem(email, JSON.stringify(user));
-            alert("Registration successful! Now please login.");
+            alert("Registration successful! You can now log in.");
             window.location.href = 'login.html';
         };
 
-        // --- SHARED CART ENGINE ---
-        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
-        function toggleCart() { document.getElementById('sidebar').classList.toggle('active'); }
-        function updateUI() {
-            const container = document.getElementById('cart-items');
-            const countLabel = document.getElementById('cart-count');
-            const totalLabel = document.getElementById('total-price');
-            container.innerHTML = ''; let total = 0;
-            if (basket.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty.</p>';
-            } else {
-                basket.forEach((item, index) => {
-                    total += item.price;
-                    const div = document.createElement('div');
-                    div.className = 'cart-item';
-                    div.innerHTML = `<div><p style="font-weight:bold; font-size:0.8rem;">${item.name}</p><p style="font-size:0.7rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p></div><button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-size:0.8rem;">Remove</button>`;
-                    container.appendChild(div);
-                });
-            }
-            countLabel.innerText = basket.length;
-            totalLabel.innerText = `$${total.toFixed(2)}`;
-            localStorage.setItem('userCart', JSON.stringify(basket));
+        const authLink = document.getElementById('authLink');
+        if (localStorage.getItem('currentUser')) {
+            authLink.innerText = "Logout";
+            authLink.onclick = () => { localStorage.removeItem('currentUser'); window.location.reload(); };
         }
-        function removeItem(index) { basket.splice(index, 1); updateUI(); }
-        function checkout() { if (basket.length === 0) return alert("Basket is empty!"); alert("Login required to finish order."); }
-        updateUI();
     </script>
 </body>
 </html>
