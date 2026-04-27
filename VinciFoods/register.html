@@ -17,7 +17,7 @@
     </nav>
 
     <div class="auth-container">
-        <h2 style="color:var(--accent-purple); margin-bottom: 20px;">Join VinciFoods</h2>
+        <h2>Register</h2>
         <form id="rForm">
             <div class="form-group">
                 <label>Full Name</label>
@@ -32,12 +32,13 @@
                 <input type="password" id="rPass" placeholder="••••••••" required>
             </div>
             <div class="terms-box">
-                <label style="cursor:pointer;"><input type="checkbox" id="rCheck"> Accept educational terms</label>
+                <input type="checkbox" id="rCheck">
+                <label for="rCheck" style="cursor:pointer;">Accept terms & conditions</label>
             </div>
             <button type="submit" id="rBtn" class="submit-btn" disabled>Create Account</button>
         </form>
-        <p style="text-align:center; margin-top:20px; color:var(--text-muted);">
-            Have an account? <a href="login.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Log in here</a>
+        <p style="text-align:center; margin-top:20px; color:var(--text-muted); font-size: 0.9rem;">
+            Already have an account? <a href="login.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Login here</a>
         </p>
     </div>
 
@@ -57,8 +58,10 @@
         </div>
     </div>
 
+    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
+
     <script>
-        // --- REGISTRATION LOGIC ---
+        // --- REGISTER LOGIC ---
         const rCheck = document.getElementById('rCheck');
         const rBtn = document.getElementById('rBtn');
         rCheck.onchange = () => rBtn.disabled = !rCheck.checked;
@@ -70,9 +73,8 @@
                 name: document.getElementById('rName').value,
                 pass: document.getElementById('rPass').value
             };
-            // Save as JSON string
             localStorage.setItem(email, JSON.stringify(user));
-            alert("Account Created! You can now log in.");
+            alert("Registration successful! Now please login.");
             window.location.href = 'login.html';
         };
 
@@ -91,7 +93,7 @@
                     total += item.price;
                     const div = document.createElement('div');
                     div.className = 'cart-item';
-                    div.innerHTML = `<div><p style="font-weight:bold; font-size:0.9rem;">${item.name}</p><p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p></div><button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">Remove</button>`;
+                    div.innerHTML = `<div><p style="font-weight:bold; font-size:0.8rem;">${item.name}</p><p style="font-size:0.7rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p></div><button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-size:0.8rem;">Remove</button>`;
                     container.appendChild(div);
                 });
             }
@@ -100,15 +102,8 @@
             localStorage.setItem('userCart', JSON.stringify(basket));
         }
         function removeItem(index) { basket.splice(index, 1); updateUI(); }
-        function checkout() { if (basket.length === 0) return alert("Basket is empty!"); if (!localStorage.getItem('currentUser')) { alert("Please login first!"); window.location.href = 'login.html'; } else { alert("Order Success!"); basket = []; updateUI(); toggleCart(); } }
+        function checkout() { if (basket.length === 0) return alert("Basket is empty!"); alert("Login required to finish order."); }
         updateUI();
-
-        // --- AUTH NAV TOGGLE ---
-        const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
-            authLink.innerText = "Logout";
-            authLink.onclick = () => { localStorage.removeItem('currentUser'); window.location.reload(); };
-        }
     </script>
 </body>
 </html>
