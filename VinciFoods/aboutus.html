@@ -2,24 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VinciFoods | About Us</title>
+    <title>VinciFoods | About</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .about-hero {
-            padding: 80px 10%;
-            text-align: center;
-            background: linear-gradient(to bottom, #1a0f2b, var(--bg-dark));
-        }
-        .content-section { padding: 60px 10%; line-height: 1.8; }
-        .content-section h2 { color: var(--accent-purple); margin-bottom: 20px; font-size: 2rem; }
-        .mission-box {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 15px;
-            border-left: 5px solid var(--accent-gold);
-            margin: 40px 0;
-        }
-    </style>
 </head>
 <body>
     <nav>
@@ -32,39 +16,17 @@
         </ul>
     </nav>
 
-    <header class="about-hero">
-        <h1 style="font-size: 3rem;">Our Story</h1>
-        <p style="color: var(--text-muted); font-size: 1.2rem;">Founded in 2026, VinciFoods was built on a passion for purple and great pizza.</p>
+    <header class="hero">
+        <h1>Our Story</h1>
+        <p>Premium meals from our kitchen to your doorstep.</p>
     </header>
 
-    <section class="content-section">
-        <h2>Who We Are</h2>
-        <p>VinciFoods started as a small kitchen experiment. We wanted to create a delivery service that didn't just provide food, but provided an experience. Our signature purple branding represents our creativity and our commitment to being different in a world of red and yellow fast-food chains.</p>
-        
-        <div class="mission-box">
-            <h3>Our Mission</h3>
-            <p>To deliver high-quality, chef-inspired meals with lightning speed, while maintaining the highest standards of food safety and customer satisfaction.</p>
+    <div class="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+    <div id="sidebar" class="cart-sidebar">
         </div>
 
-        <h2>The Team</h2>
-        <p>Our team is composed of dedicated chefs, tech-savvy developers, and the fastest delivery riders in the city. Every member of the VinciFoods family is committed to making sure your meal is perfect every single time.</p>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p>
-    </footer>
-
     <script>
-        const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
-            authLink.innerText = "Logout";
-            authLink.href = "#";
-            authLink.onclick = () => {
-                localStorage.removeItem('currentUser');
-                alert("Logged out!");
-                window.location.reload();
-            };
-        }
+        // Include the same Shared Cart Engine script here to keep the cart active
     </script>
 </body>
 </html>
