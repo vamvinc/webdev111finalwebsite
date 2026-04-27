@@ -45,7 +45,6 @@
     <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
 
     <script>
-        // --- REGISTRATION LOGIC ONLY ---
         const rCheck = document.getElementById('rCheck');
         const rBtn = document.getElementById('rBtn');
         rCheck.onchange = () => rBtn.disabled = !rCheck.checked;
@@ -58,7 +57,7 @@
                 pass: document.getElementById('rPass').value
             };
             localStorage.setItem(email, JSON.stringify(user));
-            alert("Registration successful! You can now log in.");
+            alert("Registration successful! Go ahead and login.");
             window.location.href = 'login.html';
         };
 
