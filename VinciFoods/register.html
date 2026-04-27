@@ -6,50 +6,41 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav>
+        <div class="logo">VinciFoods</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="order.html">Order</a></li>
+            <li><a href="login.html" id="authLink">Login</a></li>
+        </ul>
+    </nav>
+
     <div class="auth-container">
-        <h2 style="color:var(--accent-purple); margin-bottom: 20px;">Join VinciFoods</h2>
+        <h2>Join Us</h2><br>
         <form id="regForm">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="name" placeholder="Vince" required>
-            </div>
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="vince@example.com" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="pass" placeholder="••••••••" required>
-            </div>
+            <div class="form-group"><label>Name</label><input type="text" id="rName" required></div>
+            <div class="form-group"><label>Email</label><input type="email" id="rEmail" required></div>
+            <div class="form-group"><label>Password</label><input type="password" id="rPass" required></div>
             <div class="terms-box">
-                <p><strong>Educational Terms:</strong> This is a project. Your data is stored locally in your browser.</p>
-                <label style="cursor:pointer;"><input type="checkbox" id="check"> I accept these terms.</label>
+                <label><input type="checkbox" id="rCheck"> I accept educational terms.</label>
             </div>
-            <button type="submit" id="btn" class="submit-btn" disabled>Create Account</button>
+            <button type="submit" id="rBtn" class="submit-btn" disabled>Register</button>
         </form>
-        
-        <p style="margin-top:20px; text-align:center; color:var(--text-muted);">
-            Already have an account? <a href="login.html" style="color:var(--accent-purple); text-decoration: none; font-weight: bold;">Log in here</a>
-        </p>
+        <p style="text-align:center; margin-top:15px;">Already have an account? <a href="login.html" style="color:var(--accent-purple)">Log in</a></p>
     </div>
 
     <script>
-        const form = document.getElementById('regForm');
-        const check = document.getElementById('check');
-        const btn = document.getElementById('btn');
-
+        const check = document.getElementById('rCheck');
+        const btn = document.getElementById('rBtn');
         check.onchange = () => btn.disabled = !check.checked;
 
-        form.onsubmit = (e) => {
+        document.getElementById('regForm').onsubmit = (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const user = { 
-                name: document.getElementById('name').value,
-                pass: document.getElementById('pass').value 
-            };
+            const email = document.getElementById('rEmail').value;
+            const user = { name: document.getElementById('rName').value, pass: document.getElementById('rPass').value };
             localStorage.setItem(email, JSON.stringify(user));
-            alert("Account created! Welcome, " + user.name);
-            window.location.href = 'login.html';
+            alert("Account Saved!"); window.location.href = 'login.html';
         };
     </script>
 </body>
