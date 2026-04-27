@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VinciFoods | Order Now</title>
+    <title>VinciFoods | Order</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,24 +10,36 @@
         <div class="logo">VinciFoods</div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
-            <li><a href="order.html" style="color:white">Order</a></li>
-            <li><a href="login.html">Login</a></li>
+            <li><a href="order.html">Order</a></li>
+            <li><a href="login.html" id="authLink">Login</a></li>
         </ul>
     </nav>
 
     <div class="menu-grid">
         <div class="food-item">
-            <h3>Deep Purple Pizza</h3>
-            <p style="color:var(--text-muted); margin: 10px 0;">Topped with kalamata olives and beet glaze.</p>
-            <p style="color:var(--accent-gold); font-weight:bold;">$14.00</p>
-            <button class="submit-btn" onclick="alert('Item added to cart!')">Add to Order</button>
+            <h3>Vinci Burger</h3>
+            <p style="color:var(--text-muted)">Double beef with purple onion jam.</p>
+            <p style="color:var(--accent-gold); margin: 10px 0;">$12.99</p>
+            <button class="submit-btn" onclick="alert('Added to cart!')">Order Now</button>
         </div>
         <div class="food-item">
-            <h3>Lavender Lemonade</h3>
-            <p style="color:var(--text-muted); margin: 10px 0;">Freshly squeezed with organic lavender.</p>
-            <p style="color:var(--accent-gold); font-weight:bold;">$5.00</p>
-            <button class="submit-btn" onclick="alert('Item added to cart!')">Add to Order</button>
+            <h3>Truffle Pasta</h3>
+            <p style="color:var(--text-muted)">Creamy pasta with black truffle oil.</p>
+            <p style="color:var(--accent-gold); margin: 10px 0;">$16.50</p>
+            <button class="submit-btn" onclick="alert('Added to cart!')">Order Now</button>
         </div>
     </div>
+
+    <script>
+        const authLink = document.getElementById('authLink');
+        if (localStorage.getItem('currentUser')) {
+            authLink.innerText = "Logout";
+            authLink.href = "#";
+            authLink.onclick = () => {
+                localStorage.removeItem('currentUser');
+                window.location.reload();
+            };
+        }
+    </script>
 </body>
 </html>
