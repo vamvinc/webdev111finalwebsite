@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VinciFoods | Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">Vinci Admin</div>
+        <a href="login.html" class="demo-btn" style="color:white">Logout</a>
+    </nav>
+
+    <div style="padding: 40px 10%;">
+        <h2 style="color: var(--accent-gold); margin-bottom: 20px;">Store Analytics</h2>
+        
+        <div class="menu-grid">
+            <div class="food-item">
+                <p>Daily Sales</p>
+                <h1 style="color: var(--accent-purple);">$1,240.00</h1>
+            </div>
+            <div class="food-item">
+                <p>Pending Orders</p>
+                <h1 style="color: var(--accent-gold);">14</h1>
+            </div>
+            <div class="food-item">
+                <p>Active Riders</p>
+                <h1 style="color: var(--accent-purple);">8</h1>
+            </div>
+        </div>
+
+        <div class="auth-container" style="max-width: 100%; margin-top: 30px;">
+            <h3>Recent Transactions</h3>
+            <table style="width:100%; margin-top:20px; border-collapse: collapse; color: var(--text-muted);">
+                <tr style="border-bottom: 1px solid var(--accent-purple);">
+                    <th style="padding: 10px; text-align: left;">Order ID</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">#VF-9921</td>
+                    <td style="color: var(--accent-gold);">Preparing</td>
+                    <td>$24.50</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">#VF-9920</td>
+                    <td style="color: #4df; ">Delivered</td>
+                    <td>$12.00</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
