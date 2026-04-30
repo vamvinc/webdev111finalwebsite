@@ -62,7 +62,7 @@ nav {
 
 .nav-links a:hover { color: var(--accent-purple); }
 
-/* --- HERO SECTION (Fixes the Landing Page) --- */
+/* --- HERO SECTION --- */
 .hero {
     padding: 100px 10%;
     text-align: center;
@@ -73,6 +73,7 @@ nav {
     font-size: 3.5rem;
     color: var(--accent-purple);
     margin-bottom: 15px;
+    line-height: 1.2;
 }
 
 .hero p {
@@ -81,31 +82,45 @@ nav {
     margin-bottom: 30px;
 }
 
-/* --- FEATURES GRID (Fixes the Delivery/Support blocks) --- */
+/* --- FEATURES GRID (The Division Fix) --- */
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* Forces 3 columns on desktop for a "table" look */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 30px;
     padding: 60px 10%;
 }
 
+@media (max-width: 900px) {
+    .features-grid {
+        grid-template-columns: 1fr; /* Stacks on mobile for readability */
+    }
+}
+
 .feature-item {
     background: var(--bg-card);
-    padding: 30px;
-    border-radius: 15px;
+    padding: 40px 25px;
+    border-radius: 20px;
     text-align: center;
     border: 1px solid rgba(157, 124, 253, 0.1);
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 .feature-item:hover {
     transform: translateY(-10px);
     border-color: var(--accent-purple);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
 }
 
 .feature-item h3 {
     color: var(--accent-gold);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.feature-item p {
+    color: var(--text-muted);
+    line-height: 1.6;
 }
 
 /* --- BUTTONS --- */
@@ -118,6 +133,8 @@ nav {
     font-weight: bold;
     text-decoration: none;
     transition: 0.3s;
+    border: none;
+    cursor: pointer;
 }
 
 .cta-button:hover {
@@ -125,7 +142,7 @@ nav {
     transform: scale(1.05);
 }
 
-/* --- CART UI (Fixes the Bottom Basket issue) --- */
+/* --- CART UI --- */
 .cart-toggle {
     position: fixed;
     bottom: 30px;
@@ -150,7 +167,7 @@ nav {
     width: 340px;
     height: 100%;
     background: var(--bg-card);
-    transition: 0.4s;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     padding: 25px;
     z-index: 2000;
     box-shadow: -10px 0 30px rgba(0,0,0,0.5);
@@ -158,10 +175,20 @@ nav {
 
 .cart-sidebar.active { right: 0; }
 
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--accent-purple);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
 /* --- FOOTER --- */
 footer {
     text-align: center;
     padding: 40px;
     margin-top: auto;
+    border-top: 1px solid rgba(157, 124, 253, 0.05);
     color: var(--text-muted);
 }
