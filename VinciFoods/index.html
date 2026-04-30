@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Home</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -18,33 +19,37 @@
 
     <header class="hero">
         <h1>Freshly Made.<br>Promptly Delivered.</h1>
-        <p>Your favorite meals delivered with a touch of purple.</p>
+        <p>Your favorite meals delivered with a touch of purple. No cap, just flavor.</p>
         <a href="order.html" class="cta-button">Order Now</a>
     </header>
 
     <section class="features-grid">
         <div class="feature-item">
             <h3>Flash Delivery</h3>
-            <p>Hot food in 30 mins or less.</p>
+            <p>Hot food in 30 mins or less. Zoomer speed included.</p>
         </div>
         <div class="feature-item">
             <h3>Organic Sourced</h3>
-            <p>Healthy and local.</p>
+            <p>Main character energy ingredients. Healthy and local.</p>
         </div>
         <div class="feature-item">
             <h3>24/7 Support</h3>
-            <p>We're here whenever you're hungry.</p>
+            <p>We're here whenever you're hungry. Always on standby.</p>
         </div>
     </section>
 
-    <div class="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+    <div class="cart-toggle" onclick="toggleCart()">
+        🛒 <span id="cart-count">0</span>
+    </div>
     
     <div id="sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Your Basket</h3>
             <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
         </div>
+        
         <div id="cart-items"></div>
+
         <div class="cart-total">
             <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
                 <span>Total:</span>
@@ -54,7 +59,9 @@
         </div>
     </div>
 
-    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
+    <footer>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
+    </footer>
 
     <script>
         // --- SHARED PERSISTENT CART ENGINE ---
@@ -72,7 +79,7 @@
             let total = 0;
 
             if (basket.length === 0) { 
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty.</p>';
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty. Sadge.</p>';
             } else { 
                 basket.forEach((item, index) => { 
                     total += item.price;
@@ -83,7 +90,7 @@
                             <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
                             <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">Remove</button>`;
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-weight:bold;">Remove</button>`;
                     container.appendChild(div); 
                 });
             }
@@ -98,25 +105,30 @@
         }
 
         function checkout() { 
-            if (basket.length === 0) return alert("Basket is empty!"); 
+            if (basket.length === 0) return alert("Basket is empty! Go get some food."); 
             if (!localStorage.getItem('currentUser')) { 
-                alert("Login first!"); 
+                alert("Login first! We need to know who you are."); 
                 window.location.href = 'login.html'; 
             } else { 
-                alert("Order Success!"); 
+                alert("Order Success! It's giving delivered."); 
                 basket = []; 
                 updateUI(); 
                 toggleCart(); 
             } 
         }
 
+        // Initialize UI
         updateUI();
 
         // --- AUTH LOGIC ---
         const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) { 
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (currentUser) { 
             authLink.innerText = "Logout"; 
-            authLink.onclick = () => { 
+            authLink.href = "#"; // Prevent navigation
+            authLink.onclick = (e) => { 
+                e.preventDefault();
                 localStorage.removeItem('currentUser'); 
                 window.location.reload(); 
             }; 
