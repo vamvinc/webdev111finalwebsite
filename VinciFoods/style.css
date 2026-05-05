@@ -1,26 +1,17 @@
 /* --- 1. DIRECT FONT DEFINITIONS --- */
+/* No imports. Using standard Poppins weights */
 @font-face {
     font-family: 'Poppins';
     src: local('Poppins Bold'), local('Poppins-Bold');
     font-weight: 800;
-    font-style: normal;
 }
-
 @font-face {
     font-family: 'Poppins';
     src: local('Poppins Regular'), local('Poppins-Regular');
     font-weight: 400;
-    font-style: normal;
 }
 
-@font-face {
-    font-family: 'Poppins';
-    src: local('Poppins Light'), local('Poppins-Light');
-    font-weight: 300;
-    font-style: normal;
-}
-
-/* --- 2. THEME & RESET --- */
+/* --- 2. GLOBAL THEME --- */
 :root {
     --bg-dark: #0f0c1d;
     --bg-card: #1a1630;
@@ -34,52 +25,35 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-white);
-    -webkit-font-smoothing: antialiased;
-    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     overflow-x: hidden;
 }
 
-/* --- 3. LAYOUT STRUCTURE (THE FIX FOR THE LEFT-ALIGN ISSUE) --- */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    width: 100%;
-}
-
-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-    text-align: center;
-}
-
-/* --- 4. NAVIGATION --- */
+/* --- 3. NAVIGATION (FIXED PURPLE STATE) --- */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 8%;
     background: rgba(15, 12, 29, 0.98);
-    border-bottom: 1.5px solid rgba(157, 124, 253, 0.2);
+    border-bottom: 2px solid rgba(157, 124, 253, 0.2);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
 .logo {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--accent-purple);
-    text-transform: uppercase;
     letter-spacing: 2px;
 }
 
@@ -92,84 +66,104 @@ nav {
 .nav-links a {
     text-decoration: none;
     color: var(--text-white);
-    font-weight: 400;
     font-size: 0.95rem;
     opacity: 0.7;
-    transition: 0.3s ease;
+    transition: 0.3s;
     padding-bottom: 5px;
-    border-bottom: 2px solid transparent;
 }
 
-/* Highlight for current page */
-.nav-links a.active, 
-.nav-links a:hover {
+/* Active Page & Hover Color */
+.nav-links a:hover, 
+.nav-links a.active {
     color: var(--accent-purple);
     opacity: 1;
     border-bottom: 2px solid var(--accent-purple);
 }
 
-/* --- 5. AUTH CARDS (Login/Register) --- */
-.auth-wrapper {
-    min-height: calc(100vh - 150px);
+/* --- 4. THE CENTER FIX (Main Content Area) --- */
+/* Add <main> around your content in HTML for this to work */
+main {
+    flex: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    width: 100%;
 }
 
+/* --- 5. AUTH CARDS (Login/Register) --- */
 .auth-card {
     background: var(--bg-card);
-    padding: 40px;
+    padding: 45px;
     border-radius: 20px;
     width: 100%;
-    max-width: 450px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    border: 1px solid rgba(157, 124, 253, 0.1);
 }
 
-/* --- 6. MENU & BUTTONS --- */
+.auth-card h1 {
+    color: var(--accent-purple);
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+/* --- 6. MENU GRID (Order Page) --- */
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
     width: 100%;
+    max-width: 1200px;
     margin-top: 40px;
 }
 
 .food-item {
     background: var(--bg-card);
     padding: 30px;
-    border-radius: 15px;
-    transition: 0.3s;
+    border-radius: 18px;
+    text-align: center;
+    transition: 0.3s ease;
+    border: 1px solid transparent;
 }
 
 .food-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(157, 124, 253, 0.2);
+    transform: translateY(-8px);
+    border-color: var(--accent-purple);
 }
 
-.btn-order {
+.price {
+    color: var(--accent-gold);
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin: 15px 0;
+    display: block;
+}
+
+.btn-add {
     background: var(--accent-gold);
     color: #000;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 700;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: 800;
     cursor: pointer;
-    margin-top: 15px;
     width: 100%;
+    transition: 0.2s;
 }
 
-/* --- 7. BASKET UI (Fixing the footer mess) --- */
-.basket-section {
-    background: var(--bg-card);
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 40px;
-    border: 1px solid rgba(157, 124, 253, 0.3);
+.btn-add:hover {
+    background: #e6b82e;
+    transform: scale(1.02);
 }
 
+/* --- 7. FOOTER --- */
 footer {
-    padding: 40px;
     text-align: center;
+    padding: 30px;
     color: var(--text-muted);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
