@@ -1,4 +1,4 @@
-/* --- 1. THEME VARIABLES (MUST BE AT THE TOP) --- */
+/* --- THEME VARIABLES --- */
 :root {
     --bg-dark: #0f0c1d;
     --bg-card: #1a1630;
@@ -8,41 +8,19 @@
     --text-muted: #a0a0a0;
 }
 
-/* --- 2. GLOBAL RESET & BASE STYLES --- */
+/* --- GLOBAL RESET & THEME FIX --- */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-dark); /* This stops the white screen */
-    color: var(--text-white);
+    background-color: var(--bg-dark) !important; /* FORCES THE DARK THEME */
+    color: var(--text-white) !important;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* Prevents cart from causing horizontal scroll */
 }
 
-/* --- 3. FLOATING CART FIX --- */
-.cart-sidebar {
-    position: fixed; /* Keeps it on top of everything */
-    top: 0;
-    right: -450px; /* Hidden off-screen */
-    width: 400px;
-    height: 100vh;
-    background: var(--bg-card);
-    border-left: 2px solid var(--accent-purple);
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
-    z-index: 2000;
-    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-}
-
-.cart-sidebar.active {
-    right: 0; /* Slides in when active */
-}
-
-/* --- 4. AUTHENTICATION (LOGIN/REGISTER) --- */
+/* --- AUTHENTICATION (YOUR UPDATED UI) --- */
 .auth-main {
     flex-grow: 1; 
     display: flex;
@@ -50,7 +28,6 @@ body {
     align-items: center; 
     justify-content: center; 
     padding: 40px 10%;
-    min-height: calc(100vh - 160px); 
     background: var(--bg-dark);
 }
 
@@ -64,106 +41,30 @@ body {
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
-.auth-card h2 {
-    color: var(--accent-purple);
-    margin-bottom: 25px;
-    font-size: 2rem;
-    text-align: left;
-}
-
-.auth-form-group {
-    margin-bottom: 20px;
-}
-
-.auth-form-group label {
-    display: block;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-}
-
-/* Unified Input Styles with Overflow Fix */
-.auth-form-group input[type="text"],
-.auth-form-group input[type="email"],
-.auth-form-group input[type="password"] {
+/* INPUT OVERFLOW FIX */
+.auth-form-group input {
     width: 100%;
-    box-sizing: border-box; /* CRITICAL: Keeps input inside the card */
+    box-sizing: border-box; /* PREVENTS OVERFLOW */
     padding: 12px 15px;
     border-radius: 8px;
     border: 1px solid rgba(157, 124, 253, 0.3);
     background: rgba(0, 0, 0, 0.2);
     color: var(--text-white);
-    outline: none;
-    transition: 0.3s;
 }
 
-.auth-form-group input:focus {
-    border-color: var(--accent-purple);
-    box-shadow: 0 0 10px rgba(157, 124, 253, 0.2);
+/* --- FLOATING CART FIX --- */
+.cart-sidebar {
+    position: fixed; /* STOPS LAYOUT RUINING */
+    top: 0;
+    right: -450px;
+    width: 400px;
+    height: 100vh;
+    background: var(--bg-card);
+    z-index: 2000;
+    transition: 0.5s;
+    border-left: 2px solid var(--accent-purple);
 }
 
-/* --- 5. UI ELEMENTS --- */
-.checkbox-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 25px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-.auth-footer-links {
-    margin-top: 25px;
-    text-align: center;
-    color: var(--text-muted);
-}
-
-.auth-footer-links a {
-    color: var(--accent-purple);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.demo-roles-box {
-    margin-top: 30px;
-    text-align: center;
-    border-top: 1px dashed var(--text-muted);
-    padding-top: 20px;
-}
-
-.demo-roles-box p {
-    font-size: 0.7rem;
-    color: var(--accent-gold);
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-}
-
-.btn-row {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
-
-.outline-btn {
-    background: transparent;
-    border: 1px solid var(--accent-purple);
-    color: var(--accent-purple);
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.outline-btn:hover {
-    background: var(--accent-purple);
-    color: var(--text-white);
-}
-
-/* --- 6. FOOTER --- */
-footer {
-    text-align: center;
-    padding: 30px;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-top: auto;
+.cart-sidebar.active {
+    right: 0;
 }
