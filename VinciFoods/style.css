@@ -1,4 +1,4 @@
-/* --- THEME VARIABLES --- */
+/* --- 1. THEME VARIABLES & CORE --- */
 :root {
     --bg-dark: #0f0c1d;
     --bg-card: #1a1630;
@@ -8,63 +8,138 @@
     --text-muted: #a0a0a0;
 }
 
-/* --- GLOBAL RESET & THEME FIX --- */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-dark) !important; /* FORCES THE DARK THEME */
-    color: var(--text-white) !important;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden; /* Prevents the 'ruined' horizontal scroll */
 }
 
-/* --- AUTHENTICATION (YOUR UPDATED UI) --- */
-.auth-main {
-    flex-grow: 1; 
+/* --- 2. FIXED FLOATING CART --- */
+/* Making this 'fixed' ensures it never pushes your layout around */
+.cart-sidebar {
+    position: fixed; 
+    top: 0;
+    right: -450px; 
+    width: 380px;
+    height: 100vh;
+    background: var(--bg-card);
+    border-left: 2px solid var(--accent-purple);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 25px;
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    justify-content: center; 
-    padding: 40px 10%;
-    background: var(--bg-dark);
+}
+
+.cart-sidebar.active {
+    right: 0;
+}
+
+/* --- 3. ORIGINAL LAYOUT RESTORATION --- */
+/* This fixes the alignment for the Menu and About sections */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding {
+    padding: 80px 0;
+}
+
+/* Menu Grid Restoration */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.menu-card {
+    background: var(--bg-card);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(157, 124, 253, 0.1);
+    transition: 0.3s;
+}
+
+.menu-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-purple);
+}
+
+/* --- 4. AUTHENTICATION (CENTERED & FIXED) --- */
+.auth-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
 }
 
 .auth-card {
-    background: var(--bg-card); 
+    background: var(--bg-card);
     padding: 40px;
     border-radius: 20px;
     border: 1px solid rgba(157, 124, 253, 0.2);
     width: 100%;
-    max-width: 450px; 
+    max-width: 450px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
-/* INPUT OVERFLOW FIX */
+/* Fixes the overflow bug in your inputs */
 .auth-form-group input {
     width: 100%;
-    box-sizing: border-box; /* PREVENTS OVERFLOW */
+    box-sizing: border-box; 
     padding: 12px 15px;
     border-radius: 8px;
     border: 1px solid rgba(157, 124, 253, 0.3);
     background: rgba(0, 0, 0, 0.2);
     color: var(--text-white);
+    outline: none;
 }
 
-/* --- FLOATING CART FIX --- */
-.cart-sidebar {
-    position: fixed; /* STOPS LAYOUT RUINING */
+/* --- 5. NAVIGATION & FOOTER --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    background: rgba(15, 12, 29, 0.95);
+    backdrop-filter: blur(10px);
+    position: sticky;
     top: 0;
-    right: -450px;
-    width: 400px;
-    height: 100vh;
-    background: var(--bg-card);
-    z-index: 2000;
-    transition: 0.5s;
-    border-left: 2px solid var(--accent-purple);
+    z-index: 1000;
 }
 
-.cart-sidebar.active {
-    right: 0;
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-white);
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-purple);
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid rgba(157, 124, 253, 0.1);
+    color: var(--text-muted);
+    margin-top: auto;
 }
