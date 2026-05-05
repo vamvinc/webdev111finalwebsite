@@ -10,7 +10,7 @@
     <nav>
         <div class="logo">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
             <li><a href="aboutus.html">About</a></li>
             <li><a href="order.html">Order</a></li>
             <li><a href="login.html" id="authLink">Login</a></li>
@@ -90,7 +90,7 @@
                             <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
                             <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-weight:bold;">Remove</button>`;
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold;">Remove</button>`;
                     container.appendChild(div); 
                 });
             }
@@ -120,18 +120,21 @@
         // Initialize UI
         updateUI();
 
-        // --- AUTH LOGIC ---
+        // --- FIXED AUTH LOGIC ---
         const authLink = document.getElementById('authLink');
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const currentUser = localStorage.getItem('currentUser'); // Removed JSON.parse to prevent errors
 
         if (currentUser) { 
             authLink.innerText = "Logout"; 
-            authLink.href = "#"; // Prevent navigation
+            authLink.href = "#"; 
             authLink.onclick = (e) => { 
                 e.preventDefault();
                 localStorage.removeItem('currentUser'); 
                 window.location.reload(); 
             }; 
+        } else {
+            authLink.innerText = "Login";
+            authLink.href = "login.html";
         }
     </script>
 </body>
