@@ -127,16 +127,27 @@
             }
         }
 
-        updateUI();
-
+        // --- AUTHENTICATION UI LOGIC ---
         const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
-            authLink.innerText = "Logout";
-            authLink.onclick = () => {
-                localStorage.removeItem('currentUser');
-                window.location.reload();
-            };
+        
+        function checkAuth() {
+            if (localStorage.getItem('currentUser')) {
+                authLink.innerText = "Logout";
+                authLink.href = "javascript:void(0)"; // Prevent accidental navigation
+                authLink.onclick = () => {
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'login.html';
+                };
+            } else {
+                authLink.innerText = "Login";
+                authLink.href = "login.html";
+                authLink.onclick = null;
+            }
         }
+
+        // Initialize UI
+        updateUI();
+        checkAuth();
     </script>
 </body>
 </html>
