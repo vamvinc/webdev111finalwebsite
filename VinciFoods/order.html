@@ -6,7 +6,6 @@
     <title>VinciFoods | Order Now</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Specific styles for the menu grid to keep it organized */
         .menu-section {
             padding: 60px 10%;
         }
@@ -123,7 +122,6 @@
         function addToCart(name, price) {
             basket.push({ name, price });
             updateUI();
-            // Automatically open the cart to show the user it was added
             document.getElementById('sidebar').classList.add('active');
         }
 
@@ -177,18 +175,27 @@
             }
         }
 
-        // Init UI
-        updateUI();
-
-        // Auth Logic
+        // --- AUTHENTICATION UI LOGIC ---
         const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
-            authLink.innerText = "Logout";
-            authLink.onclick = () => {
-                localStorage.removeItem('currentUser');
-                window.location.reload();
-            };
+        
+        function checkAuth() {
+            if (localStorage.getItem('currentUser')) {
+                authLink.innerText = "Logout";
+                authLink.href = "javascript:void(0)"; 
+                authLink.onclick = () => {
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'login.html';
+                };
+            } else {
+                authLink.innerText = "Login";
+                authLink.href = "login.html";
+                authLink.onclick = null;
+            }
         }
+
+        // Initialize UI
+        updateUI();
+        checkAuth();
     </script>
 </body>
 </html>
