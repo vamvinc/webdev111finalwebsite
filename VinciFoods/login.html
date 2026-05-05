@@ -5,7 +5,69 @@
     <title>VinciFoods | Login & Admin Demo</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Side Panel for Demo Access */
+        /* --- CENTERED LAYOUT FIX --- */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* This centers the container on the screen */
+        .auth-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .auth-container {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(157, 124, 253, 0.2);
+            width: 100%;
+            max-width: 400px; /* Keeps the box clean and centered */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .auth-container h2 {
+            color: var(--accent-purple);
+            margin-bottom: 25px;
+            text-align: center; /* Centered title */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(157, 124, 253, 0.3);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            outline: none;
+        }
+
+        .terms-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+        }
+
+        /* --- DEMO ACCESS PANEL --- */
         .demo-selector {
             margin-top: 25px;
             padding-top: 20px;
@@ -53,35 +115,38 @@
         </ul>
     </nav>
 
-    <div class="auth-container">
-        <h2>Sign In</h2>
-        <form id="lForm">
-            <div class="form-group">
-                <label for="lEmail">Email Address</label>
-                <input type="email" id="lEmail" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="lPass">Password</label>
-                <input type="password" id="lPass" placeholder="Enter your password" required>
-            </div>
-            <div class="terms-box">
-                <input type="checkbox" id="lCheck">
-                <label for="lCheck" style="cursor:pointer;">I am a human</label>
-            </div>
-            <button type="submit" id="lBtn" class="submit-btn" disabled>Sign In</button>
-        </form>
+    <!-- NEW WRAPPER FOR CENTERING -->
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <h2>Sign In</h2>
+            <form id="lForm">
+                <div class="form-group">
+                    <label for="lEmail">Email Address</label>
+                    <input type="email" id="lEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="lPass">Password</label>
+                    <input type="password" id="lPass" placeholder="Enter your password" required>
+                </div>
+                <div class="terms-box">
+                    <input type="checkbox" id="lCheck">
+                    <label for="lCheck" style="cursor:pointer;">I am a human</label>
+                </div>
+                <button type="submit" id="lBtn" class="submit-btn" style="width: 100%;" disabled>Sign In</button>
+            </form>
 
-        <div class="demo-selector">
-            <span class="demo-title">Demo Roles</span>
-            <div class="demo-btn-group">
-                <button class="role-btn" onclick="quickLogin('admin@vinci.com', 'admin.html')">Admin</button>
-                <button class="role-btn" onclick="quickLogin('super@vinci.com', 'superadmin.html')">SuperAdmin</button>
+            <div class="demo-selector">
+                <span class="demo-title">Demo Roles</span>
+                <div class="demo-btn-group">
+                    <button class="role-btn" onclick="quickLogin('admin@vinci.com', 'admin.html')">Admin</button>
+                    <button class="role-btn" onclick="quickLogin('super@vinci.com', 'superadmin.html')">SuperAdmin</button>
+                </div>
             </div>
+
+            <p style="text-align:center; margin-top:20px; color:var(--text-muted); font-size: 0.9rem;">
+                New here? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Register</a>
+            </p>
         </div>
-
-        <p style="text-align:center; margin-top:20px; color:var(--text-muted); font-size: 0.9rem;">
-            New here? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Register</a>
-        </p>
     </div>
 
     <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
@@ -91,7 +156,6 @@
         const lBtn = document.getElementById('lBtn');
         lCheck.onchange = () => lBtn.disabled = !lCheck.checked;
 
-        // Function for the Demo Buttons
         function quickLogin(email, targetPage) {
             localStorage.setItem('currentUser', email);
             window.location.href = targetPage;
@@ -102,19 +166,16 @@
             const email = document.getElementById('lEmail').value;
             const pass = document.getElementById('lPass').value;
 
-            // 1. Check for Admin Login
             if (email === "admin@vinci.com") {
                 quickLogin(email, 'admin.html');
                 return;
             }
 
-            // 2. Check for Super Admin Login
             if (email === "super@vinci.com") {
                 quickLogin(email, 'superadmin.html');
                 return;
             }
 
-            // 3. Regular User Login
             const storedUser = localStorage.getItem(email);
             if (storedUser) {
                 const user = JSON.parse(storedUser);
