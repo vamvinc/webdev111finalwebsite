@@ -1,407 +1,237 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Login & Admin Demo</title>
-
     <link rel="stylesheet" href="style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-
         /* --- CENTERED LAYOUT FIX --- */
-
         body {
-
             display: flex;
-
             flex-direction: column;
-
             min-height: 100vh;
-
+            background: var(--bg-dark); /* Ensures background consistency */
         }
-
-
-
-        /* This centers the container on the screen */
 
         .auth-wrapper {
-
             flex: 1;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             padding: 40px 20px;
-
         }
-
-
 
         .auth-container {
-
             background: var(--bg-card);
-
             padding: 40px;
-
             border-radius: 20px;
-
             border: 1px solid rgba(157, 124, 253, 0.2);
-
             width: 100%;
-
-            max-width: 400px; /* Keeps the box clean and centered */
-
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-
+            max-width: 400px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
         }
-
-
 
         .auth-container h2 {
-
             color: var(--accent-purple);
-
-            margin-bottom: 25px;
-
-            text-align: center; /* Centered title */
-
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
 
         .form-group {
-
             margin-bottom: 20px;
-
-            text-align: left;
-
+            position: relative;
         }
-
-
 
         .form-group label {
-
             display: block;
-
             color: var(--text-muted);
-
             margin-bottom: 8px;
-
-            font-size: 0.9rem;
-
+            font-size: 0.85rem;
         }
-
-
 
         .form-group input {
-
             width: 100%;
-
-            padding: 12px;
-
+            padding: 12px 15px;
             border-radius: 8px;
-
             border: 1px solid rgba(157, 124, 253, 0.3);
-
-            background: rgba(0,0,0,0.2);
-
+            background: rgba(0,0,0,0.3);
             color: white;
-
             outline: none;
-
+            transition: 0.3s;
         }
 
-
+        .form-group input:focus {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 8px rgba(157, 124, 253, 0.4);
+        }
 
         .terms-box {
-
             display: flex;
-
             align-items: center;
-
             gap: 10px;
-
             margin-bottom: 20px;
-
             color: var(--text-muted);
-
+            font-size: 0.9rem;
         }
-
-
 
         /* --- DEMO ACCESS PANEL --- */
-
         .demo-selector {
-
             margin-top: 25px;
-
             padding-top: 20px;
-
-            border-top: 1px dashed var(--accent-purple);
-
+            border-top: 1px dashed rgba(157, 124, 253, 0.4);
             text-align: center;
-
         }
-
+        
         .demo-title {
-
-            font-size: 0.75rem;
-
+            font-size: 0.7rem;
             text-transform: uppercase;
-
             color: var(--accent-gold);
-
-            letter-spacing: 1px;
-
-            margin-bottom: 10px;
-
+            letter-spacing: 2px;
+            margin-bottom: 12px;
             display: block;
-
+            font-weight: 600;
         }
 
         .demo-btn-group {
-
             display: flex;
-
             gap: 10px;
-
             justify-content: center;
-
         }
 
         .role-btn {
-
-            background: rgba(157, 124, 253, 0.1);
-
+            background: rgba(157, 124, 253, 0.15);
             border: 1px solid var(--accent-purple);
-
             color: var(--accent-purple);
-
-            padding: 8px 12px;
-
+            padding: 8px 16px;
             border-radius: 8px;
-
             cursor: pointer;
-
-            font-size: 0.8rem;
-
+            font-size: 0.75rem;
+            font-weight: bold;
             transition: 0.3s;
-
         }
 
         .role-btn:hover {
-
             background: var(--accent-purple);
-
             color: white;
-
             transform: translateY(-2px);
-
+            box-shadow: 0 4px 12px rgba(157, 124, 253, 0.3);
         }
-
     </style>
-
 </head>
-
 <body>
 
     <nav>
-
         <div class="logo">VinciFoods</div>
-
         <ul class="nav-links">
-
             <li><a href="index.html">Home</a></li>
-
             <li><a href="aboutus.html">About</a></li>
-
             <li><a href="order.html">Order</a></li>
-
-            <li><a href="login.html" id="authLink">Login</a></li>
-
+            <li><a href="login.html" id="authLink" class="active">Login</a></li>
         </ul>
-
     </nav>
 
-
-
-    <!-- NEW WRAPPER FOR CENTERING -->
-
     <div class="auth-wrapper">
-
         <div class="auth-container">
-
-            <h2>Sign In</h2>
-
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to track your purple orders.</p>
+            
             <form id="lForm">
-
                 <div class="form-group">
-
                     <label for="lEmail">Email Address</label>
-
-                    <input type="email" id="lEmail" placeholder="Enter your email" required>
-
+                    <input type="email" id="lEmail" placeholder="vince@example.com" required>
                 </div>
-
                 <div class="form-group">
-
                     <label for="lPass">Password</label>
-
-                    <input type="password" id="lPass" placeholder="Enter your password" required>
-
+                    <input type="password" id="lPass" placeholder="••••••••" required>
                 </div>
-
                 <div class="terms-box">
-
-                    <input type="checkbox" id="lCheck">
-
-                    <label for="lCheck" style="cursor:pointer;">I am a human</label>
-
+                    <input type="checkbox" id="lCheck" style="accent-color: var(--accent-purple);">
+                    <label for="lCheck" style="cursor:pointer;">I'm a human (No bots allowed)</label>
                 </div>
-
                 <button type="submit" id="lBtn" class="submit-btn" style="width: 100%;" disabled>Sign In</button>
-
             </form>
 
-
-
             <div class="demo-selector">
-
-                <span class="demo-title">Demo Roles</span>
-
+                <span class="demo-title">Developer Demo Access</span>
                 <div class="demo-btn-group">
-
-                    <button class="role-btn" onclick="quickLogin('admin@vinci.com', 'admin.html')">Admin</button>
-
-                    <button class="role-btn" onclick="quickLogin('super@vinci.com', 'superadmin.html')">SuperAdmin</button>
-
+                    <button class="role-btn" onclick="quickLogin('admin@vinci.com', 'admin.html')">Staff Portal</button>
+                    <button class="role-btn" onclick="quickLogin('super@vinci.com', 'superadmin.html')">Root Access</button>
                 </div>
-
             </div>
 
-
-
-            <p style="text-align:center; margin-top:20px; color:var(--text-muted); font-size: 0.9rem;">
-
-                New here? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Register</a>
-
+            <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.85rem;">
+                Don't have an account? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Register Here</a>
             </p>
-
         </div>
-
     </div>
 
-
-
-    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
-
-
+    <footer>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
+    </footer>
 
     <script>
-
         const lCheck = document.getElementById('lCheck');
-
         const lBtn = document.getElementById('lBtn');
-
+        
+        // Toggle button state based on human check
         lCheck.onchange = () => lBtn.disabled = !lCheck.checked;
 
-
-
+        // Shared login logic
         function quickLogin(email, targetPage) {
-
             localStorage.setItem('currentUser', email);
-
             window.location.href = targetPage;
-
         }
 
-
-
+        // Form submission handling
         document.getElementById('lForm').onsubmit = (e) => {
-
             e.preventDefault();
-
             const email = document.getElementById('lEmail').value;
-
             const pass = document.getElementById('lPass').value;
 
-
-
+            // Hardcoded Demo Redirects
             if (email === "admin@vinci.com") {
-
                 quickLogin(email, 'admin.html');
-
                 return;
-
             }
-
-
 
             if (email === "super@vinci.com") {
-
                 quickLogin(email, 'superadmin.html');
-
                 return;
-
             }
 
-
-
+            // Standard User Verification via localStorage
             const storedUser = localStorage.getItem(email);
-
             if (storedUser) {
-
                 const user = JSON.parse(storedUser);
-
                 if (user.pass === pass) {
-
                     localStorage.setItem('currentUser', email);
-
-                    alert("Welcome back, " + user.name + "!"); 
-
+                    alert(`Welcome back, ${user.name}!`); 
                     window.location.href = 'index.html';
-
                     return;
-
                 }
-
             }
-
-            alert("Invalid email or password!");
-
+            alert("Oops! Invalid email or password. Please try again.");
         };
 
-
-
+        // Header Auth Link Sync
         const authLink = document.getElementById('authLink');
-
         if (localStorage.getItem('currentUser')) {
-
             authLink.innerText = "Logout";
-
             authLink.onclick = () => { 
-
                 localStorage.removeItem('currentUser'); 
-
                 window.location.href = 'login.html';
-
             };
-
         }
-
     </script>
-
 </body>
-
 </html>
-
-
-
-update this
