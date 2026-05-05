@@ -5,55 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for consistency across the platform -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="admin-body">
+    <!-- Navigation: Keeping it simple for admin focus -->
     <nav>
         <div class="logo">Vinci Admin</div>
-        <a href="login.html" class="outline-btn" style="text-decoration: none;">Logout</a>
+        <div class="nav-right">
+            <span style="margin-right: 20px; color: var(--text-muted);">Welcome, Admin</span>
+            <a href="login.html" class="outline-btn" style="text-decoration: none;" onclick="logout()">Logout</a>
+        </div>
     </nav>
 
-    <main style="padding: 40px 10%;">
-        <h2 style="color: var(--accent-gold); margin-bottom: 30px; font-size: 2rem;">Store Analytics</h2>
+    <main class="container" style="padding: 40px 10%;">
+        <header style="margin-bottom: 30px;">
+            <h2 style="color: var(--accent-gold); font-size: 2rem;">Store Analytics</h2>
+            <p style="color: var(--text-muted);">Real-time overview of VinciFoods operations.</p>
+        </header>
         
-        <!-- Analytics Grid -->
-        <div class="menu-grid">
-            <div class="admin-card">
+        <!-- Analytics Grid: Horizontal layout using Flexbox -->
+        <div class="metrics-grid">
+            <div class="metric-card">
                 <p>Daily Sales</p>
-                <h1 style="color: var(--accent-purple);">$1,240.00</h1>
+                <h1 class="metric-value sales-color">$1,240.00</h1>
             </div>
-            <div class="admin-card">
+            <div class="metric-card">
                 <p>Pending Orders</p>
-                <h1 style="color: var(--accent-gold);">14</h1>
+                <h1 class="metric-value gold-color">14</h1>
             </div>
-            <div class="admin-card">
+            <div class="metric-card">
                 <p>Active Riders</p>
-                <h1 style="color: var(--accent-purple);">8</h1>
+                <h1 class="metric-value purple-color">8</h1>
             </div>
         </div>
 
-        <!-- Transactions Section -->
-        <div class="auth-card" style="max-width: 100%; margin-top: 40px;">
-            <h3 style="color: var(--text-white); margin-bottom: 20px;">Recent Transactions</h3>
+        <!-- Transactions Section: Table container with high contrast -->
+        <div class="table-container" style="margin-top: 40px;">
+            <h3 style="color: var(--text-white); margin-bottom: 20px; font-size: 1.5rem;">Recent Transactions</h3>
             
-            <div style="overflow-x: auto;"> <!-- Prevents table from breaking on mobile -->
+            <div style="overflow-x: auto;"> 
                 <table class="admin-table">
                     <thead>
                         <tr>
                             <th>Order ID</th>
+                            <th>Customer</th>
                             <th>Status</th>
                             <th>Total</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>#VF-9921</td>
-                            <td><span class="status-badge" style="background: rgba(255, 204, 51, 0.2); color: var(--accent-gold);">Preparing</span></td>
+                            <td>Juan Dela Cruz</td>
+                            <td><span class="status-badge status-preparing">Preparing</span></td>
                             <td>$24.50</td>
+                            <td><button class="small-btn">Details</button></td>
                         </tr>
                         <tr>
                             <td>#VF-9920</td>
-                            <td><span class="status-badge" style="background: rgba(68, 221, 255, 0.2); color: #4df;">Delivered</span></td>
+                            <td>Maria Clara</td>
+                            <td><span class="status-badge status-delivered">Delivered</span></td>
                             <td>$12.00</td>
+                            <td><button class="small-btn">Details</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -64,5 +79,18 @@
     <footer>
         <p>&copy; 2026 VinciFoods | Admin Control Panel</p>
     </footer>
+
+    <script>
+        // Simple logout logic to clear session
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Security Check: Redirect if not logged in
+        if (!localStorage.getItem('currentUser')) {
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>
