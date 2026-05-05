@@ -1,112 +1,140 @@
 /* --- AUTHENTICATION (LOGIN/REGISTER) --- */
-.auth-main {
-    flex-grow: 1; /* Ensures it fills space between nav and footer */
+
+/* 1. The Main Wrapper: Fixes centering and background */
+.auth-wrapper {
+    flex: 1; /* Fills space between nav and footer */
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers horizontally */
-    justify-content: center; /* Centers vertically */
-    padding: 40px 10%;
-    min-height: calc(100vh - 160px); /* Adjusts based on nav/footer height */
+    justify-content: center; /* Horizontal center */
+    align-items: center; /* Vertical center */
+    padding: 60px 20px;
+    background: var(--bg-dark); /* Ensure the dark theme stays consistent */
 }
 
-.auth-card {
+/* 2. The Card: Fixes shadow and width */
+.auth-container {
     background: var(--bg-card); 
     padding: 40px;
     border-radius: 20px;
     border: 1px solid rgba(157, 124, 253, 0.2);
     width: 100%;
-    max-width: 450px; /* Prevents form from becoming too wide */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    max-width: 400px; /* Standard login width */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
 
-.auth-card h2 {
+.auth-container h2 {
     color: var(--accent-purple);
     margin-bottom: 25px;
     font-size: 2rem;
+}
+
+/* 3. Form Groups & Inputs: Fixes the 'Overflow' bug */
+.form-group {
+    margin-bottom: 20px;
     text-align: left;
 }
 
-.auth-form-group {
-    margin-bottom: 20px;
-}
-
-.auth-form-group label {
+.form-group label {
     display: block;
     color: var(--text-muted);
     margin-bottom: 8px;
     font-size: 0.9rem;
 }
 
-.auth-form-group input[type="text"],
-.auth-form-group input[type="email"],
-.auth-form-group input[type="password"] {
+.form-group input {
     width: 100%;
+    /* CRITICAL: Includes padding in width calculation so it doesn't poke out */
+    box-sizing: border-box; 
     padding: 12px 15px;
     border-radius: 8px;
     border: 1px solid rgba(157, 124, 253, 0.3);
-    background: rgba(0, 0, 0, 0.2);
-    color: var(--text-white);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
     outline: none;
-    transition: 0.3s;
+    transition: 0.3s ease-in-out;
 }
 
-.auth-form-group input:focus {
+.form-group input:focus {
     border-color: var(--accent-purple);
-    box-shadow: 0 0 10px rgba(157, 124, 253, 0.2);
+    background: rgba(157, 124, 253, 0.05);
+    box-shadow: 0 0 12px rgba(157, 124, 253, 0.2);
 }
 
-.checkbox-row {
+/* 4. Checkbox & Terms */
+.terms-box {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     color: var(--text-muted);
     font-size: 0.9rem;
 }
 
-.auth-footer-links {
-    margin-top: 25px;
-    text-align: center;
-    color: var(--text-muted);
+.terms-box input[type="checkbox"] {
+    width: auto; /* Overrides the 100% width for inputs */
+    cursor: pointer;
 }
 
-.auth-footer-links a {
-    color: var(--accent-purple);
-    text-decoration: none;
+/* 5. Buttons: Adds the Golden Signature Style */
+.submit-btn {
+    background: var(--accent-gold);
+    color: #000;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
     font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
 }
 
-.demo-roles-box {
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 204, 51, 0.3);
+}
+
+.submit-btn:disabled {
+    background: #444;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* 6. Demo Panel: Added dashed border and spacing */
+.demo-selector {
     margin-top: 30px;
-    text-align: center;
-    border-top: 1px dashed var(--text-muted);
     padding-top: 20px;
+    border-top: 1px dashed rgba(157, 124, 253, 0.3);
 }
 
-.demo-roles-box p {
+.demo-title {
     font-size: 0.7rem;
     color: var(--accent-gold);
-    margin-bottom: 10px;
-    letter-spacing: 1px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+    display: block;
 }
 
-.btn-row {
+.demo-btn-group {
     display: flex;
     gap: 10px;
     justify-content: center;
 }
 
-.outline-btn {
-    background: transparent;
+.role-btn {
+    background: rgba(157, 124, 253, 0.1);
     border: 1px solid var(--accent-purple);
     color: var(--accent-purple);
     padding: 8px 15px;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
     transition: 0.3s;
 }
 
-.outline-btn:hover {
+.role-btn:hover {
     background: var(--accent-purple);
-    color: var(--text-white);
+    color: white;
 }
