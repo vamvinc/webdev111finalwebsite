@@ -1,141 +1,223 @@
-/* --- THEME VARIABLES --- */
-:root {
-    --bg-dark: #0f0c1d;
-    --bg-card: #1a1630;
-    --accent-purple: #9d7cfd;
-    --accent-gold: #ffcc33;
-    --text-white: #ffffff;
-    --text-muted: #a0a0a0;
-}
+/* --- AUTHENTICATION (LOGIN/REGISTER) --- */
 
-/* --- GLOBAL RESET --- */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-white);
-    min-height: 100vh;
+.auth-main {
+
+    flex-grow: 1; /* Ensures it fills space between nav and footer */
+
     display: flex;
+
     flex-direction: column;
+
+    align-items: center; /* Centers horizontally */
+
+    justify-content: center; /* Centers vertically */
+
+    padding: 40px 10%;
+
+    min-height: calc(100vh - 160px); /* Adjusts based on nav/footer height */
+
 }
 
-/* --- NAVIGATION --- */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 5%;
-    background: rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(157, 124, 253, 0.1);
-}
 
-.logo {
-    color: var(--accent-purple);
-    font-weight: bold;
-    font-size: 1.5rem;
-    text-decoration: none;
-}
 
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-}
+.auth-card {
 
-.nav-links a {
-    color: var(--text-white);
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
-    color: var(--accent-purple);
-}
-
-/* --- MENU & CARDS --- */
-/* Fixes the white sections in image_003585.png */
-.menu-container, .about-content {
-    padding: 60px 5%;
-}
-
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-    margin-top: 40px;
-}
-
-.menu-card, .feature-card {
-    background: var(--bg-card);
-    padding: 30px;
-    border-radius: 15px;
-    border: 1px solid rgba(157, 124, 253, 0.1);
-    text-align: center;
-}
-
-/* --- AUTHENTICATION (YOUR UPDATED CODE) --- */
-.auth-wrapper {
-    flex: 1; 
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    padding: 60px 20px;
-    background: var(--bg-dark); 
-}
-
-.auth-container {
     background: var(--bg-card); 
+
     padding: 40px;
+
     border-radius: 20px;
+
     border: 1px solid rgba(157, 124, 253, 0.2);
+
     width: 100%;
-    max-width: 400px; 
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    text-align: center;
+
+    max-width: 450px; /* Prevents form from becoming too wide */
+
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+
 }
 
-.form-group input {
-    width: 100%;
-    box-sizing: border-box; /* Fixes the overflow shown in your screenshots */
-    padding: 12px 15px;
-    border-radius: 8px;
-    border: 1px solid rgba(157, 124, 253, 0.3);
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-    outline: none;
-}
 
-.submit-btn {
-    background: var(--accent-gold);
-    color: #000;
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: bold;
-    width: 100%;
-    cursor: pointer;
-}
 
-/* --- DASHBOARD & ADMIN --- */
-/* Fixes image_008703.png and image_008720.png */
-.admin-header {
-    background: #2a0a2a;
-    padding: 10px 5%;
+.auth-card h2 {
+
     color: var(--accent-purple);
-}
 
-.stat-value {
-    color: #00ff00; /* Green for revenue */
+    margin-bottom: 25px;
+
     font-size: 2rem;
-    font-weight: bold;
+
+    text-align: left;
+
 }
 
-/* --- FOOTER --- */
-footer {
-    text-align: center;
-    padding: 30px;
+
+
+.auth-form-group {
+
+    margin-bottom: 20px;
+
+}
+
+
+
+.auth-form-group label {
+
+    display: block;
+
     color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-top: auto;
+
+    margin-bottom: 8px;
+
+    font-size: 0.9rem;
+
+}
+
+
+
+.auth-form-group input[type="text"],
+
+.auth-form-group input[type="email"],
+
+.auth-form-group input[type="password"] {
+
+    width: 100%;
+
+    padding: 12px 15px;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(157, 124, 253, 0.3);
+
+    background: rgba(0, 0, 0, 0.2);
+
+    color: var(--text-white);
+
+    outline: none;
+
+    transition: 0.3s;
+
+}
+
+
+
+.auth-form-group input:focus {
+
+    border-color: var(--accent-purple);
+
+    box-shadow: 0 0 10px rgba(157, 124, 253, 0.2);
+
+}
+
+
+
+.checkbox-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+
+    color: var(--text-muted);
+
+    font-size: 0.9rem;
+
+}
+
+
+
+.auth-footer-links {
+
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: var(--text-muted);
+
+}
+
+
+
+.auth-footer-links a {
+
+    color: var(--accent-purple);
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+}
+
+
+
+.demo-roles-box {
+
+    margin-top: 30px;
+
+    text-align: center;
+
+    border-top: 1px dashed var(--text-muted);
+
+    padding-top: 20px;
+
+}
+
+
+
+.demo-roles-box p {
+
+    font-size: 0.7rem;
+
+    color: var(--accent-gold);
+
+    margin-bottom: 10px;
+
+    letter-spacing: 1px;
+
+}
+
+
+
+.btn-row {
+
+    display: flex;
+
+    gap: 10px;
+
+    justify-content: center;
+
+}
+
+
+
+.outline-btn {
+
+    background: transparent;
+
+    border: 1px solid var(--accent-purple);
+
+    color: var(--accent-purple);
+
+    padding: 8px 15px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+
+
+.outline-btn:hover {
+
+    background: var(--accent-purple);
+
+    color: var(--text-white);
+
 }
