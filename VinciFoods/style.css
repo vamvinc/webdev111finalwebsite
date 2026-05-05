@@ -1,13 +1,62 @@
-/* --- AUTHENTICATION (LOGIN/REGISTER) --- */
+/* --- THEME VARIABLES (CRITICAL) --- */
+:root {
+    --bg-dark: #0f0c1d;
+    --bg-card: #1a1630;
+    --accent-purple: #9d7cfd;
+    --accent-gold: #ffcc33;
+    --text-white: #ffffff;
+    --text-muted: #a0a0a0;
+}
+
+/* --- GLOBAL RESET --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- NAVIGATION --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(157, 124, 253, 0.1);
+}
+
+.logo {
+    color: var(--accent-purple);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: var(--text-white);
+    text-decoration: none;
+}
+
+/* --- AUTHENTICATION (YOUR UPDATED CODE) --- */
 
 /* 1. The Main Wrapper: Fixes centering and background */
 .auth-wrapper {
-    flex: 1; /* Fills space between nav and footer */
+    flex: 1; 
     display: flex;
-    justify-content: center; /* Horizontal center */
-    align-items: center; /* Vertical center */
+    justify-content: center; 
+    align-items: center; 
     padding: 60px 20px;
-    background: var(--bg-dark); /* Ensure the dark theme stays consistent */
+    background: var(--bg-dark); 
 }
 
 /* 2. The Card: Fixes shadow and width */
@@ -17,7 +66,7 @@
     border-radius: 20px;
     border: 1px solid rgba(157, 124, 253, 0.2);
     width: 100%;
-    max-width: 400px; /* Standard login width */
+    max-width: 400px; 
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
@@ -43,8 +92,7 @@
 
 .form-group input {
     width: 100%;
-    /* CRITICAL: Includes padding in width calculation so it doesn't poke out */
-    box-sizing: border-box; 
+    box-sizing: border-box; /* PREVENTS OVERFLOW */
     padding: 12px 15px;
     border-radius: 8px;
     border: 1px solid rgba(157, 124, 253, 0.3);
@@ -71,11 +119,11 @@
 }
 
 .terms-box input[type="checkbox"] {
-    width: auto; /* Overrides the 100% width for inputs */
+    width: auto; 
     cursor: pointer;
 }
 
-/* 5. Buttons: Adds the Golden Signature Style */
+/* 5. Buttons: Golden Signature Style */
 .submit-btn {
     background: var(--accent-gold);
     color: #000;
@@ -100,7 +148,7 @@
     cursor: not-allowed;
 }
 
-/* 6. Demo Panel: Added dashed border and spacing */
+/* 6. Demo Panel: Dashed border and spacing */
 .demo-selector {
     margin-top: 30px;
     padding-top: 20px;
@@ -137,4 +185,13 @@
 .role-btn:hover {
     background: var(--accent-purple);
     color: white;
+}
+
+/* --- FOOTER --- */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: auto;
 }
