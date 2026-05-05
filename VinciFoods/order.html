@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Order Now</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         .menu-section {
             padding: 60px 10%;
@@ -21,22 +22,34 @@
             border-radius: 20px;
             border: 1px solid rgba(157, 124, 253, 0.1);
             text-align: center;
-            transition: 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .food-item:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px);
             border-color: var(--accent-purple);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
         .food-item h3 {
             color: var(--text-white);
             margin-bottom: 10px;
+            font-size: 1.5rem;
         }
         .food-item .price {
             color: var(--accent-gold);
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin: 15px 0;
+        }
+        /* Custom scrollbar for a cleaner cart look */
+        #cart-items::-webkit-scrollbar {
+            width: 5px;
+        }
+        #cart-items::-webkit-scrollbar-thumb {
+            background: var(--accent-purple);
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -46,48 +59,71 @@
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="aboutus.html">About</a></li>
-            <li><a href="order.html">Order</a></li>
+            <li><a href="order.html" class="active">Order</a></li>
             <li><a href="login.html" id="authLink">Login</a></li>
         </ul>
     </nav>
 
-    <header class="hero" style="padding: 60px 10%;">
-        <h1>The Menu</h1>
-        <p>Gourmet meals, high-key speed. Select your favorites below.</p>
+    <header class="hero" style="padding: 80px 10%; text-align: center;">
+        <h1 style="font-size: 3.5rem;">The Menu</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 10px auto;">
+            Gourmet meals, high-key speed. Select your favorites below.
+        </p>
     </header>
 
     <section class="menu-section">
         <div class="menu-grid">
+            <!-- Item 1 -->
             <div class="food-item">
-                <h3>Vinci Burger</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Double patty with signature purple slaw.</p>
-                <p class="price">$12.00</p>
-                <button class="submit-btn" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
+                <div>
+                    <h3>Vinci Burger</h3>
+                    <p style="color: var(--text-muted);">Double patty with signature purple slaw.</p>
+                </div>
+                <div>
+                    <p class="price">$12.00</p>
+                    <button class="submit-btn" style="width: 100%;" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
+                </div>
             </div>
             
+            <!-- Item 2 -->
             <div class="food-item">
-                <h3>Lavender Pasta</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Creamy beet-infused sauce with parmesan.</p>
-                <p class="price">$14.50</p>
-                <button class="submit-btn" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
+                <div>
+                    <h3>Lavender Pasta</h3>
+                    <p style="color: var(--text-muted);">Creamy beet-infused sauce with parmesan.</p>
+                </div>
+                <div>
+                    <p class="price">$14.50</p>
+                    <button class="submit-btn" style="width: 100%;" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
+                </div>
             </div>
 
+            <!-- Item 3 -->
             <div class="food-item">
-                <h3>Nebula Fries</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Loaded fries with truffle oil and herbs.</p>
-                <p class="price">$6.00</p>
-                <button class="submit-btn" onclick="addToCart('Nebula Fries', 6.00)">Add to Basket</button>
+                <div>
+                    <h3>Nebula Fries</h3>
+                    <p style="color: var(--text-muted);">Loaded fries with truffle oil and herbs.</p>
+                </div>
+                <div>
+                    <p class="price">$6.00</p>
+                    <button class="submit-btn" style="width: 100%;" onclick="addToCart('Nebula Fries', 6.00)">Add to Basket</button>
+                </div>
             </div>
 
+            <!-- Item 4 -->
             <div class="food-item">
-                <h3>Vinci Shake</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Ube-vanilla swirl with gold flakes.</p>
-                <p class="price">$7.25</p>
-                <button class="submit-btn" onclick="addToCart('Vinci Shake', 7.25)">Add to Basket</button>
+                <div>
+                    <h3>Vinci Shake</h3>
+                    <p style="color: var(--text-muted);">Ube-vanilla swirl with gold flakes.</p>
+                </div>
+                <div>
+                    <p class="price">$7.25</p>
+                    <button class="submit-btn" style="width: 100%;" onclick="addToCart('Vinci Shake', 7.25)">Add to Basket</button>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- PERSISTENT CART UI -->
     <div class="cart-toggle" onclick="toggleCart()">
         🛒 <span id="cart-count">0</span>
     </div>
@@ -95,15 +131,17 @@
     <div id="sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
+            <button onclick="toggleCart()" class="close-btn">&times;</button>
         </div>
-        <div id="cart-items"></div>
+        
+        <div id="cart-items" style="max-height: 60vh; overflow-y: auto; padding: 10px;"></div>
+
         <div class="cart-total">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <span>Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items: center;">
+                <span style="font-size: 1.1rem; font-weight: 600;">Total Amount:</span>
+                <span id="total-price" style="color:var(--accent-gold); font-size: 1.4rem; font-weight:800;">$0.00</span>
             </div>
-            <button class="submit-btn" onclick="checkout()">Checkout</button>
+            <button class="submit-btn" style="width: 100%;" onclick="checkout()">Checkout Now</button>
         </div>
     </div>
 
@@ -112,7 +150,7 @@
     </footer>
 
     <script>
-        // --- SHARED PERSISTENT CART ENGINE ---
+        // Load basket from storage
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
         function toggleCart() {
@@ -122,6 +160,7 @@
         function addToCart(name, price) {
             basket.push({ name, price });
             updateUI();
+            // Show the sidebar briefly to confirm addition
             document.getElementById('sidebar').classList.add('active');
         }
 
@@ -134,19 +173,20 @@
             let total = 0;
 
             if (basket.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty. Sadge.</p>';
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:40px; font-style: italic;">Your basket is empty. Sadge.</p>';
             } else {
                 basket.forEach((item, index) => {
                     total += item.price;
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'cart-item';
+                    itemDiv.style.marginBottom = "12px";
                     itemDiv.innerHTML = `
-                        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(157, 124, 253, 0.1); padding: 12px; border-radius: 12px; border: 1px solid rgba(157, 124, 253, 0.2);">
                             <div>
-                                <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
-                                <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
+                                <p style="font-weight:600; color: white;">${item.name}</p>
+                                <p style="font-size:0.85rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                             </div>
-                            <button onclick="removeItem(${index})" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-weight:bold;">Remove</button>
+                            <button onclick="removeItem(${index})" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-weight:bold; font-size: 0.8rem; text-transform: uppercase;">Remove</button>
                         </div>
                     `;
                     container.appendChild(itemDiv);
@@ -164,22 +204,23 @@
 
         function checkout() {
             if (basket.length === 0) return alert("Basket is empty!");
-            if (!localStorage.getItem('currentUser')) {
+            
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
                 alert("Login first! Main character energy only.");
                 window.location.href = 'login.html';
             } else {
-                alert("Order Success! It's giving gourmet.");
+                alert("Order Success! Your gourmet feast is being prepared.");
                 basket = [];
                 updateUI();
                 toggleCart();
             }
         }
 
-        // --- AUTHENTICATION UI LOGIC ---
-        const authLink = document.getElementById('authLink');
-        
         function checkAuth() {
-            if (localStorage.getItem('currentUser')) {
+            const authLink = document.getElementById('authLink');
+            const user = localStorage.getItem('currentUser');
+            if (user) {
                 authLink.innerText = "Logout";
                 authLink.href = "javascript:void(0)"; 
                 authLink.onclick = () => {
@@ -193,7 +234,7 @@
             }
         }
 
-        // Initialize UI
+        // Initialize UI on load
         updateUI();
         checkAuth();
     </script>
