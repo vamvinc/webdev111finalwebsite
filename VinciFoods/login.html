@@ -2,16 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Login & Admin Demo</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* --- CORE THEME VARIABLES --- */
+        :root {
+            --bg-dark: #0f0c1d;
+            --bg-card: #1a1630;
+            --accent-purple: #9d7cfd;
+            --accent-gold: #ffcc33;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
         /* --- CENTERED LAYOUT FIX --- */
         body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
+        /* Navbar Correction */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(157, 124, 253, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-purple);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-purple);
+        }
+
+        /* Centered Container */
         .auth-wrapper {
             flex: 1;
             display: flex;
@@ -27,13 +78,13 @@
             border: 1px solid rgba(157, 124, 253, 0.2);
             width: 100%;
             max-width: 400px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            text-align: center;
         }
 
         .auth-container h2 {
             color: var(--accent-purple);
             margin-bottom: 25px;
-            text-align: center;
         }
 
         .form-group {
@@ -51,27 +102,38 @@
         .form-group input {
             width: 100%;
             padding: 12px;
+            box-sizing: border-box; /* Keeps input within the container */
             border-radius: 8px;
             border: 1px solid rgba(157, 124, 253, 0.3);
-            background: rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.05);
             color: white;
             outline: none;
         }
 
-        .terms-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            color: var(--text-muted);
+        .submit-btn {
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .submit-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            color: #888;
         }
 
         .demo-selector {
             margin-top: 25px;
             padding-top: 20px;
             border-top: 1px dashed var(--accent-purple);
-            text-align: center;
         }
+
         .demo-title {
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -80,11 +142,7 @@
             margin-bottom: 10px;
             display: block;
         }
-        .demo-btn-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
+
         .role-btn {
             background: rgba(157, 124, 253, 0.1);
             border: 1px solid var(--accent-purple);
@@ -92,13 +150,22 @@
             padding: 8px 12px;
             border-radius: 8px;
             cursor: pointer;
+            margin: 0 5px;
             font-size: 0.8rem;
             transition: 0.3s;
         }
+
         .role-btn:hover {
             background: var(--accent-purple);
             color: white;
             transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
     </style>
 </head>
@@ -125,11 +192,11 @@
                     <label for="lPass">Password</label>
                     <input type="password" id="lPass" placeholder="Enter your password" required>
                 </div>
-                <div class="terms-box">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px; color:var(--text-muted);">
                     <input type="checkbox" id="lCheck">
-                    <label for="lCheck" style="cursor:pointer;">I am a human</label>
+                    <label for="lCheck" style="cursor:pointer; font-size: 0.9rem;">I am a human</label>
                 </div>
-                <button type="submit" id="lBtn" class="submit-btn" style="width: 100%;" disabled>Sign In</button>
+                <button type="submit" id="lBtn" class="submit-btn" disabled>Sign In</button>
             </form>
 
             <div class="demo-selector">
@@ -146,7 +213,7 @@
         </div>
     </div>
 
-    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
+    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p></footer>
 
     <script>
         const lCheck = document.getElementById('lCheck');
@@ -160,9 +227,10 @@
             if (localStorage.getItem('currentUser')) {
                 authLink.innerText = "Logout";
                 authLink.href = "javascript:void(0)"; 
-                authLink.onclick = () => { 
+                authLink.onclick = (e) => { 
+                    e.preventDefault();
                     localStorage.removeItem('currentUser'); 
-                    window.location.reload(); // Refresh to show "Login"
+                    window.location.reload();
                 };
             } else {
                 authLink.innerText = "Login";
