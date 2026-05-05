@@ -5,77 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Our Story</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for that clean look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Navbar: Flex ensures links stay horizontal -->
     <nav>
         <div class="logo">VinciFoods</div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
-            <li><a href="aboutus.html">About</a></li>
+            <li><a href="aboutus.html" class="active">About</a></li>
             <li><a href="order.html">Order</a></li>
             <li><a href="login.html" id="authLink">Login</a></li>
         </ul>
     </nav>
 
+    <!-- Header: Restored high-contrast hero -->
     <header class="hero">
         <h1>Our Story</h1>
         <p>Founded in 2026, VinciFoods was built on a passion for quality and speed. ✨</p>
     </header>
 
-    <main class="container" style="padding: 60px 10%;">
-        <h2 style="color: var(--accent-purple); margin-bottom: 20px; font-size: 2.5rem;">Who We Are</h2>
-        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px;">
-            VinciFoods started as a small university project. We wanted to create a delivery service that didn't just provide food, but provided a high-contrast, visually engaging experience. Our signature purple branding represents our creativity and our commitment to being different.
-        </p>
-        
-        <div class="mission-box" style="background: var(--bg-card); padding: 40px; border-radius: 20px; border-left: 5px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-            <h3 style="color: var(--accent-gold); margin-bottom: 15px; font-size: 1.8rem;">Our Mission</h3>
-            <p style="font-size: 1.2rem;">To deliver high-quality, chef-inspired meals with lightning speed, while maintaining the highest standards of food safety.</p>
+    <!-- Main Content: Refined spacing and typography -->
+    <main class="container">
+        <div class="about-content">
+            <h2>Who We Are</h2>
+            <p>
+                VinciFoods started as a small university project. We wanted to create a delivery service that didn't just provide food, but provided a high-contrast, visually engaging experience. Our signature purple branding represents our creativity and our commitment to being different.
+            </p>
+            
+            <!-- Mission Box with the restored Gold border -->
+            <div class="mission-box">
+                <h3>Our Mission</h3>
+                <p>To deliver high-quality, chef-inspired meals with lightning speed, while maintaining the highest standards of food safety.</p>
+            </div>
         </div>
     </main>
 
+    <!-- Features: Grid for the team icons -->
     <section class="features-grid">
         <div class="feature-item">
-            <h3>👨‍🍳 The Chefs</h3>
+            <div class="icon">👨‍🍳</div>
+            <h3>The Chefs</h3>
             <p>Mastering the art of flavor with every order.</p>
         </div>
         <div class="feature-item">
-            <h3>💻 The Devs</h3>
+            <div class="icon">💻</div>
+            <h3>The Devs</h3>
             <p>Building the tech that keeps your hunger satisfied.</p>
         </div>
         <div class="feature-item">
-            <h3>🏍️ The Riders</h3>
+            <div class="icon">🏍️</div>
+            <h3>The Riders</h3>
             <p>The fastest wheels in the city, guaranteed.</p>
         </div>
     </section>
 
-    <!-- Floating Cart Toggle -->
-    <div class="cart-toggle" onclick="toggleCart()" style="position: fixed; bottom: 30px; right: 30px; background: var(--accent-purple); color: white; padding: 15px 20px; border-radius: 50px; cursor: pointer; z-index: 1500; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+    <!-- Floating Cart Toggle: Re-fixed to the corner -->
+    <div class="cart-toggle" onclick="toggleCart()">
         🛒 <span id="cart-count">0</span>
     </div>
 
-    <!-- Sidebar -->
+    <!-- Sidebar: Restored logic -->
     <div id="sidebar" class="cart-sidebar">
-        <div class="cart-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h3 style="margin: 0; color: var(--accent-purple);">Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
+        <div class="cart-header">
+            <h3>Your Basket</h3>
+            <button onclick="toggleCart()" class="close-btn">&times;</button>
         </div>
-        <div id="cart-items" style="flex: 1; overflow-y: auto;"></div>
-        <div class="cart-total" style="padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            <div class="total-row">
                 <span>Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
+                <span id="total-price">$0.00</span>
             </div>
-            <button class="submit-btn" onclick="checkout()" style="width:100%; background:var(--accent-gold); border:none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer;">Checkout</button>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. 💜</p>
     </footer>
 
     <script>
-        /* Keep your existing JavaScript - it is solid logic */
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
         function toggleCart() {
@@ -91,18 +102,18 @@
             let total = 0;
 
             if (basket.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty.</p>';
+                container.innerHTML = '<p class="empty-msg">Your basket is empty.</p>';
             } else {
                 basket.forEach((item, index) => {
                     total += item.price;
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'cart-item';
                     itemDiv.innerHTML = `
-                        <div>
-                            <p style="margin:0; font-weight:bold;">${item.name}</p>
-                            <p style="margin:0; font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
+                        <div class="item-info">
+                            <p class="item-name">${item.name}</p>
+                            <p class="item-price">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">Remove</button>
+                        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
                     `;
                     container.appendChild(itemDiv);
                 });
