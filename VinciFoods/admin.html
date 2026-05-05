@@ -5,46 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for consistency across the platform -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Internal adjustments for the Admin Dashboard */
+        .metrics-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 15px;
+            flex: 1;
+            min-width: 250px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-bottom: 3px solid transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover { transform: translateY(-5px); }
+        
+        /* Individual border accents for each metric */
+        .metric-card:nth-child(1) { border-color: #4ade80; } /* Sales - Green */
+        .metric-card:nth-child(2) { border-color: var(--accent-gold); } /* Orders - Gold */
+        .metric-card:nth-child(3) { border-color: var(--accent-purple); } /* Riders - Purple */
+
+        .metric-value { font-size: 2.5rem; margin-top: 10px; font-weight: 800; }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 18px 25px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .admin-table thead {
+            background: rgba(157, 124, 253, 0.1);
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-preparing { background: rgba(255, 204, 51, 0.15); color: #ffcc33; }
+        .status-delivered { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+
+        .small-btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .small-btn:hover { background: var(--accent-gold); color: var(--bg-dark); }
+    </style>
 </head>
 <body class="admin-body">
-    <!-- Navigation: Keeping it simple for admin focus -->
     <nav>
         <div class="logo">Vinci Admin</div>
-        <div class="nav-right">
+        <div class="nav-right" style="display: flex; align-items: center;">
             <span style="margin-right: 20px; color: var(--text-muted);">Welcome, Admin</span>
-            <a href="login.html" class="outline-btn" style="text-decoration: none;" onclick="logout()">Logout</a>
+            <a href="#" class="outline-btn" style="text-decoration: none;" onclick="logout()">Logout</a>
         </div>
     </nav>
 
-    <main class="container" style="padding: 40px 10%;">
-        <header style="margin-bottom: 30px;">
-            <h2 style="color: var(--accent-gold); font-size: 2rem;">Store Analytics</h2>
-            <p style="color: var(--text-muted);">Real-time overview of VinciFoods operations.</p>
+    <main class="container" style="max-width: 1200px; margin: 0 auto; padding: 60px 20px;">
+        <header style="margin-bottom: 40px;">
+            <h2 style="color: var(--accent-gold); font-size: 2.5rem; font-weight: 800;">Store Analytics</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Real-time overview of VinciFoods operations.</p>
         </header>
         
-        <!-- Analytics Grid: Horizontal layout using Flexbox -->
+        <!-- Analytics Grid -->
         <div class="metrics-grid">
             <div class="metric-card">
-                <p>Daily Sales</p>
-                <h1 class="metric-value sales-color">$1,240.00</h1>
+                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Daily Sales</p>
+                <h1 class="metric-value" style="color: #4ade80;">$1,240.00</h1>
             </div>
             <div class="metric-card">
-                <p>Pending Orders</p>
-                <h1 class="metric-value gold-color">14</h1>
+                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Pending Orders</p>
+                <h1 class="metric-value" style="color: var(--accent-gold);">14</h1>
             </div>
             <div class="metric-card">
-                <p>Active Riders</p>
-                <h1 class="metric-value purple-color">8</h1>
+                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Active Riders</p>
+                <h1 class="metric-value" style="color: var(--accent-purple);">8</h1>
             </div>
         </div>
 
-        <!-- Transactions Section: Table container with high contrast -->
-        <div class="table-container" style="margin-top: 40px;">
-            <h3 style="color: var(--text-white); margin-bottom: 20px; font-size: 1.5rem;">Recent Transactions</h3>
+        <!-- Transactions Section -->
+        <div class="table-container">
+            <h3 style="color: var(--text-white); margin-bottom: 25px; font-size: 1.8rem; font-weight: 600;">Recent Transactions</h3>
             
-            <div style="overflow-x: auto;"> 
+            <div style="overflow-x: auto; box-shadow: 0 15px 50px rgba(0,0,0,0.3); border-radius: 15px;"> 
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -57,17 +128,17 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>#VF-9921</td>
+                            <td style="font-family: monospace; color: var(--accent-purple);">#VF-9921</td>
                             <td>Juan Dela Cruz</td>
                             <td><span class="status-badge status-preparing">Preparing</span></td>
-                            <td>$24.50</td>
+                            <td style="font-weight: 600;">$24.50</td>
                             <td><button class="small-btn">Details</button></td>
                         </tr>
                         <tr>
-                            <td>#VF-9920</td>
+                            <td style="font-family: monospace; color: var(--accent-purple);">#VF-9920</td>
                             <td>Maria Clara</td>
                             <td><span class="status-badge status-delivered">Delivered</span></td>
-                            <td>$12.00</td>
+                            <td style="font-weight: 600;">$12.00</td>
                             <td><button class="small-btn">Details</button></td>
                         </tr>
                     </tbody>
@@ -76,12 +147,11 @@
         </div>
     </main>
 
-    <footer>
+    <footer style="text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 0.9rem;">
         <p>&copy; 2026 VinciFoods | Admin Control Panel</p>
     </footer>
 
     <script>
-        // Simple logout logic to clear session
         function logout() {
             localStorage.removeItem('currentUser');
             window.location.href = 'login.html';
