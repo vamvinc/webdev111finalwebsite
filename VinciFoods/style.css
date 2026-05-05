@@ -6,27 +6,67 @@
     --accent-gold: #ffcc33;
     --text-white: #ffffff;
     --text-muted: #a0a0a0;
+    --error-red: #ff4d4d; /* Added for 'Remove' buttons */
+    --success-green: #00ff88;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* The most important fix for layout overflow */
 }
 
 body {
-    margin: 0;
-    padding: 0;
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-white);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* Prevents the 'ruined' horizontal scroll */
+    overflow-x: hidden; 
 }
 
 /* --- 2. FIXED FLOATING CART --- */
-/* Making this 'fixed' ensures it never pushes your layout around */
+.cart-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--accent-purple);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1500;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    font-size: 1.5rem;
+    transition: 0.3s;
+}
+
+.cart-toggle:hover {
+    transform: scale(1.1);
+}
+
+#cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--accent-gold);
+    color: var(--bg-dark);
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 50%;
+}
+
 .cart-sidebar {
     position: fixed; 
     top: 0;
     right: -450px; 
-    width: 380px;
+    width: 100%;
+    max-width: 400px;
     height: 100vh;
     background: var(--bg-card);
     border-left: 2px solid var(--accent-purple);
@@ -42,104 +82,94 @@ body {
     right: 0;
 }
 
-/* --- 3. ORIGINAL LAYOUT RESTORATION --- */
-/* This fixes the alignment for the Menu and About sections */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.section-padding {
-    padding: 80px 0;
-}
-
-/* Menu Grid Restoration */
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.menu-card {
-    background: var(--bg-card);
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid rgba(157, 124, 253, 0.1);
-    transition: 0.3s;
-}
-
-.menu-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--accent-purple);
-}
-
-/* --- 4. AUTHENTICATION (CENTERED & FIXED) --- */
-.auth-main {
+#cart-items {
     flex: 1;
+    overflow-y: auto; /* Allows scrolling inside the cart only */
+    padding-right: 10px;
+}
+
+/* --- 3. LAYOUT RESTORATION --- */
+.hero {
+    height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px;
+    text-align: center;
+    background: linear-gradient(rgba(15, 12, 29, 0.7), rgba(15, 12, 29, 0.7)), 
+                url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1500&q=80');
+    background-size: cover;
+    background-position: center;
 }
 
-.auth-card {
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 60px 8%;
+}
+
+.feature-item {
     background: var(--bg-card);
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid rgba(157, 124, 253, 0.2);
-    width: 100%;
-    max-width: 450px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(157, 124, 253, 0.1);
+    text-align: center;
 }
 
-/* Fixes the overflow bug in your inputs */
-.auth-form-group input {
-    width: 100%;
-    box-sizing: border-box; 
-    padding: 12px 15px;
+/* --- 4. BUTTONS & UI --- */
+.submit-btn, .cta-button {
+    background: var(--accent-purple);
+    color: white;
+    padding: 12px 25px;
+    border: none;
     border-radius: 8px;
-    border: 1px solid rgba(157, 124, 253, 0.3);
-    background: rgba(0, 0, 0, 0.2);
-    color: var(--text-white);
-    outline: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
 }
 
-/* --- 5. NAVIGATION & FOOTER --- */
+.submit-btn:hover, .cta-button:hover {
+    background: #8a66f0;
+    box-shadow: 0 5px 15px rgba(157, 124, 253, 0.4);
+}
+
+.cart-item {
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent-purple);
+}
+
+/* --- 5. NAVIGATION --- */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 8%;
+    padding: 15px 8%;
     background: rgba(15, 12, 29, 0.95);
     backdrop-filter: blur(10px);
     position: sticky;
     top: 0;
     z-index: 1000;
+    border-bottom: 1px solid rgba(157, 124, 253, 0.1);
 }
 
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--text-white);
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
     color: var(--accent-purple);
-}
-
-footer {
-    text-align: center;
-    padding: 40px;
-    border-top: 1px solid rgba(157, 124, 253, 0.1);
-    color: var(--text-muted);
-    margin-top: auto;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
