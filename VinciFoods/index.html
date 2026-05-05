@@ -5,58 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Home</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Clean typography for the 'VinciFoods' vibe -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Navbar: Flexbox ensures items don't squash -->
     <nav>
         <div class="logo">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
             <li><a href="aboutus.html">About</a></li>
             <li><a href="order.html">Order</a></li>
             <li><a href="login.html" id="authLink">Login</a></li>
         </ul>
     </nav>
 
+    <!-- Hero Section: Updated for high-contrast visibility -->
     <header class="hero">
         <div class="hero-content">
             <h1>Freshly Made.<br>Promptly Delivered.</h1>
-            <p>Your favorite meals delivered with a touch of purple. No cap, just flavor.</p>
-            <a href="order.html" class="cta-button">Order Now</a>
+            <p>Your favorite meals delivered with a touch of purple. No cap, just flavor. 💜</p>
+            <div class="hero-btns">
+                <a href="order.html" class="cta-button">Order Now</a>
+                <a href="aboutus.html" class="outline-btn" style="margin-left: 15px; text-decoration: none;">Our Story</a>
+            </div>
         </div>
     </header>
 
+    <!-- Features Section -->
     <section class="features-grid">
         <div class="feature-item">
+            <div class="feature-icon">⚡</div>
             <h3>Flash Delivery</h3>
             <p>Hot food in 30 mins or less. Zoomer speed included.</p>
         </div>
         <div class="feature-item">
+            <div class="feature-icon">🌿</div>
             <h3>Organic Sourced</h3>
             <p>Main character energy ingredients. Healthy and local.</p>
         </div>
         <div class="feature-item">
+            <div class="feature-icon">📞</div>
             <h3>24/7 Support</h3>
             <p>We're here whenever you're hungry. Always on standby.</p>
         </div>
     </section>
 
-    <!-- PERSISTENT CART UI -->
+    <!-- PERSISTENT CART UI: Fixed to bottom-right -->
     <div class="cart-toggle" onclick="toggleCart()">
         🛒 <span id="cart-count">0</span>
     </div>
     
+    <!-- Cart Sidebar -->
     <div id="sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
+            <button onclick="toggleCart()" class="close-btn">&times;</button>
         </div>
         
-        <div id="cart-items"></div>
+        <div id="cart-items" class="cart-scroll-area"></div>
 
         <div class="cart-total">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+            <div class="total-row">
                 <span>Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
+                <span id="total-price">$0.00</span>
             </div>
             <button class="submit-btn" onclick="checkout()">Checkout</button>
         </div>
@@ -82,20 +94,18 @@
             let total = 0;
 
             if (basket.length === 0) { 
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty. Sadge.</p>';
+                container.innerHTML = '<p class="empty-msg">Your basket is empty. Sadge.</p>';
             } else { 
                 basket.forEach((item, index) => { 
                     total += item.price;
                     const div = document.createElement('div'); 
                     div.className = 'cart-item';
                     div.innerHTML = `
-                        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
-                            <div>
-                                <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
-                                <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
-                            </div>
-                            <button onclick="removeItem(${index})" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-weight:bold;">Remove</button>
-                        </div>`;
+                        <div class="item-details">
+                            <p class="item-name">${item.name}</p>
+                            <p class="item-price">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <button onclick="removeItem(${index})" class="remove-btn">Remove</button>`;
                     container.appendChild(div); 
                 });
             }
@@ -123,9 +133,8 @@
         }
 
         // --- AUTHENTICATION UI LOGIC ---
-        const authLink = document.getElementById('authLink');
-        
         function checkAuth() {
+            const authLink = document.getElementById('authLink');
             const user = localStorage.getItem('currentUser');
             if (user) { 
                 authLink.innerText = "Logout"; 
