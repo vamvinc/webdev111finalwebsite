@@ -1,6 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+/* --- 1. DIRECT FONT DEFINITIONS --- */
+@font-face {
+    font-family: 'Poppins';
+    src: local('Poppins Bold'), local('Poppins-Bold'), url('fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
 
-/* --- 1. THEME VARIABLES --- */
+@font-face {
+    font-family: 'Poppins';
+    src: local('Poppins Regular'), local('Poppins-Regular'), url('fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: local('Poppins Light'), local('Poppins-Light'), url('fonts/Poppins-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* --- 2. THEME & RESET --- */
 :root {
     --bg-dark: #0f0c1d;
     --bg-card: #1a1630;
@@ -8,9 +28,6 @@
     --accent-gold: #ffcc33;
     --text-white: #ffffff;
     --text-muted: #a0a0a0;
-    --error-red: #ff4d4d;
-    --success-green: #2ecc71;
-    --nav-height: 80px;
 }
 
 * {
@@ -23,27 +40,25 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-white);
-    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
     line-height: 1.6;
 }
 
-/* --- 2. NAVIGATION --- */
+/* --- 3. NAVIGATION (FIXED ACTIVE STATES) --- */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 8%;
-    height: var(--nav-height);
-    background: rgba(15, 12, 29, 0.95);
-    border-bottom: 2px solid rgba(157, 124, 253, 0.1);
+    padding: 20px 8%;
+    background: rgba(15, 12, 29, 0.98);
+    border-bottom: 1.5px solid rgba(157, 124, 253, 0.2);
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(10px);
 }
 
 .logo {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 800;
     color: var(--accent-purple);
     text-transform: uppercase;
@@ -59,163 +74,51 @@ nav {
 .nav-links a {
     text-decoration: none;
     color: var(--text-white);
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.95rem;
-    transition: 0.3s;
-    position: relative;
+    opacity: 0.7;
+    transition: 0.3s ease;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
 }
 
-.nav-links a:hover, .nav-links a.active {
+/* This class ensures the link turns purple when active */
+.nav-links a.active, 
+.nav-links a:hover {
     color: var(--accent-purple);
+    opacity: 1;
+    border-bottom: 2px solid var(--accent-purple);
 }
 
-.nav-links a.active::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--accent-purple);
-}
-
-/* --- 3. HERO SECTION --- */
-.hero {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: radial-gradient(circle at center, #1a1630 0%, #0f0c1d 100%);
-    padding: 40px 20px;
-}
-
+/* --- 4. HERO SECTION REFINEMENT --- */
 .hero h1 {
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    color: var(--text-white);
-    margin-bottom: 15px;
+    font-size: 3.5rem;
     font-weight: 800;
+    letter-spacing: -1px; /* Matches the cleaner look in your screenshots */
+    margin-bottom: 10px;
 }
 
 .hero p {
+    font-weight: 300;
     color: var(--text-muted);
-    font-size: 1.1rem;
-    max-width: 600px;
 }
 
-/* --- 4. BUTTONS & UI --- */
-.submit-btn, .cta-button {
-    background: var(--accent-gold);
-    color: #000;
-    padding: 12px 30px;
-    border-radius: 10px;
-    font-weight: 700;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    font-family: 'Poppins', sans-serif;
+/* --- 5. MENU CARDS (Reference: Screenshot 2026-05-05 194757.jpg) --- */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 40px 0;
 }
 
-.submit-btn:hover, .cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 204, 51, 0.4);
-    background: #ffd65c;
-}
-
-.submit-btn:active {
-    transform: translateY(0);
-}
-
-/* --- 5. CART SIDEBAR SYSTEM --- */
-.cart-sidebar {
-    position: fixed;
-    top: 0;
-    right: -400px;
-    width: 380px;
-    height: 100vh;
+.food-item {
     background: var(--bg-card);
-    z-index: 2000;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-    transition: 0.4s ease;
-    display: flex;
-    flex-direction: column;
     padding: 30px;
-    border-left: 1px solid rgba(157, 124, 253, 0.2);
-}
-
-.cart-sidebar.active {
-    right: 0;
-}
-
-.cart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.cart-header h3 {
-    font-size: 1.5rem;
-    color: var(--accent-purple);
-}
-
-.cart-total {
-    margin-top: auto;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.cart-toggle {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: var(--accent-purple);
-    color: white;
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    z-index: 999;
-    transition: 0.3s;
-    font-size: 1.2rem;
-}
-
-.cart-toggle:hover {
-    transform: scale(1.1) rotate(-10deg);
-}
-
-#cart-count {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: var(--accent-gold);
-    color: #000;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    font-size: 0.75rem;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* --- 6. FOOTER --- */
-footer {
-    padding: 40px 8%;
+    border-radius: 15px;
     text-align: center;
-    background: rgba(0,0,0,0.3);
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-top: auto;
+    transition: transform 0.3s ease;
 }
 
-/* --- 7. UTILITIES --- */
-.text-purple { color: var(--accent-purple); }
-.text-gold { color: var(--accent-gold); }
+.food-item:hover {
+    transform: translateY(-5px);
+}
