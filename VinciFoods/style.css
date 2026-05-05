@@ -1,4 +1,4 @@
-/* --- THEME VARIABLES (CRITICAL) --- */
+/* --- THEME VARIABLES --- */
 :root {
     --bg-dark: #0f0c1d;
     --bg-card: #1a1630;
@@ -34,6 +34,7 @@ nav {
     color: var(--accent-purple);
     font-weight: bold;
     font-size: 1.5rem;
+    text-decoration: none;
 }
 
 .nav-links {
@@ -45,11 +46,35 @@ nav {
 .nav-links a {
     color: var(--text-white);
     text-decoration: none;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-purple);
+}
+
+/* --- MENU & CARDS --- */
+/* Fixes the white sections in image_003585.png */
+.menu-container, .about-content {
+    padding: 60px 5%;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.menu-card, .feature-card {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(157, 124, 253, 0.1);
+    text-align: center;
 }
 
 /* --- AUTHENTICATION (YOUR UPDATED CODE) --- */
-
-/* 1. The Main Wrapper: Fixes centering and background */
 .auth-wrapper {
     flex: 1; 
     display: flex;
@@ -59,7 +84,6 @@ nav {
     background: var(--bg-dark); 
 }
 
-/* 2. The Card: Fixes shadow and width */
 .auth-container {
     background: var(--bg-card); 
     padding: 40px;
@@ -71,59 +95,17 @@ nav {
     text-align: center;
 }
 
-.auth-container h2 {
-    color: var(--accent-purple);
-    margin-bottom: 25px;
-    font-size: 2rem;
-}
-
-/* 3. Form Groups & Inputs: Fixes the 'Overflow' bug */
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-}
-
 .form-group input {
     width: 100%;
-    box-sizing: border-box; /* PREVENTS OVERFLOW */
+    box-sizing: border-box; /* Fixes the overflow shown in your screenshots */
     padding: 12px 15px;
     border-radius: 8px;
     border: 1px solid rgba(157, 124, 253, 0.3);
     background: rgba(255, 255, 255, 0.05);
     color: white;
     outline: none;
-    transition: 0.3s ease-in-out;
 }
 
-.form-group input:focus {
-    border-color: var(--accent-purple);
-    background: rgba(157, 124, 253, 0.05);
-    box-shadow: 0 0 12px rgba(157, 124, 253, 0.2);
-}
-
-/* 4. Checkbox & Terms */
-.terms-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-.terms-box input[type="checkbox"] {
-    width: auto; 
-    cursor: pointer;
-}
-
-/* 5. Buttons: Golden Signature Style */
 .submit-btn {
     background: var(--accent-gold);
     color: #000;
@@ -131,60 +113,22 @@ nav {
     padding: 14px;
     border-radius: 8px;
     font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
     width: 100%;
-    transition: 0.3s;
-}
-
-.submit-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 204, 51, 0.3);
-}
-
-.submit-btn:disabled {
-    background: #444;
-    color: #777;
-    cursor: not-allowed;
-}
-
-/* 6. Demo Panel: Dashed border and spacing */
-.demo-selector {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px dashed rgba(157, 124, 253, 0.3);
-}
-
-.demo-title {
-    font-size: 0.7rem;
-    color: var(--accent-gold);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.demo-btn-group {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
-
-.role-btn {
-    background: rgba(157, 124, 253, 0.1);
-    border: 1px solid var(--accent-purple);
-    color: var(--accent-purple);
-    padding: 8px 15px;
-    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: bold;
-    transition: 0.3s;
 }
 
-.role-btn:hover {
-    background: var(--accent-purple);
-    color: white;
+/* --- DASHBOARD & ADMIN --- */
+/* Fixes image_008703.png and image_008720.png */
+.admin-header {
+    background: #2a0a2a;
+    padding: 10px 5%;
+    color: var(--accent-purple);
+}
+
+.stat-value {
+    color: #00ff00; /* Green for revenue */
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 /* --- FOOTER --- */
