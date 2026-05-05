@@ -12,7 +12,6 @@
             min-height: 100vh;
         }
 
-        /* This centers the container on the screen */
         .auth-wrapper {
             flex: 1;
             display: flex;
@@ -27,14 +26,14 @@
             border-radius: 20px;
             border: 1px solid rgba(157, 124, 253, 0.2);
             width: 100%;
-            max-width: 400px; /* Keeps the box clean and centered */
+            max-width: 400px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
         .auth-container h2 {
             color: var(--accent-purple);
             margin-bottom: 25px;
-            text-align: center; /* Centered title */
+            text-align: center;
         }
 
         .form-group {
@@ -67,7 +66,6 @@
             color: var(--text-muted);
         }
 
-        /* --- DEMO ACCESS PANEL --- */
         .demo-selector {
             margin-top: 25px;
             padding-top: 20px;
@@ -115,7 +113,6 @@
         </ul>
     </nav>
 
-    <!-- NEW WRAPPER FOR CENTERING -->
     <div class="auth-wrapper">
         <div class="auth-container">
             <h2>Sign In</h2>
@@ -154,7 +151,25 @@
     <script>
         const lCheck = document.getElementById('lCheck');
         const lBtn = document.getElementById('lBtn');
+        const authLink = document.getElementById('authLink');
+
         lCheck.onchange = () => lBtn.disabled = !lCheck.checked;
+
+        // --- AUTH UI CHECK ---
+        function checkAuth() {
+            if (localStorage.getItem('currentUser')) {
+                authLink.innerText = "Logout";
+                authLink.href = "javascript:void(0)"; 
+                authLink.onclick = () => { 
+                    localStorage.removeItem('currentUser'); 
+                    window.location.reload(); // Refresh to show "Login"
+                };
+            } else {
+                authLink.innerText = "Login";
+                authLink.href = "login.html";
+                authLink.onclick = null;
+            }
+        }
 
         function quickLogin(email, targetPage) {
             localStorage.setItem('currentUser', email);
@@ -189,14 +204,8 @@
             alert("Invalid email or password!");
         };
 
-        const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
-            authLink.innerText = "Logout";
-            authLink.onclick = () => { 
-                localStorage.removeItem('currentUser'); 
-                window.location.href = 'login.html';
-            };
-        }
+        // Initialize state
+        checkAuth();
     </script>
 </body>
 </html>
