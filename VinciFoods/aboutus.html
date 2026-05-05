@@ -2,8 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Our Story</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- ABOUT US SPECIFIC FIXES --- */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(rgba(15, 12, 29, 0.8), rgba(15, 12, 29, 0.8)), 
+                        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Feature Grid Layout Fix */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 40px 10%;
+        }
+
+        .feature-item {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid rgba(157, 124, 253, 0.1);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-purple);
+        }
+
+        .feature-item h3 {
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+        }
+
+        /* Sidebar Logic Fix */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px; /* Hidden by default */
+            width: 350px;
+            height: 100%;
+            background: var(--bg-card);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -18,7 +86,7 @@
 
     <header class="hero">
         <h1>Our Story</h1>
-        <p>Founded in 2026, VinciFoods was built on a passion for quality and speed.</p>
+        <p>Founded in 2026, VinciFoods was built on a passion for quality and speed. ✨</p>
     </header>
 
     <section style="padding: 60px 10%; line-height: 1.8;">
@@ -33,37 +101,38 @@
         </div>
     </section>
 
-    <section class="features-grid" style="padding-top: 0;">
+    <section class="features-grid">
         <div class="feature-item">
-            <h3>The Chefs</h3>
+            <h3>👨‍🍳 The Chefs</h3>
             <p>Mastering the art of flavor with every single order.</p>
         </div>
         <div class="feature-item">
-            <h3>The Devs</h3>
+            <h3>💻 The Devs</h3>
             <p>Building the tech that keeps your hunger satisfied.</p>
         </div>
         <div class="feature-item">
-            <h3>The Riders</h3>
+            <h3>🏍️ The Riders</h3>
             <p>The fastest wheels in the city, guaranteed.</p>
         </div>
     </section>
 
-    <div class="cart-toggle" onclick="toggleCart()">
+    <!-- Fixed Cart Toggle -->
+    <div class="cart-toggle" onclick="toggleCart()" style="position: fixed; bottom: 30px; right: 30px; background: var(--accent-purple); color: white; padding: 15px 20px; border-radius: 50px; cursor: pointer; z-index: 99; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
         🛒 <span id="cart-count">0</span>
     </div>
 
     <div id="sidebar" class="cart-sidebar">
-        <div class="cart-header">
-            <h3>Your Basket</h3>
+        <div class="cart-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0; color: var(--accent-purple);">Your Basket</h3>
             <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
         </div>
-        <div id="cart-items"></div>
-        <div class="cart-total">
+        <div id="cart-items" style="flex: 1; overflow-y: auto;"></div>
+        <div class="cart-total" style="padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
             <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
                 <span>Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
             </div>
-            <button class="submit-btn" onclick="checkout()">Checkout</button>
+            <button class="submit-btn" onclick="checkout()" style="width:100%; background:var(--accent-gold); border:none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer;">Checkout</button>
         </div>
     </div>
 
@@ -95,11 +164,11 @@
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'cart-item';
                     itemDiv.innerHTML = `
-                        <div>
-                            <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
-                            <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
+                        <div style="text-align: left;">
+                            <p style="margin:0; font-weight:bold; font-size:0.9rem;">${item.name}</p>
+                            <p style="margin:0; font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">Remove</button>
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-size: 0.8rem;">Remove</button>
                     `;
                     container.appendChild(itemDiv);
                 });
@@ -120,7 +189,7 @@
                 alert("Please login first!");
                 window.location.href = 'login.html';
             } else {
-                alert("Order Success!");
+                alert("Order Success! Processing your purple delivery...");
                 basket = [];
                 updateUI();
                 toggleCart();
@@ -128,15 +197,15 @@
         }
 
         // --- AUTHENTICATION UI LOGIC ---
-        const authLink = document.getElementById('authLink');
-        
         function checkAuth() {
+            const authLink = document.getElementById('authLink');
             if (localStorage.getItem('currentUser')) {
                 authLink.innerText = "Logout";
-                authLink.href = "javascript:void(0)"; // Prevent accidental navigation
-                authLink.onclick = () => {
+                authLink.href = "#";
+                authLink.onclick = (e) => {
+                    e.preventDefault();
                     localStorage.removeItem('currentUser');
-                    window.location.href = 'login.html';
+                    window.location.reload();
                 };
             } else {
                 authLink.innerText = "Login";
