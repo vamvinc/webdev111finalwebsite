@@ -1,21 +1,21 @@
 /* --- 1. DIRECT FONT DEFINITIONS --- */
 @font-face {
     font-family: 'Poppins';
-    src: local('Poppins Bold'), local('Poppins-Bold'), url('fonts/Poppins-Bold.ttf') format('truetype');
+    src: local('Poppins Bold'), local('Poppins-Bold');
     font-weight: 800;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Poppins';
-    src: local('Poppins Regular'), local('Poppins-Regular'), url('fonts/Poppins-Regular.ttf') format('truetype');
+    src: local('Poppins Regular'), local('Poppins-Regular');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Poppins';
-    src: local('Poppins Light'), local('Poppins-Light'), url('fonts/Poppins-Light.ttf') format('truetype');
+    src: local('Poppins Light'), local('Poppins-Light');
     font-weight: 300;
     font-style: normal;
 }
@@ -42,9 +42,27 @@ body {
     color: var(--text-white);
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* --- 3. NAVIGATION (FIXED ACTIVE STATES) --- */
+/* --- 3. LAYOUT STRUCTURE (THE FIX FOR THE LEFT-ALIGN ISSUE) --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+    text-align: center;
+}
+
+/* --- 4. NAVIGATION --- */
 nav {
     display: flex;
     justify-content: space-between;
@@ -82,7 +100,7 @@ nav {
     border-bottom: 2px solid transparent;
 }
 
-/* This class ensures the link turns purple when active */
+/* Highlight for current page */
 .nav-links a.active, 
 .nav-links a:hover {
     color: var(--accent-purple);
@@ -90,35 +108,68 @@ nav {
     border-bottom: 2px solid var(--accent-purple);
 }
 
-/* --- 4. HERO SECTION REFINEMENT --- */
-.hero h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
-    letter-spacing: -1px; /* Matches the cleaner look in your screenshots */
-    margin-bottom: 10px;
+/* --- 5. AUTH CARDS (Login/Register) --- */
+.auth-wrapper {
+    min-height: calc(100vh - 150px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.hero p {
-    font-weight: 300;
-    color: var(--text-muted);
+.auth-card {
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
 }
 
-/* --- 5. MENU CARDS (Reference: Screenshot 2026-05-05 194757.jpg) --- */
+/* --- 6. MENU & BUTTONS --- */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
-    padding: 40px 0;
+    width: 100%;
+    margin-top: 40px;
 }
 
 .food-item {
     background: var(--bg-card);
     padding: 30px;
     border-radius: 15px;
-    text-align: center;
-    transition: transform 0.3s ease;
+    transition: 0.3s;
 }
 
 .food-item:hover {
     transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(157, 124, 253, 0.2);
+}
+
+.btn-order {
+    background: var(--accent-gold);
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* --- 7. BASKET UI (Fixing the footer mess) --- */
+.basket-section {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 40px;
+    border: 1px solid rgba(157, 124, 253, 0.3);
+}
+
+footer {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
 }
