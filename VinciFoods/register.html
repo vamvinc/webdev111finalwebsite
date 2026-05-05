@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VinciFoods | Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | Join the Squad</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         /* --- CENTERED LAYOUT FIX --- */
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            background: var(--bg-dark);
         }
 
         .auth-wrapper {
@@ -26,14 +29,23 @@
             border-radius: 20px;
             border: 1px solid rgba(157, 124, 253, 0.2);
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            max-width: 420px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
         }
 
         .auth-container h2 {
             color: var(--accent-purple);
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             text-align: center;
+            font-size: 2rem;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 30px;
         }
 
         .form-group {
@@ -45,31 +57,46 @@
             display: block;
             color: var(--text-muted);
             margin-bottom: 8px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 12px 15px;
+            border-radius: 10px;
             border: 1px solid rgba(157, 124, 253, 0.3);
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.3);
             color: white;
             outline: none;
-            transition: 0.3s;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .form-group input:focus {
             border-color: var(--accent-purple);
+            background: rgba(157, 124, 253, 0.05);
+            box-shadow: 0 0 10px rgba(157, 124, 253, 0.2);
         }
 
         .terms-box {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            align-items: flex-start;
+            gap: 12px;
             margin-bottom: 25px;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .terms-box input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: var(--accent-purple);
+            cursor: pointer;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(1);
         }
     </style>
 </head>
@@ -84,57 +111,79 @@
         </ul>
     </nav>
 
-    <!-- CENTERED WRAPPER -->
     <div class="auth-wrapper">
         <div class="auth-container">
-            <h2>Register</h2>
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Join the purple movement. High-key flavors await.</p>
+            
             <form id="rForm">
                 <div class="form-group">
                     <label for="rName">Full Name</label>
-                    <input type="text" id="rName" placeholder="Enter your name" required>
+                    <input type="text" id="rName" placeholder="Vince" required>
                 </div>
                 <div class="form-group">
                     <label for="rEmail">Email Address</label>
-                    <input type="email" id="rEmail" placeholder="Enter your email" required>
+                    <input type="email" id="rEmail" placeholder="vince@vinci.com" required>
                 </div>
                 <div class="form-group">
                     <label for="rPass">Password</label>
-                    <input type="password" id="rPass" placeholder="Create a password" required>
+                    <input type="password" id="rPass" placeholder="••••••••" required minlength="6">
                 </div>
                 <div class="terms-box">
                     <input type="checkbox" id="rCheck">
-                    <label for="rCheck" style="cursor:pointer;">I accept the terms</label>
+                    <label for="rCheck" style="cursor:pointer;">
+                        I agree to the Terms of Service and acknowledge that purple is the superior color.
+                    </label>
                 </div>
                 <button type="submit" id="rBtn" class="submit-btn" style="width: 100%;" disabled>Register Now</button>
             </form>
-            <p style="text-align:center; margin-top:20px; color:var(--text-muted); font-size: 0.9rem;">
-                Already have an account? <a href="login.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Login</a>
+
+            <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.9rem;">
+                Already a member? <a href="login.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Sign In</a>
             </p>
         </div>
     </div>
 
-    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple.</p></footer>
+    <footer>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
+    </footer>
 
     <script>
         const rCheck = document.getElementById('rCheck');
         const rBtn = document.getElementById('rBtn');
+        
+        // Enable button only when terms are accepted
         rCheck.onchange = () => rBtn.disabled = !rCheck.checked;
 
         document.getElementById('rForm').onsubmit = (e) => {
             e.preventDefault();
             const email = document.getElementById('rEmail').value;
+            
+            // Basic check if email already exists
+            if (localStorage.getItem(email)) {
+                alert("This email is already registered! Try logging in.");
+                return;
+            }
+
             const user = {
                 name: document.getElementById('rName').value,
                 pass: document.getElementById('rPass').value
             };
+
+            // Store user data
             localStorage.setItem(email, JSON.stringify(user));
-            alert("Registration successful! Go ahead and login.");
+            
+            alert("Registration successful! Welcome to the family.");
             window.location.href = 'login.html';
         };
 
+        // Sync Nav Auth Link
         const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
+        const currentUser = localStorage.getItem('currentUser');
+        
+        if (currentUser) {
             authLink.innerText = "Logout";
+            authLink.href = "javascript:void(0)";
             authLink.onclick = () => { 
                 localStorage.removeItem('currentUser'); 
                 window.location.reload(); 
