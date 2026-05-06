@@ -14,6 +14,38 @@
             overflow-x: hidden;
         }
 
+        /* --- LOGO TRANSITION STYLES --- */
+        #loader-layer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            /* Matches the dark purple background of Image_20260212_002545_039.jpg */
+            background: #1a1625; 
+            z-index: 10001;
+            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        #loader-logo {
+            width: 200px; /* Adjust size as needed */
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+        }
+
+        /* Transition Trigger */
+        #loader-layer.active #loader-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         /* Mission Card enhancement */
         .delivery-card {
             background: rgba(255, 255, 255, 0.03);
@@ -52,8 +84,10 @@
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Updated Transition Layer with Logo from Image_20260212_002545_039.jpg -->
+    <div id="loader-layer">
+        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+    </div>
 
     <nav>
         <div class="logo" onclick="navTo('index.html')" style="cursor: pointer;">VinciFoods</div>
@@ -61,7 +95,6 @@
             <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
             <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')" class="active">About</a></li>
             <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
-            <!-- authLink is updated by the Script below -->
             <li><a href="javascript:void(0)" onclick="handleAuthAction()" id="authLink">Login</a></li>
         </ul>
     </nav>
@@ -133,7 +166,6 @@
         function checkAuth() {
             const authLink = document.getElementById('authLink');
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
             if (currentUser) {
                 authLink.innerText = "Logout";
             } else {
@@ -153,19 +185,29 @@
             }
         }
 
-        // --- NAVIGATION & TRANSITIONS ---
+        // --- NAVIGATION & TRANSITIONS WITH LOGO ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
+            // Trigger the sliding curtain
             loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
+            
+            // Trigger the logo fade-in/scale effect
+            setTimeout(() => {
+                loader.classList.add('active');
+            }, 100);
+
+            // Navigate after transition completes
+            setTimeout(() => { 
+                window.location.href = url; 
+            }, 800);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            checkAuth(); // Update Login/Logout text immediately
+            checkAuth();
             setTimeout(() => {
                 document.body.classList.add('loaded');
             }, 100);
-            updateUI(); // Load cart state
+            updateUI();
         });
 
         // --- CART LOGIC ---
