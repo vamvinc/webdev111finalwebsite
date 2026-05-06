@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        /* --- LOGO TRANSITION STYLES --- */
+        #loader-layer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #1a1625; /* Matches the dark purple background of Image_20260212_002545_039.jpg */
+            z-index: 10001;
+            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        #loader-logo {
+            width: 200px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+        }
+
+        #loader-layer.active #loader-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- PAGE LAYOUT --- */
         .checkout-section {
             padding: 60px 10%;
             display: grid;
@@ -24,19 +55,18 @@
         .hero h1, .hero p, .summary-card {
             opacity: 0;
             transform: translateY(30px) skewY(1deg);
-            transition: var(--transition-cool);
+            transition: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         body.loaded .hero h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
         body.loaded .hero p  { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
-        body.loaded .summary-card:nth-child(1) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
-        body.loaded .summary-card:nth-child(2) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.4s; }
+        body.loaded .summary-card { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
 
         .summary-card {
-            background: var(--bg-card);
+            background: rgba(255, 255, 255, 0.03);
             padding: 40px;
             border-radius: 24px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
+            border: 1px solid rgba(157, 124, 253, 0.2);
             backdrop-filter: blur(20px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
@@ -58,11 +88,9 @@
             letter-spacing: -1px;
         }
 
-        /* Contrast Fix for Dropdown */
         select.checkout-input option {
             background-color: #1a1a1a; 
             color: #ffffff;
-            padding: 10px;
         }
 
         .checkout-label {
@@ -87,8 +115,10 @@
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Updated Transition Layer with Logo -->
+    <div id="loader-layer">
+        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+    </div>
 
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
@@ -163,11 +193,14 @@
     </section>
 
     <script>
-        // --- COOL TRANSITION LOGIC ---
+        // --- TRANSITION LOGIC ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
+            setTimeout(() => {
+                loader.classList.add('active');
+            }, 100);
+            setTimeout(() => { window.location.href = url; }, 800);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -175,7 +208,6 @@
                 document.body.classList.add('loaded');
             }, 100);
 
-            // Pre-fill user data if available
             const user = JSON.parse(localStorage.getItem('currentUser'));
             if (user && user.user) {
                 document.getElementById('custName').value = user.user;
@@ -273,7 +305,6 @@
         document.getElementById('paymentForm').onsubmit = (e) => {
             e.preventDefault();
             
-            // Log Order to Local Storage for SuperAdmin
             const newOrder = {
                 id: "ORD-" + Math.floor(Math.random() * 100000),
                 customer: document.getElementById('custName').value,
