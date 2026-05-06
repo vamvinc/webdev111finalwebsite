@@ -1,246 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Command Center</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        /* Specific Admin Styles */
-        .admin-mode {
-            background: radial-gradient(circle at 0% 0%, rgba(188, 19, 254, 0.12) 0%, transparent 40%),
-                        radial-gradient(circle at 100% 100%, rgba(68, 221, 255, 0.08) 0%, transparent 40%),
-                        #05020d; /* Slightly darker than standard bg */
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | Admin Dashboard (Demo)</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Specific Admin Styles */
+        .admin-mode {
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(188, 19, 254, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(68, 221, 255, 0.1) 0%, transparent 50%);
+        }
 
-        /* Stat Card Refinement */
-        .stat-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            border-radius: 28px;
-            padding: 35px;
-            transition: var(--transition-cool);
-            position: relative;
-            overflow: hidden;
-        }
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            transition: var(--transition-cool);
+        }
 
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
-            opacity: 0.3;
-        }
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent-purple);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
 
-        .stat-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-purple);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-            background: rgba(157, 124, 253, 0.05);
-        }
+        /* Command Center Entrance Animations */
+        header h1, header p, .stat-card, .summary-card {
+            opacity: 0;
+            transform: translateY(30px) skewY(1deg);
+            transition: var(--transition-cool);
+        }
 
-        /* Live Status Pulse */
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
+        body.loaded header h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
+        body.loaded header p  { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
+        
+        /* Staggered Stats */
+        body.loaded .stat-card:nth-child(1) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
+        body.loaded .stat-card:nth-child(2) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.4s; }
+        body.loaded .stat-card:nth-child(3) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.5s; }
+        
+        body.loaded .summary-card { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.6s; }
 
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-            animation: pulse 1.5s infinite;
-        }
+        table tr { transition: background 0.3s ease; }
+        table tr:hover { background: rgba(157, 124, 253, 0.05); }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.4; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Table Styling */
-        .summary-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(30px);
-            border-radius: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 12px; /* Gaps between rows */
-        }
-
-        th {
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            padding: 0 20px 15px;
-        }
-
-        td {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 20px;
-            font-size: 0.9rem;
-            transition: var(--transition-smooth);
-        }
-
-        td:first-child { border-radius: 16px 0 0 16px; border-left: 1px solid rgba(157, 124, 253, 0.1); }
-        td:last-child { border-radius: 0 16px 16px 0; border-right: 1px solid rgba(157, 124, 253, 0.1); }
-
-        tr:hover td {
-            background: rgba(157, 124, 253, 0.08);
-            color: white;
-        }
-
-        /* Entrance Stagger */
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition-cool);
-        }
-
-        body.loaded .reveal-item {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        body.loaded .reveal-item:nth-child(1) { transition-delay: 0.2s; }
-        body.loaded .reveal-item:nth-child(2) { transition-delay: 0.3s; }
-        body.loaded .reveal-item:nth-child(3) { transition-delay: 0.4s; }
-
-    </style>
+    </style>
 </head>
 <body id="page-body" class="admin-mode">
-    <!-- Curtain Layer -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-neon), var(--accent-purple)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- The Curtain Reveal Layer -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-neon), var(--accent-purple)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
-    <nav>
-        <div class="logo" onclick="navTo('index.html')" style="cursor: pointer;">VinciFoods <span style="font-size: 0.7rem; color: var(--accent-gold); letter-spacing: 1px; margin-left: 5px; vertical-align: middle;">ADMIN</span></div>
-        <ul class="nav-links">
-            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Storefront</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Menu Editor</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('login.html')" style="color: var(--error-red);">Logout</a></li>
-        </ul>
-    </nav>
+    <nav>
+        <div class="logo" onclick="navTo('index.html')" style="cursor: pointer;">VinciFoods <span style="font-size: 0.7rem; color: var(--accent-gold); letter-spacing: 1px;">ADMIN</span></div>
+        <ul class="nav-links">
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">View Site</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('login.html')">Logout</a></li>
+        </ul>
+    </nav>
 
-    <main style="padding: 60px 10%;">
-        <header style="margin-bottom: 50px;" class="reveal-item">
-            <h1 style="font-size: 3rem; font-weight: 800; letter-spacing: -1.5px;">Command Center</h1>
-            <p style="color: var(--text-muted); font-size: 1.1rem;">Managing the pulse of VinciFoods operations.</p>
-        </header>
+    <main style="padding: 40px 10%;">
+        <header style="margin-bottom: 40px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800;">Command Center</h1>
+            <p style="color: var(--text-muted);">Real-time demo of store metrics and order management.</p>
+        </header>
 
-        <!-- Stats Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px;">
-            <div class="stat-card reveal-item">
-                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Net Revenue</p>
-                <h2 style="font-size: 2.8rem; color: var(--accent-gold); margin-top: 10px; font-weight: 800;">₱12,405</h2>
-                <div style="margin-top: 15px; color: var(--success-green); font-size: 0.85rem;">↑ 12% from yesterday</div>
-            </div>
-            <div class="stat-card reveal-item">
-                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Active Orders</p>
-                <h2 style="font-size: 2.8rem; color: var(--accent-purple); margin-top: 10px; font-weight: 800;">08</h2>
-                <div style="margin-top: 15px; color: var(--info-blue); font-size: 0.85rem;">4 preparing · 4 out</div>
-            </div>
-            <div class="stat-card reveal-item">
-                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Avg Performance</p>
-                <h2 style="font-size: 2.8rem; color: var(--info-blue); margin-top: 10px; font-weight: 800;">14m</h2>
-                <div style="margin-top: 15px; color: var(--accent-gold); font-size: 0.85rem;">Within target window</div>
-            </div>
-        </div>
+        <!-- Stats Grid (Repurposing menu-grid from style.css) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px;">
+            <div class="stat-card" style="padding: 30px; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Total Sales</p>
+                <h2 style="font-size: 2.2rem; color: var(--accent-gold); margin-top: 10px;">₱12,405.00</h2>
+            </div>
+            <div class="stat-card" style="padding: 30px; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Pending Orders</p>
+                <h2 style="font-size: 2.2rem; color: var(--accent-purple); margin-top: 10px;">8</h2>
+            </div>
+            <div class="stat-card" style="padding: 30px; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Preparation Avg</p>
+                <h2 style="font-size: 2.2rem; color: var(--info-blue); margin-top: 10px;">14m</h2>
+            </div>
+        </div>
 
-        <!-- Order Management Table -->
-        <div class="summary-card reveal-item" style="transition-delay: 0.5s;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h3 style="font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px;">Live Order Feed</h3>
-                <button class="btn-primary" style="padding: 10px 20px; font-size: 0.8rem; background: rgba(157, 124, 253, 0.1); border: 1px solid var(--accent-purple); color: var(--accent-purple);">Export CSV</button>
-            </div>
+        <!-- Order Management Table -->
+        <div class="summary-card" style="padding: 30px; background: var(--bg-card); border-radius: 28px; border: 1px solid rgba(255,255,255,0.08);">
+            <h3 style="margin-bottom: 20px; font-weight: 600;">Incoming Requests</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; color: var(--text-muted); min-width: 600px;">
+                    <thead style="border-bottom: 1px solid rgba(157, 124, 253, 0.2); text-align: left;">
+                        <tr>
+                            <th style="padding: 15px 10px;">ID</th>
+                            <th>Customer</th>
+                            <th>Order Items</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                            <td style="padding: 20px 10px; color: #fff;">#VFC-102</td>
+                            <td style="color: #fff;">Demo User</td>
+                            <td>3x Vinci Special, 1x Soda</td>
+                            <td><span style="color: var(--accent-gold); font-weight: 600;">PREPARING</span></td>
+                            <td><button class="btn-primary" style="padding: 8px 15px; font-size: 0.7rem;">Complete</button></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 20px 10px; color: #fff;">#VFC-101</td>
+                            <td style="color: #fff;">Guest Visitor</td>
+                            <td>1x Golden Wrap</td>
+                            <td><span style="color: var(--success-green); font-weight: 600;">DELIVERED</span></td>
+                            <td><button class="btn-secondary" style="padding: 8px 15px; font-size: 0.7rem; opacity: 0.5;">Archived</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Items</th>
-                            <th>Status</th>
-                            <th style="text-align: right;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="font-family: monospace; font-weight: 800;">#VFC-102</td>
-                            <td style="color: white; font-weight: 600;">Vince <span style="font-size: 0.7rem; color: var(--text-muted); display: block; font-weight: 400;">Loyalty Member</span></td>
-                            <td style="color: var(--text-muted);">3x Vinci Special Burger, 1x Iced Tea</td>
-                            <td>
-                                <div class="status-pill" style="color: var(--accent-gold); background: rgba(255, 204, 51, 0.1);">
-                                    <span class="pulse-dot"></span> Preparing
-                                </div>
-                            </td>
-                            <td style="text-align: right;">
-                                <button class="btn-primary" style="padding: 10px 20px; font-size: 0.75rem;">Mark Ready</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="font-family: monospace; font-weight: 800;">#VFC-101</td>
-                            <td style="color: white; font-weight: 600;">Guest Account <span style="font-size: 0.7rem; color: var(--text-muted); display: block; font-weight: 400;">First-time order</span></td>
-                            <td style="color: var(--text-muted);">1x Golden Truffle Fries</td>
-                            <td>
-                                <div class="status-pill" style="color: var(--success-green); background: rgba(0, 255, 136, 0.1);">
-                                    Done
-                                </div>
-                            </td>
-                            <td style="text-align: right;">
-                                <button class="btn-secondary" style="padding: 10px 20px; font-size: 0.75rem; opacity: 0.6;">Archive</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
+    <script>
+        // --- COOL NAV LOGIC ---
+        function navTo(url) {
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0'; // Sweep the curtain
+            setTimeout(() => {
+                window.location.href = url;
+            }, 700);
+        }
 
-    <script>
-        function navTo(url) {
-            const loader = document.getElementById('loader-layer');
-            loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 100);
-        });
-
-        // Demo logic for button interaction
-        document.querySelectorAll('.btn-primary').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if(this.innerText === "Mark Ready") {
-                    this.innerText = "Ready!";
-                    this.style.background = "var(--success-green)";
-                    this.style.color = "black";
-                }
-            });
-        });
-    </script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Instant Clip-Path Reveal + Staggered text
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+            console.log("Admin Dashboard: Demo Mode Active");
+        });
+    </script>
 </body>
 </html>
+
+update admin.html
