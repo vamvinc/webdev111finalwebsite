@@ -1,7 +1,7 @@
 /* --- ROOT VARIABLES --- */
 :root {
     --bg-dark: #0a051a;      
-    --bg-card: rgba(36, 20, 58, 0.7);      
+    --bg-card: rgba(36, 20, 58, 0.4);      
     --accent-purple: #9d7cfd; 
     --accent-gold: #ffcc33;   
     --accent-neon: #bc13fe;  
@@ -26,33 +26,57 @@
 }
 
 @keyframes glowPulse {
-    0%, 100% { box-shadow: 0 0 5px var(--accent-purple); }
-    50% { box-shadow: 0 0 25px var(--accent-purple), 0 0 10px var(--accent-neon); }
+    0%, 100% { box-shadow: 0 0 15px rgba(157, 124, 253, 0.3); }
+    50% { box-shadow: 0 0 35px var(--accent-purple), 0 0 15px var(--accent-neon); }
 }
 
-/* --- PAGE STRUCTURE & TRANSITIONS --- */
+@keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* --- PAGE STRUCTURE --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html {
-    height: auto;
-    overflow-y: visible;
+    scroll-behavior: smooth;
 }
 
 body {
-    background: radial-gradient(circle at 50% 0%, #1e0f3c 0%, var(--bg-dark) 100%);
+    background: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(157, 124, 253, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(188, 19, 254, 0.1) 0%, transparent 40%);
     color: var(--text-white);
     min-height: 100vh;
-    height: auto; 
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: auto; 
-    scroll-behavior: smooth;
     font-family: 'Poppins', sans-serif;
-    /* Initial state for fade-in */
     opacity: 0;
     transition: opacity 0.6s ease-in-out;
 }
 
-/* Page Transition States */
+/* Dynamic Background Blobs */
+body::before, body::after {
+    content: "";
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+    opacity: 0.4;
+    animation: float 10s infinite ease-in-out;
+}
+
+body::before { top: 10%; left: -100px; background: var(--accent-purple); }
+body::after { bottom: 10%; right: -100px; background: var(--accent-neon); animation-delay: -5s; }
+
 body.loaded {
     opacity: 1;
     animation: fadeInUp 0.8s ease-out forwards;
@@ -68,9 +92,9 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 1.2rem 10%;
-    background: rgba(16, 9, 30, 0.85);
+    background: rgba(10, 5, 26, 0.7);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(157, 124, 253, 0.3);
+    border-bottom: 1px solid rgba(157, 124, 253, 0.2);
     position: sticky;
     top: 0;
     z-index: 1000; 
@@ -78,13 +102,12 @@ nav {
 
 .logo {
     font-size: 1.8rem;
-    font-weight: 900;
-    color: var(--accent-purple);
-    text-shadow: 0 0 15px rgba(157, 124, 253, 0.5);
-    letter-spacing: 3px;
-    transition: var(--transition-smooth);
-    text-decoration: none;
-    cursor: pointer;
+    font-weight: 800;
+    background: linear-gradient(to right, var(--accent-purple), var(--accent-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .nav-links {
@@ -96,65 +119,78 @@ nav {
 .nav-links a {
     text-decoration: none;
     color: var(--text-muted);
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
     transition: var(--transition-smooth);
 }
 
-.nav-links a:hover, .nav-links a.active {
-    color: var(--text-white);
-    text-shadow: 0 0 10px var(--accent-purple);
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--accent-gold);
+    transition: var(--transition-smooth);
 }
 
-/* --- CARDS & CONTAINERS --- */
+.nav-links a:hover { color: var(--text-white); }
+.nav-links a:hover::after { width: 100%; }
+
+/* --- CARDS & UI ELEMENTS --- */
 .delivery-card, .auth-container, .feature-item, .summary-card, .stat-card, .food-item {
     background: var(--bg-card);
-    backdrop-filter: blur(25px);
-    border: 1px solid rgba(157, 124, 253, 0.15);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    position: relative;
-    overflow: hidden;
+    padding: 30px;
     transition: var(--transition-smooth);
 }
 
-/* --- FIXED LAYER MANAGEMENT --- */
+.food-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--accent-purple);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    background: rgba(45, 25, 75, 0.6);
+}
 
+/* --- BUTTONS --- */
+button, .submit-btn {
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-neon));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(157, 124, 253, 0.3);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(157, 124, 253, 0.5);
+    filter: brightness(1.1);
+}
+
+/* --- CART SYSTEM --- */
 .cart-toggle {
     position: fixed; 
     bottom: 30px;
     right: 30px;
     background: var(--accent-purple);
-    width: 70px;
-    height: 70px;
-    border-radius: 20px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.8rem;
-    cursor: pointer;
+    font-size: 1.5rem;
     z-index: 9999; 
     animation: glowPulse 3s infinite;
-    transition: var(--transition-smooth);
     color: white;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.cart-toggle:hover {
-    transform: scale(1.1) rotate(-5deg);
-    background: var(--accent-neon);
-}
-
-#cart-count {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: var(--accent-gold);
-    color: #000;
-    font-size: 0.8rem;
-    font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 10px;
-    border: 3px solid var(--bg-dark);
 }
 
 .cart-sidebar {
@@ -163,24 +199,22 @@ nav {
     right: -420px; 
     width: 400px;
     height: 100vh;
-    background: rgba(16, 9, 30, 0.98);
-    backdrop-filter: blur(25px);
-    border-left: 1px solid rgba(157, 124, 253, 0.3);
+    background: rgba(10, 5, 26, 0.95);
+    backdrop-filter: blur(30px);
+    border-left: 1px solid rgba(157, 124, 253, 0.2);
     z-index: 10000; 
     padding: 40px 30px;
     transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cart-sidebar.active {
-    right: 0;
-}
+.cart-sidebar.active { right: 0; }
 
 /* --- FOOTER --- */
 footer {
-    padding: 60px 10%;
+    padding: 40px 10%;
     text-align: center;
-    border-top: 1px solid rgba(157, 124, 253, 0.1);
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-top: auto; 
+    background: rgba(0,0,0,0.2);
 }
