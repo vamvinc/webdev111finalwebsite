@@ -3,11 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Login & Admin Demo</title>
+    <title>VinciFoods | Login</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* --- CENTERED LAYOUT FIX --- */
+        /* --- BRANDED LOGO TRANSITION --- */
+        #loader-layer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #1a1625; /* Matches core project theme */
+            z-index: 10001;
+            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        #loader-logo {
+            width: 200px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+        }
+
+        #loader-layer.active #loader-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- AUTH LAYOUT REFINEMENT --- */
         body {
             display: flex;
             flex-direction: column;
@@ -21,9 +51,24 @@
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
+            position: relative;
+        }
+
+        /* Ambient glow effect behind the card */
+        .auth-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent-purple);
+            filter: blur(150px);
+            opacity: 0.15;
+            z-index: 0;
         }
 
         .auth-container {
+            position: relative;
+            z-index: 1;
             background: var(--bg-card);
             padding: 40px;
             border-radius: 28px;
@@ -48,6 +93,7 @@
             text-align: center;
             font-weight: 800;
             letter-spacing: -1px;
+            font-size: 2rem;
         }
 
         .auth-subtitle {
@@ -98,7 +144,7 @@
             font-size: 0.85rem;
         }
 
-        /* --- DEMO ACCESS PANEL --- */
+        /* --- DEMO PANEL --- */
         .demo-selector {
             margin-top: 30px;
             padding-top: 25px;
@@ -156,12 +202,15 @@
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Updated Transition Layer with Logo -->
+    <div id="loader-layer">
+        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+    </div>
 
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
             <li><a href="javascript:void(0)" id="authLink" class="active">Login</a></li>
         </ul>
     </nav>
@@ -207,25 +256,41 @@
     </footer>
 
     <script>
-        // --- PAGE TRANSITION LOGIC ---
+        // --- UPDATED BRANDED NAVIGATION ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
+            setTimeout(() => {
+                loader.classList.add('active');
+            }, 100);
+            setTimeout(() => { window.location.href = url; }, 800);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 document.body.classList.add('loaded');
+                checkSession();
             }, 100);
         });
 
         const lCheck = document.getElementById('lCheck');
         const lBtn = document.getElementById('lBtn');
-        
         lCheck.onchange = () => lBtn.disabled = !lCheck.checked;
 
-        // Session logic synchronized with Home Page
+        function checkSession() {
+            const authLink = document.getElementById('authLink');
+            if (localStorage.getItem('currentUser')) {
+                authLink.innerText = "Logout";
+                authLink.onclick = (e) => { 
+                    e.preventDefault();
+                    if(confirm("Ready to sign out?")) {
+                        localStorage.removeItem('currentUser'); 
+                        navTo('login.html');
+                    }
+                };
+            }
+        }
+
         function quickLogin(username, role, targetPage) {
             const sessionData = {
                 user: username,
@@ -265,19 +330,6 @@
             }
             alert("Credentials not found. Check your details and try again.");
         };
-
-        // Header Sync & Logout
-        const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
-            authLink.innerText = "Logout";
-            authLink.onclick = (e) => { 
-                e.preventDefault();
-                if(confirm("Ready to sign out?")) {
-                    localStorage.removeItem('currentUser'); 
-                    navTo('login.html');
-                }
-            };
-        }
     </script>
 </body>
 </html>
