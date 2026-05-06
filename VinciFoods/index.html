@@ -4,133 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Fresh & Fast</title>
+    <!-- Combined Stylesheet -->
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        /* --- LOGO TRANSITION STYLES --- */
-        #loader-layer {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100vh;
-            background: #0a051a;
-            z-index: 10001;
-            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none;
-        }
-
-        #loader-logo {
-            width: 220px;
-            height: auto;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            filter: drop-shadow(0 0 25px rgba(157, 124, 253, 0.6));
-        }
-
-        #loader-layer.active #loader-logo {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* --- FLOATING CART STYLES --- */
-        .cart-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--accent-purple);
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(157, 124, 253, 0.4);
-            z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .cart-container:hover {
-            transform: scale(1.1) rotate(-5deg);
-            background: #af8dff;
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--accent-gold);
-            color: #000;
-            font-weight: 800;
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 12px;
-            border: 2px solid var(--bg-dark);
-        }
-
-        /* Hero Layout & Animations */
-        .hero {
-            padding: 140px 10% 100px 10%;
-            text-align: center;
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .hero h1, .hero p, .hero-btns, .feature-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition-cool);
-        }
-
-        body.loaded .hero h1 { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-        body.loaded .hero p  { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-        body.loaded .hero-btns { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
-
-        .hero h1 {
-            font-size: clamp(3.5rem, 8vw, 6rem);
-            line-height: 1;
-            font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: -4px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .feature-item {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .feature-item:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-purple);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        @media (max-width: 768px) {
-            .hero { padding-top: 100px; }
-            .hero h1 { font-size: 3rem; letter-spacing: -1px; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body id="page-body">
+    <!-- Transitions & Loaders -->
     <div id="loader-layer">
         <img src="Image_20260212_002545_039.png" id="loader-logo" alt="Vinci Logo">
     </div>
@@ -149,21 +28,25 @@
     </nav>
 
     <main>
+        <!-- Hero Section using Global Classes -->
         <header class="hero">
-            <div id="welcome-msg" class="user-welcome" style="display: none; margin-bottom: 20px; background: rgba(212, 175, 55, 0.1); padding: 8px 20px; border-radius: 50px; color: var(--accent-gold); font-weight: 700;"></div>
+            <div id="welcome-msg" class="user-welcome" style="display: none; margin-bottom: 20px; background: rgba(157, 124, 253, 0.1); padding: 8px 20px; border-radius: 50px; color: var(--accent-gold); font-weight: 700;"></div>
             <h1>Freshly Made.<br><span style="color: var(--accent-purple); text-shadow: 0 0 30px rgba(157, 124, 253, 0.3);">Fast Delivery.</span></h1>
             <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin-bottom: 40px;">Your favorite meals delivered with a touch of purple. High quality, locally sourced, no cap.</p>
-            <div class="hero-btns" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                <a href="javascript:void(0)" class="btn-primary" onclick="navTo('order.html')">Order Now</a>
-                <a href="javascript:void(0)" class="btn-secondary" onclick="navTo('aboutus.html')">Learn More</a>
+            
+            <div class="hero-btns">
+                <button class="btn-primary" onclick="navTo('order.html')">Order Now</button>
+                <a href="javascript:void(0)" class="secondary-btn" onclick="navTo('aboutus.html')">Learn More</a>
             </div>
         </header>
 
+        <!-- Standardized Features Section -->
         <section class="features-section" style="padding: 100px 10%; position: relative;">
             <div style="text-align: center; margin-bottom: 60px;">
                 <h2 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The <span style="color: var(--accent-purple);">Vinci</span> Standard</h2>
                 <p style="color: var(--text-muted);">Why we're the main character of food delivery.</p>
             </div>
+            
             <div class="features-grid">
                 <div class="feature-item">
                     <div style="font-size: 3.5rem; margin-bottom: 20px;">⚡</div>
@@ -184,7 +67,7 @@
         </section>
     </main>
 
-    <!-- FLOATING CART -->
+    <!-- FLOATING CART (Persistent UI) -->
     <div class="cart-container" onclick="toggleCart()" id="floating-cart">
         <div class="cart-icon-wrapper" style="position: relative;">
             <span style="font-size: 1.6rem;">🛒</span>
@@ -192,7 +75,7 @@
         </div>
     </div>
     
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR (Persistent UI) -->
     <div id="sidebar" class="cart-sidebar">
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px; border-bottom: 1px solid rgba(157, 124, 253, 0.1);">
             <h3 style="font-size: 1.5rem; font-weight: 800; margin:0; color: #fff;">Your Basket</h3>
@@ -204,14 +87,16 @@
                 <span style="font-weight: 400; color: var(--text-muted);">Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:800; font-size: 1.4rem;">$0.00</span>
             </div>
-            <button class="submit-btn" style="width: 100%; height: 55px;" onclick="checkout()">Proceed to Checkout</button>
+            <button class="submit-btn" style="width: 100%;" onclick="checkout()">Proceed to Checkout</button>
         </div>
     </div>
 
-    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p></footer>
+    <footer style="padding: 40px 10%; text-align: center; border-top: 1px solid rgba(157, 124, 253, 0.1);">
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
+    </footer>
 
     <script>
-        // NAVIGATION & TRANSITION
+        // NAVIGATION ENGINE
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
@@ -227,6 +112,7 @@
             }, 100);
         });
 
+        // SESSION ENGINE
         function checkSession() {
             const welcomeMsg = document.getElementById('welcome-msg');
             const authLink = document.getElementById('authLink');
@@ -250,7 +136,7 @@
             } else { navTo('login.html'); }
         }
 
-        // CART ENGINE (Synced from order.html)
+        // CART ENGINE (Synced via localStorage)
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
         
         function toggleCart() { 
@@ -280,7 +166,7 @@
                             <p style="font-weight:600; font-size:0.9rem; margin:0; color:#fff;">${item.name}</p>
                             <p style="font-size:0.8rem; color:var(--accent-gold); margin:0;">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:700; font-size: 0.7rem;">REMOVE</button>`;
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-weight:700; font-size: 0.7rem;">REMOVE</button>`;
                     container.appendChild(div); 
                 });
             }
