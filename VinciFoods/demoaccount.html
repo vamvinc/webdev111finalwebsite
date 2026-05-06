@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        /* --- LOGO TRANSITION STYLES --- */
+        #loader-layer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #1a1625; /* Matches the dark purple background of Image_20260212_002545_039.jpg */
+            z-index: 10001;
+            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        #loader-logo {
+            width: 200px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+        }
+
+        #loader-layer.active #loader-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- PAGE LAYOUT --- */
         .demo-container {
             max-width: 900px;
             margin: 80px auto;
@@ -25,7 +56,7 @@
         .demo-container h1, .demo-container > p, .demo-card {
             opacity: 0;
             transform: translateY(30px) skewY(1.5deg);
-            transition: var(--transition-cool);
+            transition: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         body.loaded .demo-container h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
@@ -115,7 +146,10 @@
     </style>
 </head>
 <body id="page-body">
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Updated Transition Layer with Logo Reveal -->
+    <div id="loader-layer">
+        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+    </div>
 
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
@@ -157,10 +191,14 @@
     </div>
 
     <script>
+        // --- NAVIGATION & LOGO TRANSITION ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
+            setTimeout(() => {
+                loader.classList.add('active');
+            }, 100);
+            setTimeout(() => { window.location.href = url; }, 800);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -188,6 +226,7 @@
             btn.style.opacity = "0.7";
             btn.style.letterSpacing = "2px";
             
+            // Trigger the purple logo transition before redirecting
             setTimeout(() => { navTo(redirect); }, 800);
         }
 
