@@ -39,6 +39,13 @@
             text-align: right;
         }
 
+        /* --- CONTRAST FIX FOR DROPDOWN --- */
+        select.checkout-input option {
+            background-color: #ffffff; /* Solid white background for options */
+            color: #000000;            /* Sharp black text for readability */
+            padding: 10px;
+        }
+
         /* Print-specific styles to save ink and hide UI */
         @media print {
             nav, .submit-btn, .print-btn, .form-group, h2, .logo {
@@ -68,16 +75,22 @@
                     <label>Full Name</label>
                     <input type="text" id="custName" class="checkout-input" placeholder="Vince" required>
                 </div>
+                <!-- Contact Number Field -->
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel" id="custPhone" class="checkout-input" placeholder="09XX-XXX-XXXX" required>
+                </div>
                 <div class="form-group">
                     <label>Delivery Address</label>
                     <input type="text" id="custAddr" class="checkout-input" placeholder="Street, City, Metro Manila" required>
                 </div>
                 <div class="form-group">
                     <label>Payment Method</label>
-                    <select id="payMethod" class="checkout-input" style="width: 100%;">
-                        <option>GCash</option>
-                        <option>Cash on Delivery</option>
-                        <option>Maya</option>
+                    <select id="payMethod" class="checkout-input" style="width: 100%;" required>
+                        <option value="" disabled selected>Select Payment Method</option>
+                        <option value="GCash">GCash</option>
+                        <option value="Cash on Delivery">Cash on Delivery</option>
+                        <option value="Maya">Maya</option>
                     </select>
                 </div>
                 <button type="submit" class="submit-btn" style="width: 100%; margin-top: 30px;">Place Order</button>
@@ -129,8 +142,17 @@
 
         // Function to create a printable receipt window
         function generateReceipt() {
-            const name = document.getElementById('custName').value || "Valued Customer";
-            const addr = document.getElementById('custAddr').value || "Not Specified";
+            const form = document.getElementById('paymentForm');
+            
+            // VALIDATION: Prevent printing if fields are empty
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const addr = document.getElementById('custAddr').value;
             const method = document.getElementById('payMethod').value;
             const date = new Date().toLocaleString();
             
@@ -155,6 +177,7 @@
                     </div>
                     <div class="details">
                         <p><strong>Customer:</strong> ${name}</p>
+                        <p><strong>Contact:</strong> ${phone}</p>
                         <p><strong>Address:</strong> ${addr}</p>
                         <p><strong>Payment:</strong> ${method}</p>
                     </div>
