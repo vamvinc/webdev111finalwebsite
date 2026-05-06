@@ -21,8 +21,7 @@
             left: -100%;
             width: 100%;
             height: 100vh;
-            /* Matches the dark purple background of Image_20260212_002545_039.jpg */
-            background: #1a1625; 
+            background: #0a051a; /* Matches your --bg-dark variable */
             z-index: 10001;
             transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
             display: flex;
@@ -32,12 +31,12 @@
         }
 
         #loader-logo {
-            width: 200px; /* Adjust size as needed */
+            width: 220px; 
             height: auto;
             opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.5s ease-out;
-            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+            transform: scale(0.85);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 0 25px rgba(157, 124, 253, 0.6));
         }
 
         /* Transition Trigger */
@@ -84,13 +83,17 @@
     </style>
 </head>
 <body id="page-body">
-    <!-- Updated Transition Layer with Logo from Image_20260212_002545_039.jpg -->
+    <!-- Corrected Transition Layer with .png extension -->
     <div id="loader-layer">
-        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+        <img src="Image_20260212_002545_039.png" id="loader-logo" alt="VinciFoods Logo">
     </div>
 
     <nav>
-        <div class="logo" onclick="navTo('index.html')" style="cursor: pointer;">VinciFoods</div>
+        <div class="logo-container" onclick="navTo('index.html')" style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+            <!-- Also using the image here for consistency -->
+            <img src="Image_20260212_002545_039.png" alt="V" style="height: 40px; filter: drop-shadow(0 0 5px var(--accent-purple));">
+            <span class="logo">VinciFoods</span>
+        </div>
         <ul class="nav-links">
             <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
             <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')" class="active">About</a></li>
@@ -102,7 +105,7 @@
     <main>
         <header class="hero" style="min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 10%;">
             <h1 style="font-size: 3.5rem; letter-spacing: -2px; line-height: 1.1;">Our Story</h1>
-            <p style="max-width: 700px; margin: 20px auto; opacity: 0.9;">
+            <p style="max-width: 700px; margin: 20px auto; opacity: 0.9; color: var(--text-muted);">
                 Founded in 2026, VinciFoods was built on a passion for quality and speed. ✨
             </p>
         </header>
@@ -144,6 +147,7 @@
 
     <div class="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
 
+    <!-- Sidebar & Footer (Keeping your existing logic) -->
     <div id="sidebar" class="cart-sidebar">
         <div class="cart-header" style="display:flex; justify-content:space-between; align-items:center; padding-bottom:20px;">
             <h3>Your Basket</h3>
@@ -185,18 +189,15 @@
             }
         }
 
-        // --- NAVIGATION & TRANSITIONS WITH LOGO ---
+        // --- NAVIGATION & TRANSITIONS ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
-            // Trigger the sliding curtain
             loader.style.left = '0';
             
-            // Trigger the logo fade-in/scale effect
             setTimeout(() => {
                 loader.classList.add('active');
             }, 100);
 
-            // Navigate after transition completes
             setTimeout(() => { 
                 window.location.href = url; 
             }, 800);
