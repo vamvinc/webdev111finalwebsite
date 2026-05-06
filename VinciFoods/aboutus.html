@@ -7,22 +7,14 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* --- LAYOUT & SCROLL --- */
-        html, body {
-            height: auto;
-            overflow-y: auto;
-            overflow-x: hidden;
-            background: var(--bg-dark);
-        }
-
-        /* --- LOGO TRANSITION STYLES --- */
+        /* --- LOADER & TRANSITION --- */
         #loader-layer {
             position: fixed;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100vh;
-            background: #0a051a; 
+            background: #0a051a;
             z-index: 10001;
             transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
             display: flex;
@@ -32,20 +24,17 @@
         }
 
         #loader-logo {
-            width: 220px; 
+            width: 220px;
             height: auto;
             opacity: 0;
-            transform: scale(0.85);
+            transform: scale(0.8);
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             filter: drop-shadow(0 0 25px rgba(157, 124, 253, 0.6));
         }
 
-        #loader-layer.active #loader-logo {
-            opacity: 1;
-            transform: scale(1);
-        }
+        #loader-layer.active #loader-logo { opacity: 1; transform: scale(1); }
 
-        /* --- FLOATING CART CONTAINER --- */
+        /* --- FLOATING CART --- */
         .cart-container {
             position: fixed;
             bottom: 30px;
@@ -63,11 +52,6 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .cart-container:hover {
-            transform: scale(1.1) rotate(-5deg);
-            background: #af8dff;
-        }
-
         .cart-badge {
             position: absolute;
             top: -5px;
@@ -81,91 +65,47 @@
             border: 2px solid var(--bg-dark);
         }
 
-        /* --- ENTRANCE ANIMATIONS --- */
-        .hero h1, .hero p, .intro-text, .delivery-card, .feature-item {
+        /* --- CONTENT --- */
+        .hero h1, .hero p, .intro-text, .delivery-card {
             opacity: 0;
-            transform: translateY(40px);
-            transition: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateY(30px);
+            transition: var(--transition-cool);
         }
 
         body.loaded .hero h1 { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-        body.loaded .hero p  { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-        body.loaded .intro-text { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
-        body.loaded .delivery-card { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
-        
-        body.loaded .feature-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
-        body.loaded .feature-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
-        body.loaded .feature-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.8s; }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .features-grid { grid-template-columns: 1fr; padding: 20px; }
-        }
+        body.loaded .hero p { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
     </style>
 </head>
 <body id="page-body">
-    
     <div id="loader-layer">
-        <img src="Image_20260212_002545_039.png" id="loader-logo" alt="VinciFoods Logo">
+        <img src="Image_20260212_002545_039.png" id="loader-logo" alt="Vinci Logo">
     </div>
 
     <nav>
-        <div class="logo-container" onclick="navTo('index.html')" style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
-            <img src="Image_20260212_002545_039.png" alt="V" style="height: 40px; filter: drop-shadow(0 0 5px var(--accent-purple));">
+        <div class="logo-container" onclick="navTo('index.html')" style="cursor: pointer; display: flex; align-items: center; gap: 12px;">
+            <img src="Image_20260212_002545_039.png" alt="V" style="height: 40px;">
             <span class="logo">VinciFoods</span>
         </div>
         <ul class="nav-links">
             <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')" class="active">About</a></li>
+            <li><a href="javascript:void(0)" class="active" onclick="navTo('aboutus.html')">About</a></li>
             <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
-            <li><a href="javascript:void(0)" onclick="handleAuthAction()" id="authLink">Login</a></li>
+            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
         </ul>
     </nav>
 
     <main>
-        <header class="hero" style="min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 10%;">
-            <h1 style="font-size: 3.5rem; letter-spacing: -2px; line-height: 1.1;">Our Story</h1>
-            <p style="max-width: 700px; margin: 20px auto; opacity: 0.9; color: var(--text-muted);">
-                Founded in 2026, VinciFoods was built on a passion for quality and speed. ✨
-            </p>
+        <header class="hero" style="min-height: 50vh; text-align: center; padding-top: 150px;">
+            <h1>Our Story</h1>
+            <p style="color: var(--text-muted);">Stay Hungry, Stay Purple. ✨</p>
         </header>
 
-        <section style="max-width: 1000px; margin: 0 auto; padding: 60px 20px; text-align: center;">
-            <div class="intro-text" style="margin-bottom: 80px;">
-                <h2 style="color: var(--accent-purple); margin-bottom: 25px; font-size: 2.5rem; font-weight: 800;">Who We Are</h2>
-                <p style="font-size: 1.15rem; color: #fff; opacity: 0.85; line-height: 1.8;">
-                    VinciFoods started as a small university project. We wanted to create a delivery service that provided a high-contrast, visually engaging experience. Our signature purple branding represents our creativity.
-                </p>
-            </div>
-
-            <div class="delivery-card" style="padding: 60px 40px; margin-bottom: 100px; border-radius: 20px; background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(157,124,253,0.2);">
-                <h3 style="color: var(--accent-gold); margin-bottom: 20px; font-size: 2rem; font-weight: 700;">Our Mission</h3>
-                <p style="font-size: 1.3rem; font-weight: 300; line-height: 1.6; color: #fff; max-width: 800px; margin: 0 auto;">
-                    To deliver high-quality, chef-inspired meals with lightning speed, while maintaining the highest standards.
-                </p>
-            </div>
-
-            <div class="features-grid" style="margin-bottom: 100px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
-                <div class="feature-item">
-                    <span style="font-size: 3rem; display: block; margin-bottom: 20px;">👨‍🍳</span>
-                    <h3 style="color: var(--accent-purple); margin-bottom: 10px;">The Chefs</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-muted);">Mastering the art of flavor with every single order.</p>
-                </div>
-                <div class="feature-item">
-                    <span style="font-size: 3rem; display: block; margin-bottom: 20px;">💻</span>
-                    <h3 style="color: var(--accent-purple); margin-bottom: 10px;">The Devs</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-muted);">Building the tech that keeps your hunger satisfied.</p>
-                </div>
-                <div class="feature-item">
-                    <span style="font-size: 3rem; display: block; margin-bottom: 20px;">🏍️</span>
-                    <h3 style="color: var(--accent-purple); margin-bottom: 10px;">The Riders</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-muted);">The fastest wheels in the city, guaranteed.</p>
-                </div>
-            </div>
+        <section style="max-width: 800px; margin: 0 auto; padding: 50px 20px; text-align: center;">
+            <h2 style="color: var(--accent-purple);">Who We Are</h2>
+            <p>VinciFoods is a local student-led project aimed at providing the fastest delivery experience in Valenzuela.</p>
         </section>
     </main>
 
-    <!-- PERSISTENT FLOATING CART -->
     <div class="cart-container" onclick="toggleCart()" id="floating-cart">
         <div class="cart-icon-wrapper" style="position: relative;">
             <span style="font-size: 1.6rem;">🛒</span>
@@ -173,112 +113,84 @@
         </div>
     </div>
 
-    <!-- SIDEBAR -->
     <div id="sidebar" class="cart-sidebar">
-        <div class="cart-header" style="display:flex; justify-content:space-between; align-items:center; padding: 30px; border-bottom: 1px solid rgba(157,124,253,0.1);">
-            <h3 style="margin:0; color: white; font-weight: 800; font-size: 1.5rem;">Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2.5rem; line-height:1;">&times;</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px; border-bottom: 1px solid rgba(157, 124, 253, 0.1);">
+            <h3 style="color: #fff; margin:0;">Your Basket</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
         </div>
-        <div id="cart-items" style="flex: 1; overflow-y: auto; padding: 20px;"></div>
-        <div class="cart-total" style="padding: 30px; border-top: 1px solid rgba(157,124,253,0.2); background: rgba(0,0,0,0.2);">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size: 1.1rem;">
-                <span style="color: var(--text-muted);">Total:</span>
+        <div id="cart-items" style="flex: 1; overflow-y: auto; padding: 15px;"></div>
+        <div style="padding: 25px; border-top: 1px solid rgba(157, 124, 253, 0.2);">
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                <span>Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:800;">$0.00</span>
             </div>
-            <button class="submit-btn" style="width: 100%; padding: 18px;" onclick="checkout()">Proceed to Checkout</button>
+            <button class="submit-btn" style="width: 100%; height: 50px;" onclick="checkout()">Checkout</button>
         </div>
     </div>
 
-    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p></footer>
+    <footer><p>&copy; 2026 VinciFoods</p></footer>
 
     <script>
-        // --- AUTH & NAV ---
-        function checkAuth() {
-            const authLink = document.getElementById('authLink');
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            authLink.innerText = currentUser ? "Logout" : "Login";
-        }
-
-        function handleAuthAction() {
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if (currentUser) {
-                if (confirm("Log out of VinciFoods?")) {
-                    localStorage.removeItem('currentUser');
-                    navTo('index.html');
-                }
-            } else {
-                navTo('login.html');
-            }
-        }
-
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
             setTimeout(() => loader.classList.add('active'), 50);
-            setTimeout(() => window.location.href = url, 750);
+            setTimeout(() => { window.location.href = url; }, 750);
         }
 
-        // --- GLOBAL CART ENGINE ---
-        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
-        
-        function toggleCart() { 
-            document.getElementById('sidebar').classList.toggle('active'); 
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                checkSession();
+                updateUI();
+            }, 100);
+        });
+
+        function checkSession() {
+            const authLink = document.getElementById('authLink');
+            if (localStorage.getItem('currentUser')) { authLink.innerText = "Logout"; }
+            else { authLink.innerText = "Login"; }
         }
+
+        function handleAuthClick(e) {
+            if (localStorage.getItem('currentUser')) {
+                if(confirm("Log out?")) { localStorage.removeItem('currentUser'); navTo('index.html'); }
+            } else { navTo('login.html'); }
+        }
+
+        // CART SCRIPT
+        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
+        function toggleCart() { document.getElementById('sidebar').classList.toggle('active'); }
 
         function updateUI() {
             const container = document.getElementById('cart-items');
             const countLabel = document.getElementById('cart-count');
             const totalLabel = document.getElementById('total-price');
-            const floatingCart = document.getElementById('floating-cart');
             
-            container.innerHTML = '';
+            container.innerHTML = ''; 
             let total = 0;
 
-            if (basket.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:40px 20px; opacity:0.6;"><span style="font-size:3rem; display:block; margin-bottom:10px;">🛍️</span><p style="color:var(--text-muted);">Your basket is empty.</p></div>`;
-                floatingCart.style.opacity = "0.8";
-                floatingCart.style.transform = "scale(0.9)";
-            } else {
-                floatingCart.style.opacity = "1";
-                floatingCart.style.transform = "scale(1)";
-                basket.forEach((item, index) => {
+            if (basket.length === 0) { 
+                container.innerHTML = '<p style="text-align:center; opacity:0.5;">Empty basket.</p>';
+            } else { 
+                basket.forEach((item, index) => { 
                     total += item.price;
-                    const itemDiv = document.createElement('div');
-                    itemDiv.style = "display: flex; justify-content: space-between; padding: 15px; background: rgba(157, 124, 253, 0.05); margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(157, 124, 253, 0.1); align-items: center;";
-                    itemDiv.innerHTML = `
-                        <div style="text-align: left;">
-                            <p style="font-weight:600; color:#fff; font-size:0.95rem; margin:0;">${item.name}</p>
-                            <p style="font-size:0.85rem; color:var(--accent-gold); margin:0;">$${item.price.toFixed(2)}</p>
-                        </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:700; font-size: 0.75rem; text-transform:uppercase;">Remove</button>`;
-                    container.appendChild(itemDiv);
+                    const div = document.createElement('div'); 
+                    div.style = "display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);";
+                    div.innerHTML = `<span>${item.name}</span><span>$${item.price.toFixed(2)}</span>`;
+                    container.appendChild(div); 
                 });
             }
-            countLabel.innerText = basket.length;
+            countLabel.innerText = basket.length; 
             totalLabel.innerText = `$${total.toFixed(2)}`;
             localStorage.setItem('userCart', JSON.stringify(basket));
         }
 
-        function removeItem(index) { 
-            basket.splice(index, 1); 
-            updateUI(); 
-        }
-
-        function checkout() {
+        function removeItem(index) { basket.splice(index, 1); updateUI(); }
+        function checkout() { 
             if (basket.length === 0) return alert("Basket is empty!");
-            if (!localStorage.getItem('currentUser')) {
-                alert("Please login first!");
-                navTo('login.html');
-            } else {
-                navTo('checkout.html');
-            }
+            navTo('checkout.html'); 
         }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            checkAuth();
-            updateUI();
-            setTimeout(() => document.body.classList.add('loaded'), 100);
-        });
     </script>
 </body>
 </html>
