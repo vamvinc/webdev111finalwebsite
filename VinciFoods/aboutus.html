@@ -127,6 +127,27 @@
     </footer>
 
     <script>
+        // --- PAGE TRANSITION LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            // Trigger the fade-in animation from style.css
+            document.body.classList.add('loaded');
+        });
+
+        // Intercept navigation for smooth fade-out
+        document.querySelectorAll('.nav-links a, .logo').forEach(link => {
+            link.addEventListener('click', e => {
+                const targetUrl = link.getAttribute('href');
+                // Only transition for valid internal links
+                if (targetUrl && targetUrl !== "#" && !targetUrl.startsWith('http')) {
+                    e.preventDefault();
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = targetUrl;
+                    }, 500); // Matches the 0.5s transition in CSS
+                }
+            });
+        });
+
         // --- PERSISTENT CART LOGIC ---
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
