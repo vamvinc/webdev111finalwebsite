@@ -130,16 +130,18 @@
             updateUI();
         }
 
+        // Updated: Redirection to checkout.html
         function checkout() {
-            if (basket.length === 0) return alert("Basket is empty!");
+            if (basket.length === 0) {
+                alert("Basket is empty!");
+                return;
+            }
             if (!localStorage.getItem('currentUser')) {
                 alert("Please login first!");
                 window.location.href = 'login.html';
             } else {
-                alert("Order Success!");
-                basket = [];
-                updateUI();
-                toggleCart();
+                // Now consistent with order.html
+                window.location.href = 'checkout.html';
             }
         }
 
@@ -150,7 +152,6 @@
         const userSession = localStorage.getItem('currentUser');
 
         if (userSession) {
-            // User is logged in
             authLink.innerText = "Logout";
             authLink.href = "#"; 
             authLink.onclick = (e) => {
@@ -159,7 +160,6 @@
                 window.location.reload();
             };
         } else {
-            // User is NOT logged in (Reset to default)
             authLink.innerText = "Login";
             authLink.href = "login.html";
             authLink.onclick = null; 
