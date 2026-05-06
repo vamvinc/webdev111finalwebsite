@@ -32,7 +32,7 @@
         .hero h1, .hero p, .intro-text, .delivery-card, .feature-item {
             opacity: 0;
             transform: translateY(40px) skewY(1deg);
-            transition: var(--transition-cool);
+            transition: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         body.loaded .hero h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
@@ -61,7 +61,8 @@
             <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
             <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')" class="active">About</a></li>
             <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('login.html')" id="authLink">Login</a></li>
+            <!-- authLink is updated by the Script below -->
+            <li><a href="javascript:void(0)" onclick="handleAuthAction()" id="authLink">Login</a></li>
         </ul>
     </nav>
 
@@ -128,7 +129,31 @@
     <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p></footer>
 
     <script>
-        // --- COOL TRANSITION LOGIC ---
+        // --- AUTH & SESSION SYNC ---
+        function checkAuth() {
+            const authLink = document.getElementById('authLink');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (currentUser) {
+                authLink.innerText = "Logout";
+            } else {
+                authLink.innerText = "Login";
+            }
+        }
+
+        function handleAuthAction() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                if (confirm("Are you sure you want to logout?")) {
+                    localStorage.removeItem('currentUser');
+                    navTo('index.html');
+                }
+            } else {
+                navTo('login.html');
+            }
+        }
+
+        // --- NAVIGATION & TRANSITIONS ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
@@ -136,10 +161,11 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Trigger the Clip-Path reveal from style.css
+            checkAuth(); // Update Login/Logout text immediately
             setTimeout(() => {
                 document.body.classList.add('loaded');
             }, 100);
+            updateUI(); // Load cart state
         });
 
         // --- CART LOGIC ---
@@ -170,7 +196,23 @@
         }
 
         function removeItem(index) { basket.splice(index, 1); updateUI(); }
-        updateUI();
+
+        function checkout() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                alert("Please login to proceed to checkout!");
+                navTo('login.html');
+                return;
+            }
+            if (basket.length === 0) {
+                alert("Your basket is empty!");
+                return;
+            }
+            alert("Order placed successfully! 🍕");
+            basket = [];
+            updateUI();
+            toggleCart();
+        }
     </script>
 </body>
 </html>
