@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Demo Access</title>
+    <title>VinciFoods | System Entry</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         .demo-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 80px auto;
             text-align: center;
             padding: 20px;
@@ -16,15 +16,15 @@
 
         .demo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
         }
 
         /* Entrance Animations */
         .demo-container h1, .demo-container > p, .demo-card {
             opacity: 0;
-            transform: translateY(30px) skewY(1.5deg);
+            transform: translateY(30px) skewY(1deg);
             transition: var(--transition-cool);
         }
 
@@ -35,17 +35,17 @@
 
         .demo-card {
             background: var(--bg-card);
-            padding: 50px 30px;
-            border-radius: 28px;
+            padding: 60px 40px;
+            border-radius: 32px;
             border: 1px solid rgba(157, 124, 253, 0.1);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             cursor: pointer;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .demo-card::before {
@@ -55,8 +55,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(157, 124, 253, 0.05), transparent);
-            transition: 0.6s;
+            background: linear-gradient(90deg, transparent, rgba(157, 124, 253, 0.08), transparent);
+            transition: 0.8s;
             z-index: 0;
         }
 
@@ -64,57 +64,66 @@
 
         .demo-card:hover {
             border-color: var(--accent-purple);
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            transform: translateY(-20px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
         }
 
         .demo-icon { 
-            font-size: 3.5rem; 
-            margin-bottom: 20px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            font-size: 4rem; 
+            margin-bottom: 25px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
             z-index: 1;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .demo-card:hover .demo-icon { transform: scale(1.1) rotate(5deg); }
+        .demo-card:hover .demo-icon { transform: scale(1.2) rotate(-8deg); }
 
-        .demo-card h3 { font-size: 1.5rem; margin-bottom: 15px; z-index: 1; color: #fff; }
+        .demo-card h3 { font-size: 1.8rem; margin-bottom: 15px; z-index: 1; color: #fff; font-weight: 800; }
 
         .demo-card p {
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: var(--text-muted);
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             z-index: 1;
         }
 
         .role-tag {
-            background: rgba(157, 124, 253, 0.1);
+            background: rgba(157, 124, 253, 0.15);
             color: var(--accent-purple);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
             z-index: 1;
         }
 
         .status-badge {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             font-size: 0.7rem;
             color: var(--accent-gold);
             border: 1px solid var(--accent-gold);
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 4px 12px;
+            border-radius: 6px;
             z-index: 1;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .cta-button {
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
     </style>
 </head>
 <body id="page-body">
+    <!-- Transition Layer -->
     <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
     <nav>
@@ -126,33 +135,33 @@
     </nav>
 
     <div class="demo-container">
-        <h1 style="color: var(--accent-gold); font-size: 3rem; font-weight: 800; letter-spacing: -1px;">Choose Your POV</h1>
-        <p style="color: var(--text-muted); max-width: 500px; margin: 10px auto;">Experience the full VinciFoods ecosystem instantly. Select a role to populate the session data and proceed.</p>
+        <h1 style="color: var(--text-white); font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; line-height: 1;">CHOOSE YOUR <span style="color: var(--accent-gold);">POV</span></h1>
+        <p style="color: var(--text-muted); max-width: 550px; margin: 15px auto; font-size: 1.1rem;">Experience the full VinciFoods ecosystem. Select a role to populate your session and proceed to the dashboard.</p>
 
         <div class="demo-grid">
             <!-- CUSTOMER DEMO -->
             <div class="demo-card" onclick="loginAs('Vince', 'customer', 'order.html', event)">
-                <span class="status-badge">UNLOCKED</span>
-                <div class="demo-icon">🍕</div>
+                <span class="status-badge">ACTIVE SESSION</span>
+                <div class="demo-icon">🥡</div>
                 <span class="role-tag">Consumer Mode</span>
                 <h3>Customer View</h3>
-                <p>Browse our high-fidelity menu, manage your persistent basket, and simulate the secure checkout process.</p>
-                <button class="cta-button" style="width: 100%; z-index: 1;">Launch as Vince</button>
+                <p>Browse our menu, manage a persistent shopping cart, and walk through the 2026 secure checkout flow.</p>
+                <button class="cta-button" style="width: 100%;">Launch as Vince</button>
             </div>
 
             <!-- ADMIN DEMO -->
             <div class="demo-card" onclick="loginAs('Admin_Vinci', 'admin', 'admin.html', event)">
-                <span class="status-badge">SECURE</span>
-                <div class="demo-icon">👑</div>
-                <span class="role-tag" style="color: var(--accent-gold); background: rgba(212, 175, 55, 0.1);">System Owner</span>
+                <span class="status-badge">RESTRICTED</span>
+                <div class="demo-icon">🛡️</div>
+                <span class="role-tag" style="color: var(--accent-gold); background: rgba(212, 175, 55, 0.1);">Command Center</span>
                 <h3>Admin Dashboard</h3>
-                <p>Take control of the inventory, track real-time sales analytics, and manage incoming order streams.</p>
-                <button class="cta-button" style="width: 100%; background: var(--accent-purple); z-index: 1;">Launch Admin</button>
+                <p>Track real-time sales metrics, manage stock inventory, and oversee the global order stream.</p>
+                <button class="cta-button" style="width: 100%; background: var(--accent-purple);">Launch Control</button>
             </div>
         </div>
         
-        <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-muted);">
-            Note: Demo sessions use <strong>localStorage</strong> and will reset upon manual logout.
+        <p style="margin-top: 60px; font-size: 0.85rem; color: var(--text-muted); opacity: 0.6;">
+            Demo data is stored locally via <strong>localStorage</strong>. All modifications persist until manual logout.
         </p>
     </div>
 
@@ -184,18 +193,15 @@
             localStorage.setItem('currentUser', JSON.stringify(sessionData));
             
             const btn = event.currentTarget.querySelector('.cta-button');
-            btn.innerText = "Initializing System...";
+            btn.innerHTML = `<span style="letter-spacing: 2px;">SYNCING...</span>`;
             btn.style.opacity = "0.7";
-            btn.style.letterSpacing = "2px";
+            btn.style.background = "#27c93f";
             
-            setTimeout(() => { navTo(redirect); }, 800);
+            // Subtle sound/haptic simulation
+            console.log(`System: User ${username} authenticated with role: ${role}.`);
+            
+            setTimeout(() => { navTo(redirect); }, 900);
         }
-
-        window.onload = () => {
-            if (localStorage.getItem('currentUser')) {
-                console.log("Active session detected for demo.");
-            }
-        };
     </script>
 </body>
 </html>
