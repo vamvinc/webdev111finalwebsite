@@ -47,7 +47,7 @@
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="aboutus.html">About</a></li>
-            <li><a href="order.html">Order</a></li>
+            <li><a href="order.html" class="active">Order</a></li>
             <li><a href="login.html" id="authLink">Login</a></li>
         </ul>
     </nav>
@@ -120,7 +120,6 @@
             document.getElementById('sidebar').classList.toggle('active');
         }
 
-        // Updated: Users must be logged in to add items
         function addToCart(name, price) {
             if (!localStorage.getItem('currentUser')) {
                 alert("Login required to add items to your basket!");
@@ -148,14 +147,13 @@
                     total += item.price;
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'cart-item';
+                    itemDiv.style = "display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; background: rgba(255,255,255,0.05); margin-bottom: 10px; border-radius: 8px;";
                     itemDiv.innerHTML = `
-                        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
-                            <div>
-                                <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
-                                <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
-                            </div>
-                            <button onclick="removeItem(${index})" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-weight:bold;">Remove</button>
+                        <div style="text-align: left;">
+                            <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
+                            <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold; font-size: 0.8rem;">Remove</button>
                     `;
                     container.appendChild(itemDiv);
                 });
@@ -170,33 +168,39 @@
             updateUI();
         }
 
-        // Updated: Extra check for login during checkout
+        // --- UPDATED CHECKOUT LOGIC (Redirects to checkout.html) ---
         function checkout() {
-            if (basket.length === 0) return alert("Basket is empty!");
+            if (basket.length === 0) {
+                alert("Basket is empty!");
+                return;
+            }
             
             if (!localStorage.getItem('currentUser')) {
                 alert("Login first! Main character energy only.");
                 window.location.href = 'login.html';
             } else {
-                alert("Order Success! It's giving gourmet.");
-                basket = [];
-                updateUI();
-                toggleCart();
+                // Now consistent with index and aboutus
+                window.location.href = 'checkout.html';
             }
         }
 
-        // Init UI
+        // Initialize UI
         updateUI();
 
-        // Auth Logic for Navbar
+        // --- IMPROVED AUTH MANAGEMENT ---
         const authLink = document.getElementById('authLink');
         if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
-            authLink.href = "#"; // Prevent navigation
-            authLink.onclick = () => {
+            authLink.href = "#";
+            authLink.onclick = (e) => {
+                e.preventDefault();
                 localStorage.removeItem('currentUser');
                 window.location.reload();
             };
+        } else {
+            authLink.innerText = "Login";
+            authLink.href = "login.html";
+            authLink.onclick = null;
         }
     </script>
 </body>
