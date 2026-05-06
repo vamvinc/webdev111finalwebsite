@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | Secure Checkout</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .checkout-section {
+            padding: 60px 10%;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-section { grid-template-columns: 1fr; }
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(157, 124, 253, 0.1);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .final-total {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            font-weight: 800;
+            margin-top: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">VinciFoods</div>
+        <ul class="nav-links">
+            <li><a href="order.html">Back to Menu</a></li>
+        </ul>
+    </nav>
+
+    <section class="checkout-section">
+        <!-- Delivery Details -->
+        <div class="summary-card">
+            <h2 style="color: var(--accent-purple); margin-bottom: 25px;">Delivery Details</h2>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Vince" required>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address</label>
+                    <input type="text" placeholder="Street, City, Metro Manila" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select class="role-btn" style="width: 100%; margin-top: 10px; background: rgba(0,0,0,0.3);">
+                        <option>GCash</option>
+                        <option>Cash on Delivery</option>
+                        <option>Maya</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn" style="width: 100%; margin-top: 30px;">Place Order</button>
+            </form>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="summary-card">
+            <h2 style="color: var(--accent-purple); margin-bottom: 25px;">Order Summary</h2>
+            <div id="final-items-list">
+                <!-- Items will be injected here -->
+            </div>
+            <div class="final-total" id="grand-total">$0.00</div>
+        </div>
+    </section>
+
+    <script>
+        // Check if user is logged in
+        if (!localStorage.getItem('currentUser')) {
+            window.location.href = 'login.html';
+        }
+
+        const basket = JSON.parse(localStorage.getItem('userCart')) || [];
+        const itemsContainer = document.getElementById('final-items-list');
+        const totalDisplay = document.getElementById('grand-total');
+        let total = 0;
+
+        if (basket.length === 0) {
+            window.location.href = 'order.html';
+        }
+
+        basket.forEach(item => {
+            total += item.price;
+            const div = document.createElement('div');
+            div.className = 'summary-item';
+            div.innerHTML = `
+                <span>${item.name}</span>
+                <span style="color: var(--accent-gold)">$${item.price.toFixed(2)}</span>
+            `;
+            itemsContainer.appendChild(div);
+        });
+
+        totalDisplay.innerText = `Total: $${total.toFixed(2)}`;
+
+        document.getElementById('paymentForm').onsubmit = (e) => {
+            e.preventDefault();
+            alert("Order Confirmed! Your gourmet meal is on the way. ✨");
+            localStorage.removeItem('userCart'); // Clear cart after order
+            window.location.href = 'index.html';
+        };
+    </script>
+</body>
+</html>
