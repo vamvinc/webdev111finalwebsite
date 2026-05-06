@@ -1,201 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Demo Access</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        .demo-container {
-            max-width: 900px;
-            margin: 80px auto;
-            text-align: center;
-            padding: 20px;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | Demo Access</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .demo-container {
+            max-width: 900px;
+            margin: 80px auto;
+            text-align: center;
+            padding: 20px;
+        }
 
-        .demo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 50px;
-        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
 
-        /* Entrance Animations */
-        .demo-container h1, .demo-container > p, .demo-card {
-            opacity: 0;
-            transform: translateY(30px) skewY(1.5deg);
-            transition: var(--transition-cool);
-        }
+        /* Entrance Animations */
+        .demo-container h1, .demo-container > p, .demo-card {
+            opacity: 0;
+            transform: translateY(30px) skewY(1.5deg);
+            transition: var(--transition-cool);
+        }
 
-        body.loaded .demo-container h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
-        body.loaded .demo-container > p  { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
-        body.loaded .demo-card:nth-child(1) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
-        body.loaded .demo-card:nth-child(2) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.4s; }
+        body.loaded .demo-container h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
+        body.loaded .demo-container > p  { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
+        body.loaded .demo-card:nth-child(1) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
+        body.loaded .demo-card:nth-child(2) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.4s; }
 
-        .demo-card {
-            background: var(--bg-card);
-            padding: 50px 30px;
-            border-radius: 28px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            backdrop-filter: blur(15px);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .demo-card {
+            background: var(--bg-card);
+            padding: 50px 30px;
+            border-radius: 28px;
+            border: 1px solid rgba(157, 124, 253, 0.1);
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-        .demo-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(157, 124, 253, 0.05), transparent);
-            transition: 0.6s;
-            z-index: 0;
-        }
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(157, 124, 253, 0.05), transparent);
+            transition: 0.6s;
+            z-index: 0;
+        }
 
-        .demo-card:hover::before { left: 100%; }
+        .demo-card:hover::before {
+            left: 100%;
+        }
 
-        .demo-card:hover {
-            border-color: var(--accent-purple);
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-        }
+        .demo-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
 
-        .demo-icon { 
-            font-size: 3.5rem; 
-            margin-bottom: 20px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
-            z-index: 1;
-            transition: transform 0.3s ease;
-        }
+        .demo-icon { 
+            font-size: 3.5rem; 
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
 
-        .demo-card:hover .demo-icon { transform: scale(1.1) rotate(5deg); }
+        .demo-card:hover .demo-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
 
-        .demo-card h3 { font-size: 1.5rem; margin-bottom: 15px; z-index: 1; color: #fff; }
+        .demo-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            z-index: 1;
+        }
 
-        .demo-card p {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: var(--text-muted);
-            margin-bottom: 25px;
-            z-index: 1;
-        }
+        .demo-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            z-index: 1;
+        }
 
-        .role-tag {
-            background: rgba(157, 124, 253, 0.1);
-            color: var(--accent-purple);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            z-index: 1;
-        }
+        .role-tag {
+            background: rgba(157, 124, 253, 0.1);
+            color: var(--accent-purple);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            z-index: 1;
+        }
 
-        .status-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 0.7rem;
-            color: var(--accent-gold);
-            border: 1px solid var(--accent-gold);
-            padding: 2px 8px;
-            border-radius: 4px;
-            z-index: 1;
-        }
-    </style>
+        .status-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            padding: 2px 8px;
+            border-radius: 4px;
+            z-index: 1;
+        }
+    </style>
 </head>
 <body id="page-body">
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
-    <nav>
-        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
-        <ul class="nav-links">
-            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('login.html')">Back to Login</a></li>
-        </ul>
-    </nav>
+    <nav>
+        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
+        <ul class="nav-links">
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('login.html')">Back to Login</a></li>
+        </ul>
+    </nav>
 
-    <div class="demo-container">
-        <h1 style="color: var(--accent-gold); font-size: 3rem; font-weight: 800; letter-spacing: -1px;">Choose Your POV</h1>
-        <p style="color: var(--text-muted); max-width: 500px; margin: 10px auto;">Experience the full VinciFoods ecosystem instantly. Select a role to populate the session data and proceed.</p>
+    <div class="demo-container">
+        <h1 style="color: var(--accent-gold); font-size: 3rem; font-weight: 800; letter-spacing: -1px;">Choose Your POV</h1>
+        <p style="color: var(--text-muted); max-width: 500px; margin: 10px auto;">Experience the full VinciFoods ecosystem instantly. Select a role to populate the session data and proceed.</p>
 
-        <div class="demo-grid">
-            <!-- CUSTOMER DEMO -->
-            <div class="demo-card" onclick="loginAs('Vince', 'customer', 'order.html', event)">
-                <span class="status-badge">UNLOCKED</span>
-                <div class="demo-icon">🍕</div>
-                <span class="role-tag">Consumer Mode</span>
-                <h3>Customer View</h3>
-                <p>Browse our high-fidelity menu, manage your persistent basket, and simulate the secure checkout process.</p>
-                <button class="cta-button" style="width: 100%; z-index: 1;">Launch as Vince</button>
-            </div>
+        <div class="demo-grid">
+            <!-- CUSTOMER DEMO -->
+            <div class="demo-card" onclick="loginAs('Vince', 'customer', 'order.html', event)">
+                <span class="status-badge">UNLOCKED</span>
+                <div class="demo-icon">🍕</div>
+                <span class="role-tag">Consumer Mode</span>
+                <h3 style="color: #fff;">Customer View</h3>
+                <p>Browse our high-fidelity menu, manage your persistent basket, and simulate the secure checkout process.</p>
+                <button class="cta-button" style="width: 100%; z-index: 1;">Launch as Vince</button>
+            </div>
 
-            <!-- ADMIN DEMO -->
-            <div class="demo-card" onclick="loginAs('Admin_Vinci', 'admin', 'admin.html', event)">
-                <span class="status-badge">SECURE</span>
-                <div class="demo-icon">👑</div>
-                <span class="role-tag" style="color: var(--accent-gold); background: rgba(212, 175, 55, 0.1);">System Owner</span>
-                <h3>Admin Dashboard</h3>
-                <p>Take control of the inventory, track real-time sales analytics, and manage incoming order streams.</p>
-                <button class="cta-button" style="width: 100%; background: var(--accent-purple); z-index: 1;">Launch Admin</button>
-            </div>
-        </div>
-        
-        <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-muted);">
-            Note: Demo sessions use <strong>localStorage</strong> and will reset upon manual logout.
-        </p>
-    </div>
+            <!-- ADMIN DEMO -->
+            <div class="demo-card" onclick="loginAs('Admin_Vinci', 'admin', 'admin.html', event)">
+                <span class="status-badge">SECURE</span>
+                <div class="demo-icon">👑</div>
+                <span class="role-tag" style="color: var(--accent-gold); background: rgba(212, 175, 55, 0.1);">System Owner</span>
+                <h3 style="color: #fff;">Admin Dashboard</h3>
+                <p>Take control of the inventory, track real-time sales analytics, and manage incoming order streams.</p>
+                <button class="cta-button" style="width: 100%; background: var(--accent-purple); z-index: 1;">Launch Admin</button>
+            </div>
+        </div>
+        
+        <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-muted);">
+            Note: Demo sessions use <strong>localStorage</strong> and will reset upon manual logout.
+        </p>
+    </div>
 
-    <script>
-        function navTo(url) {
-            const loader = document.getElementById('loader-layer');
-            loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
-        }
+    <script>
+        // --- COOL TRANSITION LOGIC ---
+        function navTo(url) {
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => { window.location.href = url; }, 700);
+        }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => { document.body.classList.add('loaded'); }, 100);
-        });
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
 
-        function loginAs(username, role, redirect, event) {
-            event.stopPropagation();
+        function loginAs(username, role, redirect, event) {
+            // Stop event bubbling to card
+            event.stopPropagation();
 
-            const sessionData = {
-                user: username,
-                role: role,
-                isDemo: true,
-                loginTime: new Date().toLocaleTimeString(),
-                preferences: {
-                    theme: 'dark',
-                    notifications: true
-                }
-            };
-            
-            localStorage.setItem('currentUser', JSON.stringify(sessionData));
-            
-            const btn = event.currentTarget.querySelector('.cta-button');
-            btn.innerText = "Initializing System...";
-            btn.style.opacity = "0.7";
-            btn.style.letterSpacing = "2px";
-            
-            setTimeout(() => { navTo(redirect); }, 800);
-        }
+            const sessionData = {
+                user: username,
+                role: role,
+                isDemo: true,
+                loginTime: new Date().toLocaleTimeString(),
+                preferences: {
+                    theme: 'dark',
+                    notifications: true
+                }
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(sessionData));
+            
+            // Visual feedback on the button specifically
+            const btn = event.currentTarget.querySelector('.cta-button');
+            btn.innerText = "Initializing System...";
+            btn.style.opacity = "0.7";
+            btn.style.letterSpacing = "2px";
+            
+            setTimeout(() => {
+                navTo(redirect);
+            }, 800);
+        }
 
-        window.onload = () => {
-            if (localStorage.getItem('currentUser')) {
-                console.log("Active session detected for demo.");
-            }
-        };
-    </script>
+        window.onload = () => {
+            const activeSession = localStorage.getItem('currentUser');
+            if (activeSession) {
+                console.log("Active session detected for demo.");
+            }
+        };
+    </script>
 </body>
 </html>
