@@ -203,15 +203,16 @@
         </div>
     </div>
     
+    <!-- SIDEBAR -->
     <div id="sidebar" class="cart-sidebar">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(157, 124, 253, 0.1);">
-            <h3 style="font-size: 1.5rem; font-weight: 800; margin:0;">Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem; line-height:1;">&times;</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 30px; border-bottom: 1px solid rgba(157, 124, 253, 0.1);">
+            <h3 style="font-size: 1.5rem; font-weight: 800; margin:0; color: white;">Your Basket</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2.5rem; line-height:1;">&times;</button>
         </div>
-        <div id="cart-items" style="flex: 1; overflow-y: auto;"></div>
-        <div style="padding: 30px; border-top: 1px solid rgba(157, 124, 253, 0.2);">
+        <div id="cart-items" style="flex: 1; overflow-y: auto; padding: 20px;"></div>
+        <div style="padding: 30px; border-top: 1px solid rgba(157, 124, 253, 0.2); background: rgba(0,0,0,0.2);">
             <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <span style="font-weight: 600;">Total:</span>
+                <span style="font-weight: 600; color: var(--text-muted);">Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:800; font-size: 1.4rem;">$0.00</span>
             </div>
             <button class="submit-btn" style="width: 100%; height: 60px; font-size: 1.1rem;" onclick="checkout()">Proceed to Checkout</button>
@@ -239,13 +240,13 @@
             }, 100);
         });
 
+        // --- SESSION HANDLING ---
         function checkSession() {
             const welcomeMsg = document.getElementById('welcome-msg');
             const authLink = document.getElementById('authLink');
-            const rawUserData = localStorage.getItem('currentUser');
+            const userData = JSON.parse(localStorage.getItem('currentUser'));
 
-            if (rawUserData) {
-                const userData = JSON.parse(rawUserData);
+            if (userData) {
                 const displayName = userData.user || "Vince";
                 welcomeMsg.innerText = `Welcome back, ${displayName}! ✨`;
                 welcomeMsg.style.display = "inline-block";
@@ -256,9 +257,23 @@
             }
         }
 
-        // --- CART ENGINE ---
+        function handleAuthClick(e) {
+            if (localStorage.getItem('currentUser')) {
+                if(confirm("Log out of VinciFoods?")) {
+                    localStorage.removeItem('currentUser'); 
+                    navTo('index.html');
+                }
+            } else {
+                navTo('login.html');
+            }
+        }
+
+        // --- GLOBAL CART ENGINE ---
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
-        function toggleCart() { document.getElementById('sidebar').classList.toggle('active'); }
+        
+        function toggleCart() { 
+            document.getElementById('sidebar').classList.toggle('active'); 
+        }
 
         function updateUI() {
             const container = document.getElementById('cart-items');
@@ -270,7 +285,7 @@
             let total = 0;
 
             if (basket.length === 0) { 
-                container.innerHTML = '<div style="text-align:center; padding:40px 20px; opacity:0.6;"><span style="font-size:3rem; display:block; margin-bottom:10px;">🛍️</span><p>Your basket is empty.</p></div>';
+                container.innerHTML = '<div style="text-align:center; padding:40px 20px; opacity:0.6;"><span style="font-size:3rem; display:block; margin-bottom:10px;">🛍️</span><p style="color:var(--text-muted);">Your basket is empty.</p></div>';
                 floatingCart.style.opacity = "0.8";
                 floatingCart.style.transform = "scale(0.9)";
             } else { 
@@ -279,13 +294,13 @@
                 basket.forEach((item, index) => { 
                     total += item.price;
                     const div = document.createElement('div'); 
-                    div.style = "display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid rgba(157, 124, 253, 0.1);";
+                    div.style = "display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(157, 124, 253, 0.05); margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(157, 124, 253, 0.1);";
                     div.innerHTML = `
                         <div style="text-align: left;">
-                            <p style="font-weight:bold; font-size:0.9rem; margin:0; color:#fff;">${item.name}</p>
-                            <p style="font-size:0.8rem; color:var(--accent-gold); margin:0;">$${item.price.toFixed(2)}</p>
+                            <p style="font-weight:600; font-size:0.95rem; margin:0; color:#fff;">${item.name}</p>
+                            <p style="font-size:0.85rem; color:var(--accent-gold); margin:0;">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:rgba(255,77,77,0.1); border:none; color:#ff4d4d; cursor:pointer; padding:5px 10px; border-radius:5px; font-size: 0.7rem;">Remove</button>`;
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:700; font-size: 0.75rem; text-transform:uppercase;">Remove</button>`;
                     container.appendChild(div); 
                 });
             }
@@ -294,7 +309,10 @@
             localStorage.setItem('userCart', JSON.stringify(basket));
         }
 
-        function removeItem(index) { basket.splice(index, 1); updateUI(); }
+        function removeItem(index) { 
+            basket.splice(index, 1); 
+            updateUI(); 
+        }
 
         function checkout() { 
             if (basket.length === 0) return alert("Basket is empty!");
@@ -304,17 +322,6 @@
             } else { 
                 navTo('checkout.html'); 
             } 
-        }
-
-        function handleAuthClick(e) {
-            if (localStorage.getItem('currentUser')) {
-                if(confirm("Log out?")) {
-                    localStorage.removeItem('currentUser'); 
-                    navTo('index.html');
-                }
-            } else {
-                navTo('login.html');
-            }
         }
     </script>
 </body>
