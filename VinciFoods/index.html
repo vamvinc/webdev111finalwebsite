@@ -7,6 +7,36 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        /* --- LOGO TRANSITION STYLES --- */
+        #loader-layer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #1a1625; /* Matches your core project aesthetic */
+            z-index: 10001;
+            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        #loader-logo {
+            width: 200px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+        }
+
+        #loader-layer.active #loader-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         /* Specific Hero Layout Adjustments */
         .hero {
             padding: 140px 10% 100px 10%;
@@ -84,8 +114,10 @@
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Updated Transition Layer with Logo Reveal -->
+    <div id="loader-layer">
+        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+    </div>
 
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
@@ -172,11 +204,14 @@
     </footer>
 
     <script>
-        // --- PAGE TRANSITION & SESSION LOGIC ---
+        // --- UPDATED NAVIGATION WITH LOGO REVEAL ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
+            setTimeout(() => {
+                loader.classList.add('active');
+            }, 100);
+            setTimeout(() => { window.location.href = url; }, 800);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
