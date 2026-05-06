@@ -155,7 +155,6 @@
         function generateReceipt() {
             const form = document.getElementById('paymentForm');
             
-            // VALIDATION: Ensures fields are filled correctly before printing
             if (!form.checkValidity()) {
                 form.reportValidity();
                 return;
@@ -184,24 +183,24 @@
                 <body>
                     <div class="header">
                         <h1>VINCIFOODS</h1>
-                        <p>Order Date: ${date}</p>
+                        <p>Order Date: \${date}</p>
                     </div>
                     <div class="details">
-                        <p><strong>Customer:</strong> ${name}</p>
-                        <p><strong>Contact:</strong> ${phone}</p>
-                        <p><strong>Address:</strong> ${addr}</p>
-                        <p><strong>Payment:</strong> ${method}</p>
+                        <p><strong>Customer:</strong> \${name}</p>
+                        <p><strong>Contact:</strong> \${phone}</p>
+                        <p><strong>Address:</strong> \${addr}</p>
+                        <p><strong>Payment:</strong> \${method}</p>
                     </div>
                     <hr>
                     <div id="receipt-items">
-                        ${basket.map(item => `
+                        \${basket.map(item => \`
                             <div class="item">
-                                <span>${item.name}</span>
-                                <span>$${item.price.toFixed(2)}</span>
+                                <span>\${item.name}</span>
+                                <span>$\${item.price.toFixed(2)}</span>
                             </div>
-                        `).join('')}
+                        \`).join('')}
                     </div>
-                    <div class="total">Total Paid: $${total.toFixed(2)}</div>
+                    <div class="total">Total Paid: $\${total.toFixed(2)}</div>
                     <div class="footer">
                         <p>Stay Hungry, Stay Purple. ✨</p>
                         <p>Thank you for your order!</p>
@@ -217,9 +216,22 @@
 
         document.getElementById('paymentForm').onsubmit = (e) => {
             e.preventDefault();
-            alert("Order Confirmed! Your gourmet meal is on the way. ✨");
-            localStorage.removeItem('userCart'); // Clear cart after order
-            window.location.href = 'index.html';
+
+            // Ask the user if they want to print the receipt
+            const wantReceipt = confirm("Order Confirmed! Would you like to print your receipt? ✨");
+
+            // If "OK" is pressed, generate the receipt
+            if (wantReceipt) {
+                generateReceipt();
+            }
+
+            // Clear cart and redirect
+            localStorage.removeItem('userCart');
+            
+            // Short delay to allow the receipt window to open before the main page changes
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
         };
     </script>
 </body>
