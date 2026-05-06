@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Order Now</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         /* Specific styles for the menu grid */
         .menu-section {
@@ -19,25 +20,38 @@
         .food-item {
             background: var(--bg-card);
             padding: 30px;
-            border-radius: 20px;
+            border-radius: 24px; /* Increased for smoother look */
             border: 1px solid rgba(157, 124, 253, 0.1);
             text-align: center;
-            transition: 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
         }
         .food-item:hover {
-            transform: translateY(-8px);
+            transform: translateY(-12px);
             border-color: var(--accent-purple);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
         .food-item h3 {
-            color: var(--text-white);
+            color: #fff;
             margin-bottom: 10px;
+            font-weight: 700;
         }
         .food-item .price {
             color: var(--accent-gold);
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 800;
             margin-bottom: 20px;
+        }
+        .food-tag {
+            background: rgba(157, 124, 253, 0.1);
+            color: var(--accent-purple);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -52,47 +66,53 @@
         </ul>
     </nav>
 
-    <header class="hero" style="padding: 60px 10%;">
-        <h1>The Menu</h1>
-        <p>Gourmet meals, high-key speed. Select your favorites below.</p>
+    <header class="hero" style="padding: 80px 10% 40px 10%; text-align: center;">
+        <h1 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The Menu</h1>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Gourmet meals, high-key speed. Select your favorites below to build your basket.</p>
     </header>
 
     <section class="menu-section">
         <div class="menu-grid">
             <div class="food-item">
+                <span class="food-tag">Bestseller</span>
                 <h3>Vinci Burger</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Double patty with signature purple slaw.</p>
+                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Double patty with signature purple slaw.</p>
                 <p class="price">$12.00</p>
                 <button class="submit-btn" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
             </div>
             
             <div class="food-item">
+                <span class="food-tag">Chef's Pick</span>
                 <h3>Lavender Pasta</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Creamy beet-infused sauce with parmesan.</p>
+                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Creamy beet-infused sauce with parmesan.</p>
                 <p class="price">$14.50</p>
                 <button class="submit-btn" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
             </div>
 
             <div class="food-item">
+                <span class="food-tag">Premium Side</span>
                 <h3>Nebula Fries</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Loaded fries with truffle oil and herbs.</p>
+                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Loaded fries with truffle oil and herbs.</p>
                 <p class="price">$6.00</p>
                 <button class="submit-btn" onclick="addToCart('Nebula Fries', 6.00)">Add to Basket</button>
             </div>
 
             <div class="food-item">
+                <span class="food-tag">Signature Drink</span>
                 <h3>Vinci Shake</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">Ube-vanilla swirl with gold flakes.</p>
+                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Ube-vanilla swirl with gold flakes.</p>
                 <p class="price">$7.25</p>
                 <button class="submit-btn" onclick="addToCart('Vinci Shake', 7.25)">Add to Basket</button>
             </div>
         </div>
     </section>
 
+    <!-- Persistent Floating Cart Trigger -->
     <div class="cart-toggle" onclick="toggleCart()">
         🛒 <span id="cart-count">0</span>
     </div>
 
+    <!-- Right-side Basket Sidebar -->
     <div id="sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Your Basket</h3>
@@ -104,7 +124,7 @@
                 <span>Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
             </div>
-            <button class="submit-btn" onclick="checkout()">Checkout</button>
+            <button class="submit-btn" onclick="checkout()" style="width: 100%;">Checkout Now</button>
         </div>
     </div>
 
@@ -113,7 +133,7 @@
     </footer>
 
     <script>
-        // --- SHARED PERSISTENT CART ENGINE ---
+        // --- PERSISTENT CART ENGINE ---
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
         function toggleCart() {
@@ -121,7 +141,9 @@
         }
 
         function addToCart(name, price) {
-            if (!localStorage.getItem('currentUser')) {
+            const rawUser = localStorage.getItem('currentUser');
+            
+            if (!rawUser) {
                 alert("Login required to add items to your basket!");
                 window.location.href = 'login.html';
                 return;
@@ -129,6 +151,8 @@
 
             basket.push({ name, price });
             updateUI();
+            
+            // Auto-open cart for feedback
             document.getElementById('sidebar').classList.add('active');
         }
 
@@ -147,13 +171,13 @@
                     total += item.price;
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'cart-item';
-                    itemDiv.style = "display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; background: rgba(255,255,255,0.05); margin-bottom: 10px; border-radius: 8px;";
+                    itemDiv.style = "display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; background: rgba(157, 124, 253, 0.05); margin-bottom: 10px; border-radius: 12px;";
                     itemDiv.innerHTML = `
                         <div style="text-align: left;">
-                            <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
+                            <p style="font-weight:600; font-size:0.9rem; color:#fff;">${item.name}</p>
                             <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold; font-size: 0.8rem;">Remove</button>
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold; font-size: 0.75rem;">Remove</button>
                     `;
                     container.appendChild(itemDiv);
                 });
@@ -168,18 +192,16 @@
             updateUI();
         }
 
-        // --- UPDATED CHECKOUT LOGIC (Redirects to checkout.html) ---
         function checkout() {
             if (basket.length === 0) {
-                alert("Basket is empty!");
+                alert("Basket is empty! Pick some food first.");
                 return;
             }
             
             if (!localStorage.getItem('currentUser')) {
-                alert("Login first! Main character energy only.");
+                alert("Please login to complete your order.");
                 window.location.href = 'login.html';
             } else {
-                // Now consistent with index and aboutus
                 window.location.href = 'checkout.html';
             }
         }
@@ -187,20 +209,21 @@
         // Initialize UI
         updateUI();
 
-        // --- IMPROVED AUTH MANAGEMENT ---
+        // --- AUTH SYNC ---
         const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('currentUser')) {
+        const rawUserData = localStorage.getItem('currentUser');
+
+        if (rawUserData) {
+            const userData = JSON.parse(rawUserData);
             authLink.innerText = "Logout";
             authLink.href = "#";
             authLink.onclick = (e) => {
                 e.preventDefault();
-                localStorage.removeItem('currentUser');
-                window.location.reload();
+                if(confirm(`Signing out, ${userData.user}?`)) {
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                }
             };
-        } else {
-            authLink.innerText = "Login";
-            authLink.href = "login.html";
-            authLink.onclick = null;
         }
     </script>
 </body>
