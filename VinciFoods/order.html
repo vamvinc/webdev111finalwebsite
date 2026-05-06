@@ -15,70 +15,167 @@
             background: var(--bg-dark);
         }
 
-        /* Specific styles for the menu grid */
-        .menu-section {
-            padding: 40px 10% 100px 10%;
-        }
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-        .food-item {
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: 24px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
+        /* Hero Section Styling */
+        .order-hero {
+            min-height: 45vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transform: scale(0.9);
-        }
-        
-        body.loaded .food-item {
-            opacity: 1;
-            transform: scale(1);
+            padding: 120px 10% 60px 10%;
+            background: radial-gradient(circle at top, rgba(157, 124, 253, 0.1) 0%, transparent 70%);
         }
 
-        /* Staggered load animation for items */
+        /* Menu Grid Refinement */
+        .menu-section {
+            padding: 0 10% 120px 10%;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .food-item {
+            background: var(--bg-card);
+            padding: 40px 30px;
+            border-radius: 32px;
+            border: 1px solid rgba(157, 124, 253, 0.15);
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .food-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(157, 124, 253, 0.05));
+            pointer-events: none;
+        }
+
+        body.loaded .food-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered load animation */
         .food-item:nth-child(1) { transition-delay: 0.1s; }
         .food-item:nth-child(2) { transition-delay: 0.2s; }
         .food-item:nth-child(3) { transition-delay: 0.3s; }
         .food-item:nth-child(4) { transition-delay: 0.4s; }
 
         .food-item:hover {
-            transform: translateY(-12px);
+            transform: translateY(-15px);
             border-color: var(--accent-purple);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 20px rgba(157, 124, 253, 0.1);
         }
+
         .food-item h3 {
             color: #fff;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
+
         .food-item .price {
             color: var(--accent-gold);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            display: block;
         }
+
         .food-tag {
-            background: rgba(157, 124, 253, 0.1);
+            background: rgba(157, 124, 253, 0.15);
             color: var(--accent-purple);
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 20px;
+            padding: 6px 14px;
+            border-radius: 30px;
             display: inline-block;
-            margin-bottom: 10px;
-            font-weight: 700;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        /* Cart Floating Trigger Refined */
+        .cart-toggle {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: var(--accent-purple);
+            width: 70px;
+            height: 70px;
+            border-radius: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 15px 35px rgba(157, 124, 253, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .cart-toggle:hover {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--accent-neon);
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid var(--bg-dark);
+        }
+
+        /* Responsive Sidebar Fixes */
+        .cart-sidebar {
+            width: 400px;
+            background: var(--bg-card);
+            border-left: 1px solid rgba(157, 124, 253, 0.2);
+            backdrop-filter: blur(25px);
+        }
+
+        .cart-item-ui {
+            display: flex; 
+            justify-content: space-between; 
+            padding: 18px; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            align-items: center; 
+            background: rgba(157, 124, 253, 0.05); 
+            margin-bottom: 15px; 
+            border-radius: 18px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
+    <!-- Transition Curtain -->
     <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
     <nav>
@@ -92,9 +189,10 @@
     </nav>
 
     <main>
-        <header class="hero" style="min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 10% 40px 10%;">
-            <h1 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The Menu</h1>
-            <p style="color: var(--text-muted); max-width: 600px; margin: 20px auto;">Gourmet meals, high-key speed. Select your favorites below to build your basket.</p>
+        <header class="order-hero">
+            <h1 style="font-size: 4.5rem; font-weight: 800; letter-spacing: -3px; margin: 0;">The Menu</h1>
+            <div style="width: 80px; height: 6px; background: var(--accent-purple); border-radius: 10px; margin: 25px 0;"></div>
+            <p style="color: var(--text-muted); max-width: 600px; font-size: 1.1rem; line-height: 1.6;">Curated flavors, designed for the bold. Build your basket and experience the purple standard.</p>
         </header>
 
         <section class="menu-section">
@@ -103,36 +201,36 @@
                 <div class="food-item">
                     <span class="food-tag">Bestseller</span>
                     <h3>Vinci Burger</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Double patty with signature purple slaw.</p>
-                    <p class="price">$12.00</p>
-                    <button class="submit-btn" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
+                    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem;">Double wagyu patty with signature ube-infused purple slaw.</p>
+                    <span class="price">$12.00</span>
+                    <button class="submit-btn" style="width: 100%;" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
                 </div>
                 
                 <!-- Pasta -->
                 <div class="food-item">
                     <span class="food-tag">Chef's Pick</span>
                     <h3>Lavender Pasta</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Creamy beet-infused sauce with parmesan.</p>
-                    <p class="price">$14.50</p>
-                    <button class="submit-btn" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
+                    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem;">Creamy wild beet-infused sauce topped with aged parmesan.</p>
+                    <span class="price">$14.50</span>
+                    <button class="submit-btn" style="width: 100%;" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
                 </div>
 
                 <!-- Fries -->
                 <div class="food-item">
                     <span class="food-tag">Premium Side</span>
                     <h3>Nebula Fries</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Loaded fries with truffle oil and herbs.</p>
-                    <p class="price">$6.00</p>
-                    <button class="submit-btn" onclick="addToCart('Nebula Fries', 6.00)">Add to Basket</button>
+                    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem;">Thick-cut fries drizzled with black truffle oil and sea salt.</p>
+                    <span class="price">$6.00</span>
+                    <button class="submit-btn" style="width: 100%;" onclick="addToCart('Nebula Fries', 6.00)">Add to Basket</button>
                 </div>
 
                 <!-- Shake -->
                 <div class="food-item">
                     <span class="food-tag">Signature Drink</span>
                     <h3>Vinci Shake</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Ube-vanilla swirl with gold flakes.</p>
-                    <p class="price">$7.25</p>
-                    <button class="submit-btn" onclick="addToCart('Vinci Shake', 7.25)">Add to Basket</button>
+                    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem;">Classic ube-vanilla swirl topped with edible 24k gold flakes.</p>
+                    <span class="price">$7.25</span>
+                    <button class="submit-btn" style="width: 100%;" onclick="addToCart('Vinci Shake', 7.25)">Add to Basket</button>
                 </div>
             </div>
         </section>
@@ -146,16 +244,16 @@
     <!-- Right-side Basket Sidebar -->
     <div id="sidebar" class="cart-sidebar">
         <div class="cart-header">
-            <h3>Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
+            <h3 style="font-weight: 800; letter-spacing: -1px;">Your Basket</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2.5rem; line-height: 1;">&times;</button>
         </div>
-        <div id="cart-items"></div>
-        <div class="cart-total" style="padding: 20px; border-top: 1px solid rgba(157,124,253,0.2);">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <span>Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
+        <div id="cart-items" style="flex: 1; overflow-y: auto; padding: 20px;"></div>
+        <div class="cart-total" style="padding: 30px; border-top: 1px solid rgba(157,124,253,0.2); background: rgba(0,0,0,0.2);">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size: 1.2rem;">
+                <span style="font-weight: 600;">Subtotal:</span>
+                <span id="total-price" style="color:var(--accent-gold); font-weight:800;">$0.00</span>
             </div>
-            <button class="submit-btn" onclick="checkout()" style="width: 100%;">Checkout Now</button>
+            <button class="submit-btn" onclick="checkout()" style="width: 100%; height: 60px; font-size: 1.1rem;">Secure Checkout</button>
         </div>
     </div>
 
@@ -175,7 +273,7 @@
             setTimeout(() => {
                 document.body.classList.add('loaded');
             }, 100);
-            updateUI(); // Initialize UI on load
+            updateUI(); 
         });
 
         // --- PERSISTENT CART ENGINE ---
@@ -189,15 +287,15 @@
             const rawUser = localStorage.getItem('currentUser');
             
             if (!rawUser) {
-                alert("Login required to add items to your basket!");
+                alert("Restricted Access: Identity verification required to modify basket.");
                 navTo('login.html');
                 return;
             }
 
-            basket.push({ name, price });
+            basket.push({ name, price, id: Date.now() });
             updateUI();
             
-            // Auto-open cart for feedback
+            // Auto-open sidebar for confirmation
             document.getElementById('sidebar').classList.add('active');
         }
 
@@ -210,19 +308,22 @@
             let total = 0;
 
             if (basket.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty. Sadge.</p>';
+                container.innerHTML = `
+                    <div style="text-align:center; padding-top: 50px; opacity: 0.5;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">🥯</div>
+                        <p style="color:var(--text-muted); font-size: 0.9rem;">Your basket is currently empty.</p>
+                    </div>`;
             } else {
                 basket.forEach((item, index) => {
                     total += item.price;
                     const itemDiv = document.createElement('div');
-                    itemDiv.className = 'cart-item';
-                    itemDiv.style = "display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; background: rgba(157, 124, 253, 0.05); margin-bottom: 10px; border-radius: 12px;";
+                    itemDiv.className = 'cart-item-ui';
                     itemDiv.innerHTML = `
                         <div style="text-align: left;">
-                            <p style="font-weight:600; font-size:0.9rem; color:#fff;">${item.name}</p>
-                            <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
+                            <p style="font-weight:700; font-size:1rem; color:#fff; margin:0;">${item.name}</p>
+                            <p style="font-size:0.85rem; color:var(--accent-gold); margin:4px 0 0 0;">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold; font-size: 0.75rem;">Remove</button>
+                        <button onclick="removeItem(${index})" style="background:rgba(255, 77, 77, 0.1); border:none; color:#ff4d4d; padding: 8px 12px; border-radius: 10px; cursor:pointer; font-weight:800; font-size: 0.7rem; transition: 0.3s;">DELETE</button>
                     `;
                     container.appendChild(itemDiv);
                 });
@@ -239,12 +340,12 @@
 
         function checkout() {
             if (basket.length === 0) {
-                alert("Basket is empty! Pick some food first.");
+                alert("Your basket is empty. Please select a meal first.");
                 return;
             }
             
             if (!localStorage.getItem('currentUser')) {
-                alert("Please login to complete your order.");
+                alert("Identity check required. Please login to proceed.");
                 navTo('login.html');
             } else {
                 navTo('checkout.html');
@@ -263,7 +364,7 @@
             e.preventDefault();
             if (localStorage.getItem('currentUser')) {
                 const userData = JSON.parse(localStorage.getItem('currentUser'));
-                if(confirm(`Signing out, ${userData.user}?`)) {
+                if(confirm(`System Termination: End session for ${userData.user}?`)) {
                     localStorage.removeItem('currentUser');
                     navTo('index.html');
                 }
