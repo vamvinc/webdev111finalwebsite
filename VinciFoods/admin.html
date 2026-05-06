@@ -3,187 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Admin Dashboard</title>
+    <title>VinciFoods | Admin Dashboard (Demo)</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        /* DASHBOARD SPECIFIC OVERRIDES */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .metric-card {
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: 24px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition-smooth);
-        }
-
-        .metric-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-purple);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        /* The glass-shine effect from style.css works here too */
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.03), transparent);
-            pointer-events: none;
-        }
-
-        .metric-value { 
-            font-size: 3rem; 
-            margin-top: 10px; 
-            font-weight: 800; 
-            letter-spacing: -1px;
-        }
-
-        /* TABLE STYLING */
-        .table-wrapper {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 30px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            backdrop-filter: blur(20px);
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 10px;
-        }
-
-        .admin-table thead th {
-            padding: 15px 20px;
-            color: var(--accent-purple);
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-align: left;
-            border-bottom: 2px solid rgba(157, 124, 253, 0.2);
-        }
-
-        .admin-table tbody tr {
-            background: rgba(255, 255, 255, 0.02);
-            transition: 0.3s;
-        }
-
-        .admin-table tbody tr:hover {
-            background: rgba(157, 124, 253, 0.08);
-            transform: scale(1.01);
-        }
-
-        .admin-table td {
-            padding: 20px;
-            color: var(--text-white);
-        }
-
-        .admin-table td:first-child { border-radius: 12px 0 0 12px; }
-        .admin-table td:last-child { border-radius: 0 12px 12px 0; }
-
-        .status-badge {
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .status-preparing { background: rgba(255, 204, 51, 0.1); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
-        .status-delivered { background: rgba(0, 255, 136, 0.1); color: var(--success-green); border: 1px solid var(--success-green); }
-
-        .outline-btn {
-            border: 1px solid var(--accent-purple);
-            color: var(--accent-purple);
-            padding: 8px 20px;
-            border-radius: 10px;
-            transition: 0.3s;
-            font-weight: 600;
-        }
-
-        .outline-btn:hover {
-            background: var(--accent-purple);
-            color: white;
-            box-shadow: 0 0 15px var(--accent-purple);
-        }
-    </style>
 </head>
-<body class="admin-body">
+<body id="page-body" class="admin-mode">
     <nav>
-        <div class="logo">VINCI ADMIN</div>
-        <div class="nav-right" style="display: flex; align-items: center; gap: 20px;">
-            <span style="color: var(--text-muted); font-size: 0.9rem;">🟢 System Online</span>
-            <a href="#" class="outline-btn" style="text-decoration: none;" onclick="logout()">Logout</a>
-        </div>
+        <div class="logo">VinciFoods <span style="font-size: 0.7rem; color: var(--accent-gold); letter-spacing: 1px;">ADMIN</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">View Site</a></li>
+            <li><a href="login.html">Logout</a></li>
+        </ul>
     </nav>
 
-    <main style="max-width: 1200px; margin: 0 auto; padding: 60px 20px;">
-        <header style="margin-bottom: 50px; border-left: 5px solid var(--accent-purple); padding-left: 20px;">
-            <h2 style="color: var(--text-white); font-size: 2.8rem; font-weight: 800;">Command Center</h2>
-            <p style="color: var(--accent-purple); font-size: 1.1rem; letter-spacing: 1px;">Operations monitoring for VinciFoods PH</p>
+    <main style="padding: 40px 10%;">
+        <header style="margin-bottom: 40px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800;">Command Center</h1>
+            <p style="color: var(--text-muted);">Real-time demo of store metrics and order management.</p>
         </header>
-        
-        <!-- Metrics Grid -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px;">Revenue Today</p>
-                <h1 class="metric-value" style="color: var(--success-green);">$1,240.00</h1>
-                <div style="margin-top: 15px; font-size: 0.8rem; color: var(--success-green);">↑ 12% from yesterday</div>
+
+        <!-- Stats Grid -->
+        <div class="menu-grid" style="margin-bottom: 40px;">
+            <div class="stat-card" style="padding: 30px; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Total Sales</p>
+                <h2 style="font-size: 2.2rem; color: var(--accent-gold); margin-top: 10px;">₱12,405.00</h2>
             </div>
-            <div class="metric-card">
-                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px;">Active Orders</p>
-                <h1 class="metric-value" style="color: var(--accent-gold);">14</h1>
-                <div style="margin-top: 15px; font-size: 0.8rem; color: var(--accent-gold);">Kitchen at 85% capacity</div>
+            <div class="stat-card" style="padding: 30px; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Pending Orders</p>
+                <h2 style="font-size: 2.2rem; color: var(--accent-purple); margin-top: 10px;">8</h2>
             </div>
-            <div class="metric-card">
-                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px;">Rider Status</p>
-                <h1 class="metric-value" style="color: var(--info-blue);">8/10</h1>
-                <div style="margin-top: 15px; font-size: 0.8rem; color: var(--info-blue);">Average Delivery: 18 mins</div>
+            <div class="stat-card" style="padding: 30px; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Preparation Avg</p>
+                <h2 style="font-size: 2.2rem; color: var(--info-blue); margin-top: 10px;">14m</h2>
             </div>
         </div>
 
-        <!-- Transactions Section -->
-        <div class="table-wrapper">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h3 style="color: var(--text-white); font-size: 1.5rem; font-weight: 600;">Live Feed</h3>
-                <button class="small-btn" onclick="location.reload()">Refresh Data</button>
-            </div>
-            
-            <div style="overflow-x: auto;"> 
-                <table class="admin-table">
-                    <thead>
+        <!-- Order Management Table -->
+        <div class="summary-card" style="padding: 30px;">
+            <h3 style="margin-bottom: 20px; font-weight: 600;">Incoming Requests</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; color: var(--text-muted); min-width: 600px;">
+                    <thead style="border-bottom: 1px solid rgba(157, 124, 253, 0.2); text-align: left;">
                         <tr>
-                            <th>Transaction ID</th>
+                            <th style="padding: 15px 10px;">ID</th>
                             <th>Customer</th>
+                            <th>Order Items</th>
                             <th>Status</th>
-                            <th>Total</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="admin-order-list">
-                        <!-- Static samples -->
-                        <tr>
-                            <td style="font-family: monospace; color: var(--accent-purple); font-weight: bold;">#VF-9921</td>
-                            <td>Juan Dela Cruz</td>
-                            <td><span class="status-badge status-preparing">Preparing</span></td>
-                            <td style="font-weight: 600; color: var(--accent-gold);">$24.50</td>
-                            <td><button class="small-btn">Manage</button></td>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                            <td style="padding: 20px 10px; color: #fff;">#VFC-102</td>
+                            <td style="color: #fff;">Demo User</td>
+                            <td>3x Vinci Special, 1x Soda</td>
+                            <td><span style="color: var(--accent-gold); font-weight: 600;">PREPARING</span></td>
+                            <td><button class="submit-btn" style="padding: 8px 15px; font-size: 0.7rem;">Complete</button></td>
                         </tr>
                         <tr>
-                            <td style="font-family: monospace; color: var(--accent-purple); font-weight: bold;">#VF-9920</td>
-                            <td>Maria Clara</td>
-                            <td><span class="status-badge status-delivered">Delivered</span></td>
-                            <td style="font-weight: 600; color: var(--accent-gold);">$12.00</td>
-                            <td><button class="small-btn">Manage</button></td>
+                            <td style="padding: 20px 10px; color: #fff;">#VFC-101</td>
+                            <td style="color: #fff;">Guest Visitor</td>
+                            <td>1x Golden Wrap</td>
+                            <td><span style="color: var(--success-green); font-weight: 600;">DELIVERED</span></td>
+                            <td><button class="submit-btn" style="padding: 8px 15px; font-size: 0.7rem; opacity: 0.5;">Archived</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -191,35 +73,28 @@
         </div>
     </main>
 
-    <footer style="text-align: center; padding: 60px 0; color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px;">
-        <p>&copy; 2026 VinciFoods | Admin Control Panel | Authorized Access Only</p>
-    </footer>
-
     <script>
-        // --- AUTHENTICATION SHIELD ---
-        function checkAuth() {
-            const user = JSON.parse(localStorage.getItem('currentUser'));
-            // Check if user exists and if they are the admin account
-            if (!user || user.email !== 'admin@vincifoods.com') {
-                alert("Access Denied: Admin credentials required.");
-                window.location.href = 'login.html';
-            }
-        }
+        // --- DEMO OVERRIDE ---
+        // We've removed the 'Access Denied' alert check for this demo session.
+        document.addEventListener("DOMContentLoaded", () => {
+            // Instant Fade-In
+            document.body.classList.add('loaded');
+            console.log("Admin Dashboard: Demo Mode Active (Auth Bypassed)");
+        });
 
-        function logout() {
-            localStorage.removeItem('currentUser');
-            window.location.href = 'login.html';
-        }
-
-        // Run security check immediately
-        checkAuth();
-
-        // Optional: Auto-refresh data animation
-        setInterval(() => {
-            const row = document.querySelector('tbody tr');
-            row.style.boxShadow = "0 0 20px rgba(157, 124, 253, 0.3)";
-            setTimeout(() => row.style.boxShadow = "none", 1000);
-        }, 5000);
+        // --- SMOOTH EXIT TRANSITION ---
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', e => {
+                const target = link.getAttribute('href');
+                if (target && target !== "#") {
+                    e.preventDefault();
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = target;
+                    }, 500);
+                }
+            });
+        });
     </script>
 </body>
 </html>
