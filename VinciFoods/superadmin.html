@@ -7,162 +7,246 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --admin-gold: #ffcc33;
+            --admin-red: #ff4d4d;
+            --admin-bg: #0a0814;
+        }
+
         body {
-            background: #0a0814;
+            background: var(--admin-bg);
+            background-image: 
+                linear-gradient(rgba(157, 124, 253, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157, 124, 253, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
         .admin-nav {
-            background: rgba(42, 10, 42, 0.9);
-            border-bottom: 2px solid var(--accent-gold);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 10, 25, 0.95);
+            border-bottom: 2px solid var(--admin-gold);
+            backdrop-filter: blur(15px);
+            padding: 15px 5%;
         }
 
         .stat-card {
-            background: var(--bg-card);
+            background: rgba(20, 15, 35, 0.8);
             padding: 25px;
-            border-radius: 15px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 204, 51, 0.1);
-            text-align: left;
-            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .stat-card:hover {
-            border-color: var(--accent-gold);
-            background: rgba(157, 124, 253, 0.05);
+            transform: translateY(-5px);
+            border-color: var(--admin-gold);
+            box-shadow: 0 10px 30px rgba(255, 204, 51, 0.1);
         }
 
         .stat-label {
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin-bottom: 10px;
         }
 
         .stat-value {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 800;
             font-family: 'Space Mono', monospace;
+            color: #fff;
         }
+
+        /* --- TERMINAL STYLING --- */
+        .terminal-window {
+            background: #000;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
+
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .amber { background: #ffbd2e; }
+        .green { background: #27c93f; }
 
         .log-entry {
             font-family: 'Space Mono', monospace;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            gap: 10px;
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            color: #aaa;
         }
 
-        .timestamp {
-            color: var(--accent-purple);
-            font-weight: bold;
+        .timestamp { color: var(--accent-purple); margin-right: 10px; }
+        .status-tag { 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            font-size: 0.7rem; 
+            margin-left: auto;
+            border: 1px solid;
         }
 
         .bar {
-            width: 35px;
-            border-radius: 5px 5px 0 0;
-            transition: height 1s ease-in-out;
+            width: 40px;
+            border-radius: 6px 6px 0 0;
+            transition: height 1s ease;
             position: relative;
+            background: linear-gradient(to top, var(--accent-purple), var(--admin-gold));
         }
 
-        .bar:hover::after {
-            content: attr(data-value);
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.7rem;
-            color: var(--accent-gold);
+        .btn-shutdown {
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid var(--admin-red);
+            color: var(--admin-red);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-shutdown:hover {
+            background: var(--admin-red);
+            color: white;
         }
     </style>
 </head>
 <body>
     <nav class="admin-nav">
-        <div class="logo" style="color: var(--accent-gold); letter-spacing: 3px;">
-            <span style="opacity: 0.6;">[</span> SUPERADMIN CONSOLE <span style="opacity: 0.6;">]</span>
+        <div class="logo" style="color: var(--admin-gold); font-size: 1.2rem;">
+            <span style="opacity: 0.4;">&gt;</span> VINCIFOODS_CORE_v2.0
         </div>
         <ul class="nav-links">
-            <li><a href="javascript:void(0)" onclick="systemExit()" class="text-gold" style="font-weight: bold;">System Exit</a></li>
+            <li><button onclick="systemExit()" class="btn-shutdown">SHUTDOWN SYSTEM</button></li>
         </ul>
     </nav>
 
     <div style="padding: 40px 8%;">
-        <header style="margin-bottom: 30px;">
-            <h1 style="font-size: 2rem;">System Overview</h1>
-            <p style="color: var(--text-muted);">Real-time monitoring and global infrastructure status.</p>
+        <header style="margin-bottom: 40px; border-left: 4px solid var(--admin-gold); padding-left: 20px;">
+            <h1 style="font-size: 2.5rem; letter-spacing: -1px;">Console Command</h1>
+            <p style="color: var(--text-muted);">Infrastructure: <span style="color: #0f0;">ONLINE</span> | Region: Manila, PH</p>
         </header>
 
-        <!-- Top Metrics -->
-        <div class="menu-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-            <div class="stat-card" style="border-left: 4px solid #0f0;">
-                <p class="stat-label">Total Revenue</p>
-                <h2 class="stat-value" style="color: #0f0;">$42,890.00</h2>
+        <!-- Dynamic Metrics -->
+        <div class="menu-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+            <div class="stat-card">
+                <p class="stat-label">System Revenue</p>
+                <h2 class="stat-value" id="totalRev" style="color: #0f0;">$0.00</h2>
             </div>
-            <div class="stat-card" style="border-left: 4px solid var(--accent-purple);">
-                <p class="stat-label">Active Users</p>
-                <h2 class="stat-value">1,402</h2>
+            <div class="stat-card">
+                <p class="stat-label">Verified Squad</p>
+                <h2 class="stat-value" id="userCount">0</h2>
             </div>
-            <div class="stat-card" style="border-left: 4px solid var(--accent-gold);">
-                <p class="stat-label">Server Load</p>
-                <h2 class="stat-value" style="color: var(--accent-gold);">14%</h2>
+            <div class="stat-card">
+                <p class="stat-label">Pending Orders</p>
+                <h2 class="stat-value" id="orderCount" style="color: var(--admin-gold);">0</h2>
             </div>
-            <div class="stat-card" style="border-left: 4px solid #4df;">
-                <p class="stat-label">Database Status</p>
-                <h2 class="stat-value" style="color: #4df;">HEALTHY</h2>
+            <div class="stat-card">
+                <p class="stat-label">Server Latency</p>
+                <h2 class="stat-value" style="color: #4df;">12ms</h2>
             </div>
         </div>
 
-        <!-- Middle Row: Analytics and Logs -->
         <div style="display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap;">
-            
-            <!-- Real-time Traffic Graph -->
-            <div class="auth-container" style="flex: 2; max-width: none; min-width: 300px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3 style="font-size: 1.1rem;">Global Traffic (Real-time)</h3>
-                    <span style="color: #0f0; font-size: 0.7rem; font-family: 'Space Mono';">● LIVE</span>
-                </div>
-                <div style="height: 200px; background: rgba(0,0,0,0.4); border-radius: 12px; display: flex; align-items: flex-end; justify-content: space-around; padding: 20px; border: 1px solid rgba(157, 124, 253, 0.1);">
-                    <div class="bar" data-value="40%" style="height: 40%; background: var(--accent-purple);"></div>
-                    <div class="bar" data-value="70%" style="height: 70%; background: var(--accent-gold);"></div>
-                    <div class="bar" data-value="55%" style="height: 55%; background: var(--accent-purple);"></div>
-                    <div class="bar" data-value="90%" style="height: 90%; background: var(--accent-gold);"></div>
-                    <div class="bar" data-value="60%" style="height: 60%; background: var(--accent-purple);"></div>
-                    <div class="bar" data-value="30%" style="height: 30%; background: var(--accent-gold);"></div>
-                    <div class="bar" data-value="85%" style="height: 85%; background: var(--accent-purple);"></div>
+            <!-- Traffic Visualization -->
+            <div class="auth-container" style="flex: 2; max-width: none; min-width: 340px; background: rgba(10,8,20,0.6);">
+                <h3 style="margin-bottom: 25px; font-size: 1rem; color: var(--admin-gold);">Network Traffic Distribution</h3>
+                <div style="height: 250px; display: flex; align-items: flex-end; justify-content: space-around; padding: 0 20px;">
+                    <div class="bar" data-value="45%" style="height: 45%;"></div>
+                    <div class="bar" data-value="85%" style="height: 85%;"></div>
+                    <div class="bar" data-value="60%" style="height: 60%;"></div>
+                    <div class="bar" data-value="95%" style="height: 95%;"></div>
+                    <div class="bar" data-value="30%" style="height: 30%;"></div>
+                    <div class="bar" data-value="75%" style="height: 75%;"></div>
                 </div>
             </div>
             
-            <!-- System Logs -->
-            <div class="auth-container" style="flex: 1; max-width: none; min-width: 300px; background: #000;">
-                <h3 style="font-size: 1.1rem; margin-bottom: 15px; color: var(--accent-gold);">Security Logs</h3>
-                <div id="log-container" style="max-height: 200px; overflow-y: auto;">
-                    <div class="log-entry"><span class="timestamp">[19:46]</span> <span>Backup Completed</span></div>
-                    <div class="log-entry"><span class="timestamp">[19:30]</span> <span>New Login: admin_manila</span></div>
-                    <div class="log-entry"><span class="timestamp">[19:15]</span> <span>API Key Rotated</span></div>
-                    <div class="log-entry"><span class="timestamp">[19:02]</span> <span>SSL Certificate Renewed</span></div>
+            <!-- Terminal Logs -->
+            <div class="terminal-window" style="flex: 1; min-width: 340px;">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot amber"></div>
+                    <div class="dot green"></div>
+                    <span style="font-size: 0.7rem; color: #666; margin-left: 10px; font-family: 'Space Mono';">security_kernel.log</span>
+                </div>
+                <div id="log-container" style="height: 260px; overflow-y: auto;">
+                    <!-- Logs will populate here -->
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // --- REAL-TIME DATA ENGINE ---
+        function refreshStats() {
+            let userCount = 0;
+            let orderTotal = 0;
+            
+            // Loop through localStorage to find users (excluding system keys)
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.includes('@')) userCount++;
+            }
+
+            // Get Orders from your VinciFoods cart/order system
+            const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            document.getElementById('userCount').innerText = userCount;
+            document.getElementById('orderCount').innerText = orders.length || cart.length;
+            
+            // Generate a fake but realistic revenue based on orders
+            const revenue = (userCount * 12.5 + orders.length * 45).toFixed(2);
+            document.getElementById('totalRev').innerText = `$${revenue}`;
+        }
+
+        // --- TERMINAL LOG GENERATOR ---
+        const logContainer = document.getElementById('log-container');
+        const activities = [
+            "User session established", "Encryption layer active", 
+            "Database handshake successful", "Cache cleared", 
+            "New registration detected", "Order processed"
+        ];
+
+        function addLog() {
+            const time = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
+            const action = activities[Math.floor(Math.random() * activities.length)];
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerHTML = `<span class="timestamp">[${time}]</span> <span>${action}</span>`;
+            
+            logContainer.prepend(div);
+            if (logContainer.children.length > 10) logContainer.lastChild.remove();
+        }
+
         function systemExit() {
-            if(confirm("Confirm System Shutdown? All administrative sessions will be terminated.")) {
-                // Clear admin specifically or just log out
+            if(confirm("CRITICAL: Terminate administrative authority and purge session?")) {
                 localStorage.removeItem('currentUser');
                 window.location.href = 'login.html';
             }
         }
 
-        // Add a slight "live" feel to the bars
+        // Initialize & Loops
+        refreshStats();
+        setInterval(addLog, 4000);
         setInterval(() => {
             const bars = document.querySelectorAll('.bar');
             bars.forEach(bar => {
-                const randomHeight = Math.floor(Math.random() * 60) + 30;
-                bar.style.height = randomHeight + '%';
-                bar.setAttribute('data-value', randomHeight + '%');
+                const h = Math.floor(Math.random() * 70) + 20;
+                bar.style.height = h + '%';
             });
-        }, 3000);
+        }, 2000);
     </script>
 </body>
 </html>
