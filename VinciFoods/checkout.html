@@ -58,7 +58,6 @@
             letter-spacing: -1px;
         }
 
-        /* Contrast Fix for Dropdown */
         select.checkout-input option {
             background-color: #1a1a1a; 
             color: #ffffff;
@@ -87,7 +86,7 @@
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
+    <!-- Transition Layer -->
     <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
     <nav>
@@ -114,15 +113,7 @@
                 
                 <div class="form-group">
                     <label class="checkout-label">Contact Number</label>
-                    <input 
-                        type="tel" 
-                        id="custPhone" 
-                        class="checkout-input" 
-                        placeholder="09123456789" 
-                        pattern="[0-9]+" 
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
-                        required
-                    >
+                    <input type="tel" id="custPhone" class="checkout-input" placeholder="09123456789" pattern="[0-9]{11}" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                 </div>
 
                 <div class="form-group">
@@ -149,7 +140,7 @@
             <div id="final-items-list">
                 <!-- Items injected here -->
             </div>
-            <div class="final-total-display" id="grand-total">$0.00</div>
+            <div class="final-total-display" id="grand-total">₱0.00</div>
             
             <hr style="border: 0; border-top: 1px solid rgba(157,124,253,0.2); margin: 30px 0;">
             
@@ -163,7 +154,6 @@
     </section>
 
     <script>
-        // --- COOL TRANSITION LOGIC ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
@@ -171,50 +161,44 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 100);
+            setTimeout(() => { document.body.classList.add('loaded'); }, 100);
 
-            // Pre-fill user data if available
+            // Pre-fill user data
             const user = JSON.parse(localStorage.getItem('currentUser'));
             if (user && user.user) {
                 document.getElementById('custName').value = user.user;
             }
+            renderCheckout();
         });
 
         // Auth Check
-        if (!localStorage.getItem('currentUser')) {
-            window.location.href = 'login.html';
-        }
+        if (!localStorage.getItem('currentUser')) { window.location.href = 'login.html'; }
 
-        const basket = JSON.parse(localStorage.getItem('userCart')) || [];
-        const itemsContainer = document.getElementById('final-items-list');
-        const totalDisplay = document.getElementById('grand-total');
+        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
         let total = 0;
 
-        if (basket.length === 0) {
-            window.location.href = 'order.html';
+        function renderCheckout() {
+            const container = document.getElementById('final-items-list');
+            if (basket.length === 0) { window.location.href = 'order.html'; return; }
+
+            container.innerHTML = '';
+            total = 0;
+            basket.forEach(item => {
+                total += item.price;
+                const div = document.createElement('div');
+                div.className = 'summary-item';
+                div.innerHTML = `
+                    <span style="color: var(--text-white)">${item.name}</span>
+                    <span style="color: var(--accent-gold); font-weight: bold;">₱${item.price.toFixed(2)}</span>
+                `;
+                container.appendChild(div);
+            });
+            document.getElementById('grand-total').innerText = `Total: ₱${total.toFixed(2)}`;
         }
-
-        basket.forEach(item => {
-            total += item.price;
-            const div = document.createElement('div');
-            div.className = 'summary-item';
-            div.innerHTML = `
-                <span style="color: var(--text-white)">${item.name}</span>
-                <span style="color: var(--accent-gold); font-weight: bold;">$${item.price.toFixed(2)}</span>
-            `;
-            itemsContainer.appendChild(div);
-        });
-
-        totalDisplay.innerText = `Total: $${total.toFixed(2)}`;
 
         function generateReceipt() {
             const form = document.getElementById('paymentForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
+            if (!form.checkValidity()) { form.reportValidity(); return; }
 
             const name = document.getElementById('custName').value;
             const phone = document.getElementById('custPhone').value;
@@ -228,42 +212,41 @@
                 <head>
                     <title>VinciFoods Receipt | ${name}</title>
                     <style>
-                        body { font-family: 'Courier New', Courier, monospace; padding: 40px; color: #1a1a1a; line-height: 1.6; max-width: 500px; margin: auto; }
-                        .header { text-align: center; border-bottom: 2px dashed #333; padding-bottom: 20px; }
-                        .details { margin: 20px 0; font-size: 0.9rem; }
-                        .item { display: flex; justify-content: space-between; margin: 5px 0; }
-                        .total { border-top: 2px solid #333; margin-top: 20px; padding-top: 10px; font-weight: bold; font-size: 1.2rem; text-align: right; }
-                        .footer { text-align: center; margin-top: 40px; font-style: italic; font-size: 0.8rem; }
+                        body { font-family: 'Courier New', Courier, monospace; padding: 40px; color: #111; line-height: 1.4; max-width: 400px; margin: auto; background: #fdfdfd; }
+                        .header { text-align: center; border-bottom: 2px dashed #333; padding-bottom: 15px; margin-bottom: 15px; }
+                        .details { font-size: 0.85rem; margin-bottom: 15px; }
+                        .item { display: flex; justify-content: space-between; margin: 4px 0; font-size: 0.9rem; }
+                        .total { border-top: 2px solid #333; margin-top: 15px; padding-top: 8px; font-weight: bold; font-size: 1.1rem; text-align: right; }
+                        .footer { text-align: center; margin-top: 30px; font-style: italic; font-size: 0.75rem; border-top: 1px solid #eee; padding-top: 10px; }
                     </style>
                 </head>
                 <body>
                     <div class="header">
-                        <h1 style="margin:0;">VINCIFOODS</h1>
-                        <p>Order Date: ${date}</p>
+                        <h2 style="margin:0; letter-spacing: 2px;">VINCIFOODS</h2>
+                        <p style="font-size: 0.7rem; margin: 5px 0;">${date}</p>
+                        <p style="font-size: 0.7rem; margin: 0;">TXN ID: #${Math.floor(Math.random()*1000000)}</p>
                     </div>
                     <div class="details">
-                        <p><strong>Customer:</strong> ${name}</p>
-                        <p><strong>Contact:</strong> ${phone}</p>
-                        <p><strong>Address:</strong> ${addr}</p>
-                        <p><strong>Payment:</strong> ${method}</p>
+                        <b>CUSTOMER:</b> ${name}<br>
+                        <b>PHONE:</b> ${phone}<br>
+                        <b>ADDRESS:</b> ${addr}<br>
+                        <b>METHOD:</b> ${method}
                     </div>
-                    <hr>
+                    <hr style="border: 0; border-top: 1px dashed #333;">
                     <div>
                         ${basket.map(item => `
                             <div class="item">
                                 <span>${item.name}</span>
-                                <span>$${item.price.toFixed(2)}</span>
+                                <span>₱${item.price.toFixed(2)}</span>
                             </div>
                         `).join('')}
                     </div>
-                    <div class="total">Total Paid: $${total.toFixed(2)}</div>
+                    <div class="total">GRAND TOTAL: ₱${total.toFixed(2)}</div>
                     <div class="footer">
                         <p>Stay Hungry, Stay Purple. ✨</p>
                         <p>Thank you for choosing VinciFoods!</p>
                     </div>
-                    <script>
-                        window.onload = function() { window.print(); }
-                    <\/script>
+                    <script>window.onload = function() { window.print(); }<\/script>
                 </body>
                 </html>
             `);
@@ -273,22 +256,21 @@
         document.getElementById('paymentForm').onsubmit = (e) => {
             e.preventDefault();
             
-            // Log Order to Local Storage for SuperAdmin
+            // Push to Admin Records
             const newOrder = {
-                id: "ORD-" + Math.floor(Math.random() * 100000),
+                id: "#VFC-" + (100 + Math.floor(Math.random() * 900)),
                 customer: document.getElementById('custName').value,
-                total: total,
-                items: basket.length,
-                date: new Date().toLocaleTimeString()
+                items: basket.map(i => i.name).join(', '),
+                total: `₱${total.toFixed(2)}`,
+                status: "PREPARING",
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             };
             
             const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
-            orders.push(newOrder);
+            orders.unshift(newOrder); // Add to top of list
             localStorage.setItem('vinci_orders', JSON.stringify(orders));
 
-            const wantReceipt = confirm("Order Confirmed! Would you like to print your receipt? ✨");
-
-            if (wantReceipt) {
+            if (confirm("Order Confirmed! Open Receipt?")) {
                 generateReceipt();
             }
 
@@ -297,9 +279,7 @@
             btn.innerText = "Order Placed! Redirecting...";
             btn.style.background = "#27c93f";
             
-            setTimeout(() => {
-                navTo('index.html');
-            }, 2000);
+            setTimeout(() => { navTo('index.html'); }, 2000);
         };
     </script>
 </body>
