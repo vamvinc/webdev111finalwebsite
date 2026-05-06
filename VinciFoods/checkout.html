@@ -20,6 +20,18 @@
             .checkout-section { grid-template-columns: 1fr; padding: 20px 5%; }
         }
 
+        /* Entrance Animations */
+        .hero h1, .hero p, .summary-card {
+            opacity: 0;
+            transform: translateY(30px) skewY(1deg);
+            transition: var(--transition-cool);
+        }
+
+        body.loaded .hero h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
+        body.loaded .hero p  { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
+        body.loaded .summary-card:nth-child(1) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
+        body.loaded .summary-card:nth-child(2) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.4s; }
+
         .summary-card {
             background: var(--bg-card);
             padding: 40px;
@@ -46,7 +58,7 @@
             letter-spacing: -1px;
         }
 
-        /* --- CONTRAST FIX FOR DROPDOWN --- */
+        /* Contrast Fix for Dropdown */
         select.checkout-input option {
             background-color: #1a1a1a; 
             color: #ffffff;
@@ -63,7 +75,6 @@
             font-weight: 700;
         }
 
-        /* Print-specific styles to save ink and hide UI */
         @media print {
             nav, .submit-btn, .print-btn, .form-group, h2, .logo, .cart-toggle {
                 display: none !important;
@@ -76,14 +87,17 @@
     </style>
 </head>
 <body id="page-body">
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="order.html" onclick="event.preventDefault(); navTo('order.html');">Return to Menu</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Return to Menu</a></li>
         </ul>
     </nav>
 
-    <header class="hero" style="min-height: auto; padding: 40px 0;">
+    <header class="hero" style="min-height: auto; padding: 40px 0; text-align: center;">
         <h1>Secure Checkout</h1>
         <p>Complete your order to satisfy those cravings. ⚡</p>
     </header>
@@ -149,19 +163,20 @@
     </section>
 
     <script>
-        // --- PAGE TRANSITION LOGIC ---
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add('loaded');
-        });
-
+        // --- COOL TRANSITION LOGIC ---
         function navTo(url) {
-            document.body.classList.add('fade-out');
-            setTimeout(() => {
-                window.location.href = url;
-            }, 500);
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => { window.location.href = url; }, 700);
         }
 
-        // Check if user is logged in
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
+
+        // Auth Check
         if (!localStorage.getItem('currentUser')) {
             window.location.href = 'login.html';
         }
@@ -227,7 +242,7 @@
                         <p><strong>Payment:</strong> ${method}</p>
                     </div>
                     <hr>
-                    <div id="receipt-items">
+                    <div>
                         ${basket.map(item => `
                             <div class="item">
                                 <span>${item.name}</span>
@@ -251,17 +266,13 @@
 
         document.getElementById('paymentForm').onsubmit = (e) => {
             e.preventDefault();
-
             const wantReceipt = confirm("Order Confirmed! Would you like to print your receipt? ✨");
 
             if (wantReceipt) {
                 generateReceipt();
             }
 
-            // Clear cart
             localStorage.removeItem('userCart');
-            
-            // Visual success feedback
             const btn = document.querySelector('.submit-btn');
             btn.innerText = "Order Placed! Redirecting...";
             btn.style.background = "var(--success-green)";
