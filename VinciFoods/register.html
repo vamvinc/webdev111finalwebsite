@@ -13,6 +13,7 @@
             flex-direction: column;
             min-height: 100vh;
             background: var(--bg-dark);
+            overflow-x: hidden;
         }
 
         .auth-wrapper {
@@ -32,6 +33,15 @@
             max-width: 440px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
             backdrop-filter: blur(15px);
+            /* Entry animation for the card */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        body.loaded .auth-container {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .auth-container h2 {
@@ -108,13 +118,16 @@
     </style>
 </head>
 <body id="page-body">
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html" onclick="event.preventDefault(); navTo('index.html');">Home</a></li>
-            <li><a href="aboutus.html" onclick="event.preventDefault(); navTo('aboutus.html');">About</a></li>
-            <li><a href="order.html" onclick="event.preventDefault(); navTo('order.html');">Order</a></li>
-            <li><a href="login.html" id="authLink" onclick="event.preventDefault(); navTo('login.html');">Login</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
+            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
         </ul>
     </nav>
 
@@ -146,7 +159,7 @@
             </form>
 
             <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.9rem;">
-                Already a member? <a href="login.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="event.preventDefault(); navTo('login.html');">Sign In</a>
+                Already a member? <a href="javascript:void(0)" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="navTo('login.html')">Sign In</a>
             </p>
         </div>
     </div>
@@ -157,16 +170,17 @@
 
     <script>
         // --- PAGE TRANSITION LOGIC ---
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add('loaded');
-        });
-
         function navTo(url) {
-            document.body.classList.add('fade-out');
-            setTimeout(() => {
-                window.location.href = url;
-            }, 500);
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => { window.location.href = url; }, 700);
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
 
         const rCheck = document.getElementById('rCheck');
         const rBtn = document.getElementById('rBtn');
@@ -213,13 +227,18 @@
         
         if (session) {
             authLink.innerText = "Logout";
-            authLink.onclick = (e) => { 
-                e.preventDefault();
+        }
+
+        function handleAuthClick(e) {
+            e.preventDefault();
+            if (localStorage.getItem('currentUser')) {
                 if(confirm("Ready to sign out?")) {
                     localStorage.removeItem('currentUser'); 
                     navTo('login.html'); 
                 }
-            };
+            } else {
+                navTo('login.html');
+            }
         }
     </script>
 </body>
