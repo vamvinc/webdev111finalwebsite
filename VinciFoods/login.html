@@ -32,6 +32,14 @@
             max-width: 440px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
             backdrop-filter: blur(15px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body.loaded .auth-container {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .auth-container h2 {
@@ -39,6 +47,7 @@
             margin-bottom: 10px;
             text-align: center;
             font-weight: 800;
+            letter-spacing: -1px;
         }
 
         .auth-subtitle {
@@ -57,8 +66,8 @@
             display: block;
             color: var(--text-muted);
             margin-bottom: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -66,18 +75,18 @@
         .form-group input {
             width: 100%;
             padding: 14px 18px;
-            border-radius: 12px;
-            border: 1px solid rgba(157, 124, 253, 0.2);
-            background: rgba(10, 10, 15, 0.5);
+            border-radius: 14px;
+            border: 1px solid rgba(157, 124, 253, 0.1);
+            background: rgba(10, 10, 15, 0.4);
             color: white;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .form-group input:focus {
             border-color: var(--accent-purple);
-            box-shadow: 0 0 15px rgba(157, 124, 253, 0.2);
-            background: rgba(10, 10, 15, 0.8);
+            background: rgba(157, 124, 253, 0.05);
+            box-shadow: 0 0 20px rgba(157, 124, 253, 0.15);
         }
 
         .terms-box {
@@ -117,22 +126,20 @@
             background: rgba(157, 124, 253, 0.05);
             border: 1px solid rgba(157, 124, 253, 0.3);
             color: var(--accent-purple);
-            padding: 10px 15px;
-            border-radius: 10px;
+            padding: 12px 15px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: 700;
-            transition: 0.3s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             flex: 1;
-            white-space: nowrap;
         }
 
         .role-btn:hover {
             background: var(--accent-purple);
             color: white;
-            border-color: var(--accent-purple);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(157, 124, 253, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(157, 124, 253, 0.2);
         }
 
         .demo-alt {
@@ -149,21 +156,23 @@
     </style>
 </head>
 <body id="page-body">
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html" onclick="event.preventDefault(); navTo('index.html');">Home</a></li>
-            <li><a href="aboutus.html" onclick="event.preventDefault(); navTo('aboutus.html');">About</a></li>
-            <li><a href="order.html" onclick="event.preventDefault(); navTo('order.html');">Order</a></li>
-            <li><a href="login.html" id="authLink" class="active">Login</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
+            <li><a href="javascript:void(0)" id="authLink" class="active">Login</a></li>
         </ul>
     </nav>
 
     <div class="auth-wrapper">
         <div class="auth-container">
             <h2>Welcome Back</h2>
-            <p class="auth-subtitle">Sign in to track your purple orders.</p>
+            <p class="auth-subtitle">Sign in to experience the purple standard.</p>
             
             <form id="lForm">
                 <div class="form-group">
@@ -176,7 +185,7 @@
                 </div>
                 <div class="terms-box">
                     <input type="checkbox" id="lCheck" style="accent-color: var(--accent-purple);">
-                    <label for="lCheck" style="cursor:pointer;">I'm a human (No bots allowed)</label>
+                    <label for="lCheck" style="cursor:pointer;">Confirm identity (Anti-bot)</label>
                 </div>
                 <button type="submit" id="lBtn" class="submit-btn" style="width: 100%;" disabled>Sign In</button>
             </form>
@@ -191,7 +200,7 @@
             </div>
 
             <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.85rem;">
-                Don't have an account? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="event.preventDefault(); navTo('register.html');">Register Here</a>
+                Don't have an account? <a href="javascript:void(0)" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="navTo('register.html')">Register Here</a>
             </p>
         </div>
     </div>
@@ -202,23 +211,24 @@
 
     <script>
         // --- PAGE TRANSITION LOGIC ---
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add('loaded');
-        });
-
         function navTo(url) {
-            document.body.classList.add('fade-out');
-            setTimeout(() => {
-                window.location.href = url;
-            }, 500);
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => { window.location.href = url; }, 700);
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
 
         const lCheck = document.getElementById('lCheck');
         const lBtn = document.getElementById('lBtn');
         
         lCheck.onchange = () => lBtn.disabled = !lCheck.checked;
 
-        // Optimized for consistency with index.html greeting
+        // Session logic synchronized with Home Page
         function quickLogin(username, role, targetPage) {
             const sessionData = {
                 user: username,
@@ -227,7 +237,7 @@
                 timestamp: new Date().getTime()
             };
             localStorage.setItem('currentUser', JSON.stringify(sessionData));
-            navTo(targetPage); // Use navTo for smooth transition
+            navTo(targetPage);
         }
 
         document.getElementById('lForm').onsubmit = (e) => {
@@ -235,13 +245,13 @@
             const email = document.getElementById('lEmail').value;
             const pass = document.getElementById('lPass').value;
 
-            // Direct Hardcoded Admin Access
+            // Direct Admin Check
             if (email === "admin@vinci.com") {
                 quickLogin('Admin_Vinci', 'admin', 'admin.html');
                 return;
             }
 
-            // Registered User Check
+            // User Storage Check
             const storedUser = localStorage.getItem(email);
             if (storedUser) {
                 const user = JSON.parse(storedUser);
@@ -252,15 +262,14 @@
                         role: 'customer'
                     };
                     localStorage.setItem('currentUser', JSON.stringify(sessionData));
-                    alert(`Welcome back, ${user.name}!`); 
-                    navTo('index.html'); // Use navTo for smooth transition
+                    navTo('index.html');
                     return;
                 }
             }
-            alert("Oops! Invalid email or password. Please try again.");
+            alert("Credentials not found. Check your details and try again.");
         };
 
-        // Header Sync & Logout Transition
+        // Header Sync & Logout
         const authLink = document.getElementById('authLink');
         if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
@@ -268,7 +277,7 @@
                 e.preventDefault();
                 if(confirm("Ready to sign out?")) {
                     localStorage.removeItem('currentUser'); 
-                    navTo('login.html'); // Fade out then reload/redirect
+                    navTo('login.html');
                 }
             };
         }
