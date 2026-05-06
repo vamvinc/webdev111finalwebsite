@@ -19,16 +19,27 @@
             position: relative;
         }
 
+        /* Entrance Animations */
+        .hero h1, .hero p, .hero-btns, .feature-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition-cool);
+        }
+
+        body.loaded .hero h1 { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+        body.loaded .hero p  { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+        body.loaded .hero-btns { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-size: clamp(3.5rem, 8vw, 6rem);
             line-height: 1;
             font-weight: 800;
             margin-bottom: 20px;
-            letter-spacing: -3px;
+            letter-spacing: -4px;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--text-muted);
             max-width: 600px;
             margin-bottom: 40px;
@@ -48,69 +59,89 @@
             margin-top: 50px;
         }
 
+        .feature-item {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(157, 124, 253, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        body.loaded .feature-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+        body.loaded .feature-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
+        body.loaded .feature-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+
         @media (max-width: 768px) {
             .hero { padding-top: 100px; }
-            .hero h1 { font-size: 3rem; }
+            .hero h1 { font-size: 3rem; letter-spacing: -1px; }
         }
     </style>
 </head>
 <body id="page-body">
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html" class="active" onclick="event.preventDefault(); navTo('index.html');">Home</a></li>
-            <li><a href="aboutus.html" onclick="event.preventDefault(); navTo('aboutus.html');">About</a></li>
-            <li><a href="order.html" onclick="event.preventDefault(); navTo('order.html');">Order</a></li>
-            <li><a href="login.html" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
+            <li><a href="javascript:void(0)" class="active" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
+            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
         </ul>
     </nav>
 
     <main>
         <!-- Hero Section -->
         <header class="hero">
-            <!-- FIXED: Added display:none to prevent the "yellow blip" when no user is logged in -->
-            <div id="welcome-msg" class="user-welcome" style="display: none; margin-bottom: 20px;"></div>
+            <div id="welcome-msg" class="user-welcome" style="display: none; margin-bottom: 20px; background: rgba(212, 175, 55, 0.1); padding: 8px 20px; border-radius: 50px; color: var(--accent-gold); font-weight: 700;"></div>
             
-            <h1>Freshly Made.<br><span style="color: var(--accent-purple);">Fast Delivery.</span></h1>
-            <p>Your favorite meals delivered with a touch of purple. No cap, just flavor.</p>
+            <h1>Freshly Made.<br><span style="color: var(--accent-purple); text-shadow: 0 0 30px rgba(157, 124, 253, 0.3);">Fast Delivery.</span></h1>
+            <p>Your favorite meals delivered with a touch of purple. High quality, locally sourced, no cap.</p>
             
             <div class="hero-btns">
-                <a href="order.html" class="btn-primary" onclick="event.preventDefault(); navTo('order.html');">Order Now</a>
-                <a href="aboutus.html" class="btn-secondary" onclick="event.preventDefault(); navTo('aboutus.html');">Learn More</a>
+                <a href="javascript:void(0)" class="btn-primary" onclick="navTo('order.html')">Order Now</a>
+                <a href="javascript:void(0)" class="btn-secondary" onclick="navTo('aboutus.html')">Learn More</a>
             </div>
         </header>
 
         <!-- Features Section -->
         <section class="features-section" style="padding: 100px 10%; position: relative;">
             <div style="text-align: center; margin-bottom: 60px;">
-                <h2 style="font-size: 3rem; font-weight: 800;">The <span style="color: var(--accent-purple);">Vinci</span> Standard</h2>
-                <p style="color: var(--text-muted);">Why we're the main character of food delivery.</p>
+                <h2 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The <span style="color: var(--accent-purple);">Vinci</span> Standard</h2>
+                <p style="color: var(--text-muted);">Why we're the main character of food delivery in the Philippines.</p>
             </div>
             
             <div class="features-grid">
                 <div class="feature-item">
                     <div style="font-size: 3.5rem; margin-bottom: 20px;">⚡</div>
                     <h3>Flash Delivery</h3>
-                    <p>Hot food in 30 mins or less. Zoomer speed included in every order.</p>
+                    <p>Hot food in 30 mins or less. Zoomer speed included in every order from Valenzuela to Manila.</p>
                 </div>
                 <div class="feature-item">
                     <div style="font-size: 3.5rem; margin-bottom: 20px;">🌿</div>
                     <h3>Organic Sourced</h3>
-                    <p>Main character energy ingredients. Fresh, healthy, and locally produced.</p>
+                    <p>Main character energy ingredients. Fresh, healthy, and produced by our local partner farms.</p>
                 </div>
                 <div class="feature-item">
                     <div style="font-size: 3.5rem; margin-bottom: 20px;">💜</div>
                     <h3>24/7 Support</h3>
-                    <p>We're here whenever you're hungry. Our squad is always on standby.</p>
+                    <p>We're here whenever the midnight cravings hit. Our squad is always on standby for you.</p>
                 </div>
             </div>
         </section>
 
         <!-- CTA Section -->
-        <section style="padding: 120px 10%; text-align: center; background: rgba(157, 124, 253, 0.05); border-radius: 50px; margin: 0 5% 100px 5%;">
-            <h2 style="color: var(--accent-gold); font-size: 2.5rem; margin-bottom: 10px;">Hungry yet?</h2>
-            <p style="margin-bottom: 40px; color: var(--text-muted);">Join thousands of users in the Philippines ordering daily.</p>
-            <a href="order.html" class="btn-primary" style="padding: 18px 50px;" onclick="event.preventDefault(); navTo('order.html');">Explore Menu</a>
+        <section style="padding: 120px 10%; text-align: center; background: rgba(157, 124, 253, 0.05); border-radius: 50px; margin: 0 5% 100px 5%; border: 1px solid rgba(157, 124, 253, 0.1);">
+            <h2 style="color: var(--accent-gold); font-size: 3rem; font-weight: 800; margin-bottom: 10px;">Hungry yet?</h2>
+            <p style="margin-bottom: 40px; color: var(--text-muted); font-size: 1.1rem;">Join thousands of daily users. Your next meal is just a click away.</p>
+            <a href="javascript:void(0)" class="btn-primary" style="padding: 20px 60px; font-size: 1.1rem;" onclick="navTo('order.html')">Explore Menu</a>
         </section>
     </main>
 
@@ -130,9 +161,9 @@
         <div style="margin-top: auto; padding-top: 30px; border-top: 1px solid rgba(157, 124, 253, 0.2);">
             <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
                 <span style="font-weight: 600;">Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:800; font-size: 1.2rem;">$0.00</span>
+                <span id="total-price" style="color:var(--accent-gold); font-weight:800; font-size: 1.4rem;">$0.00</span>
             </div>
-            <button class="submit-btn" style="width: 100%;" onclick="checkout()">Proceed to Checkout</button>
+            <button class="submit-btn" style="width: 100%; height: 60px; font-size: 1.1rem;" onclick="checkout()">Proceed to Checkout</button>
         </div>
     </div>
 
@@ -142,18 +173,19 @@
 
     <script>
         // --- PAGE TRANSITION & SESSION LOGIC ---
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add('loaded');
-            checkSession();
-            updateUI();
-        });
-
         function navTo(url) {
-            document.body.classList.add('fade-out');
-            setTimeout(() => {
-                window.location.href = url;
-            }, 500);
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => { window.location.href = url; }, 700);
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                checkSession();
+                updateUI();
+            }, 100);
+        });
 
         function checkSession() {
             const welcomeMsg = document.getElementById('welcome-msg');
@@ -162,12 +194,12 @@
 
             if (rawUserData) {
                 const userData = JSON.parse(rawUserData);
-                const displayName = userData.user || userData.name;
+                const displayName = userData.user || userData.name || "Vince";
                 welcomeMsg.innerText = `Welcome back, ${displayName}! ✨`;
-                welcomeMsg.style.display = "inline-block"; // Show only when user exists
+                welcomeMsg.style.display = "inline-block";
                 authLink.innerText = "Logout";
             } else {
-                welcomeMsg.style.display = "none"; // Ensure it stays hidden
+                welcomeMsg.style.display = "none";
                 authLink.innerText = "Login";
             }
         }
@@ -187,18 +219,18 @@
             let total = 0;
 
             if (basket.length === 0) { 
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:40px;">Your basket is empty. Sadge.</p>';
+                container.innerHTML = '<div style="text-align:center; margin-top:50px;"><p style="font-size:3rem; margin-bottom:10px;">🛒</p><p style="color:var(--text-muted);">Your basket is empty. Sadge.</p></div>';
             } else { 
                 basket.forEach((item, index) => { 
                     total += item.price;
                     const div = document.createElement('div'); 
-                    div.style = "background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;";
+                    div.style = "background: rgba(255,255,255,0.03); padding: 18px; border-radius: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(157, 124, 253, 0.1);";
                     div.innerHTML = `
                         <div>
-                            <p style="font-weight:600; color:#fff;">${item.name}</p>
-                            <p style="font-size:0.85rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
+                            <p style="font-weight:600; color:#fff; font-size:1.1rem;">${item.name}</p>
+                            <p style="font-size:0.9rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:rgba(255,77,77,0.1); border:none; color:#ff4d4d; cursor:pointer; padding: 5px 10px; border-radius: 8px; font-size: 0.7rem;">Remove</button>`;
+                        <button onclick="removeItem(${index})" style="background:rgba(255,77,77,0.1); border:none; color:#ff4d4d; cursor:pointer; padding: 8px 12px; border-radius: 12px; font-size: 0.8rem; font-weight:700;">Remove</button>`;
                     container.appendChild(div); 
                 });
             }
@@ -214,11 +246,11 @@
 
         function checkout() { 
             if (basket.length === 0) {
-                alert("Basket is empty! Go get some food.");
+                alert("Your basket is empty! Time to browse the menu.");
                 return;
             }
             if (!localStorage.getItem('currentUser')) { 
-                alert("Login first! We need to know who you are."); 
+                alert("Login first! We need to know where to send the food."); 
                 navTo('login.html'); 
             } else { 
                 navTo('checkout.html'); 
@@ -228,10 +260,9 @@
         function handleAuthClick(e) {
             e.preventDefault();
             if (localStorage.getItem('currentUser')) {
-                if(confirm("Ready to sign out?")) {
+                if(confirm("Are you sure you want to log out?")) {
                     localStorage.removeItem('currentUser'); 
                     navTo('index.html');
-                    setTimeout(() => window.location.reload(), 600);
                 }
             } else {
                 navTo('login.html');
