@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Our Story</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         /* --- LOADER & TRANSITION --- */
         #loader-layer {
@@ -34,39 +34,8 @@
 
         #loader-layer.active #loader-logo { opacity: 1; transform: scale(1); }
 
-        /* --- FLOATING CART --- */
-        .cart-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--accent-purple);
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(157, 124, 253, 0.4);
-            z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--accent-gold);
-            color: #000;
-            font-weight: 800;
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 12px;
-            border: 2px solid var(--bg-dark);
-        }
-
-        /* --- CONTENT --- */
-        .hero h1, .hero p, .intro-text, .delivery-card {
+        /* --- CONTENT REVEAL --- */
+        .hero h1, .hero p, .about-card, .info-grid {
             opacity: 0;
             transform: translateY(30px);
             transition: var(--transition-cool);
@@ -74,6 +43,38 @@
 
         body.loaded .hero h1 { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
         body.loaded .hero p { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+        body.loaded .about-card { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+        body.loaded .info-grid { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+
+        /* --- SPECIFIC PAGE STYLING --- */
+        .about-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px 100px 20px;
+        }
+
+        .disclaimer-banner {
+            background: rgba(255, 204, 51, 0.05);
+            border: 1px solid var(--accent-gold);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .disclaimer-banner p {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            margin: 0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body id="page-body">
@@ -94,18 +95,54 @@
         </ul>
     </nav>
 
-    <main>
-        <header class="hero" style="min-height: 50vh; text-align: center; padding-top: 150px;">
-            <h1>Our Story</h1>
-            <p style="color: var(--text-muted);">Stay Hungry, Stay Purple. ✨</p>
+    <main class="about-container">
+        <!-- PROJECT DISCLAIMER -->
+        <div class="disclaimer-banner">
+            <p>PROJECT DEMO: This website is a student project for Our Lady of Fatima University. All transactions and items are for demonstration purposes only.</p>
+        </div>
+
+        <header class="hero" style="text-align: center; margin-bottom: 60px;">
+            <h1 style="font-size: 4rem; font-weight: 800; margin-bottom: 10px;">Our Story</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem;">Stay Hungry, Stay Purple. ✨</p>
         </header>
 
-        <section style="max-width: 800px; margin: 0 auto; padding: 50px 20px; text-align: center;">
-            <h2 style="color: var(--accent-purple);">Who We Are</h2>
-            <p>VinciFoods is a local student-led project aimed at providing the fastest delivery experience in Valenzuela.</p>
-        </section>
+        <!-- WHO WE ARE CARD -->
+        <div class="feature-item about-card" style="text-align: center;">
+            <h2 style="color: var(--accent-purple); margin-bottom: 20px;">Who We Are</h2>
+            <p style="line-height: 1.8; color: var(--text-muted); max-width: 800px; margin: 0 auto;">
+                VinciFoods is a local student-led project developed in Valenzuela, Philippines. 
+                We are dedicated to exploring the intersection of modern web design and efficient delivery logistics. 
+                As visual learners, we prioritize a UI that is both striking and functional, utilizing a "Cyber-Purple" 
+                aesthetic to redefine the digital dining experience.
+            </p>
+        </div>
+
+        <!-- STATS / MISSION GRID -->
+        <div class="info-grid">
+            <div class="stat-card">
+                <h3 style="color: var(--accent-gold); margin-bottom: 10px;">The Vision</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                    To showcase a seamless "Order-to-Checkout" flow using local storage systems and high-end animations 
+                    inspired by modern interactive platforms.
+                </p>
+            </div>
+            <div class="stat-card">
+                <h3 style="color: var(--accent-gold); margin-bottom: 10px;">Our Roots</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                    Developed as a final report project at Our Lady of Fatima University, this demo integrates 
+                    persistent cart management and responsive UI design.
+                </p>
+            </div>
+            <div class="stat-card">
+                <h3 style="color: var(--accent-gold); margin-bottom: 10px;">Tech Stack</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                    Built with HTML5, CSS3, and Vanilla JavaScript, emphasizing procedural logic and clean data management.
+                </p>
+            </div>
+        </div>
     </main>
 
+    <!-- FLOATING CART -->
     <div class="cart-container" onclick="toggleCart()" id="floating-cart">
         <div class="cart-icon-wrapper" style="position: relative;">
             <span style="font-size: 1.6rem;">🛒</span>
@@ -113,13 +150,14 @@
         </div>
     </div>
 
+    <!-- SIDEBAR -->
     <div id="sidebar" class="cart-sidebar">
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px; border-bottom: 1px solid rgba(157, 124, 253, 0.1);">
             <h3 style="color: #fff; margin:0;">Your Basket</h3>
             <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
         </div>
         <div id="cart-items" style="flex: 1; overflow-y: auto; padding: 15px;"></div>
-        <div style="padding: 25px; border-top: 1px solid rgba(157, 124, 253, 0.2);">
+        <div style="padding: 25px; border-top: 1px solid rgba(157, 124, 253, 0.2); background: rgba(0,0,0,0.2);">
             <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
                 <span>Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:800;">$0.00</span>
@@ -128,7 +166,9 @@
         </div>
     </div>
 
-    <footer><p>&copy; 2026 VinciFoods</p></footer>
+    <footer style="margin-top: 50px;">
+        <p>&copy; 2026 VinciFoods | OLFU Valenzuela Demo</p>
+    </footer>
 
     <script>
         function navTo(url) {
@@ -148,17 +188,15 @@
 
         function checkSession() {
             const authLink = document.getElementById('authLink');
-            if (localStorage.getItem('currentUser')) { authLink.innerText = "Logout"; }
-            else { authLink.innerText = "Login"; }
+            authLink.innerText = localStorage.getItem('currentUser') ? "Logout" : "Login";
         }
 
         function handleAuthClick(e) {
             if (localStorage.getItem('currentUser')) {
-                if(confirm("Log out?")) { localStorage.removeItem('currentUser'); navTo('index.html'); }
+                if(confirm("Log out of VinciFoods?")) { localStorage.removeItem('currentUser'); navTo('index.html'); }
             } else { navTo('login.html'); }
         }
 
-        // CART SCRIPT
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
         function toggleCart() { document.getElementById('sidebar').classList.toggle('active'); }
 
@@ -171,13 +209,18 @@
             let total = 0;
 
             if (basket.length === 0) { 
-                container.innerHTML = '<p style="text-align:center; opacity:0.5;">Empty basket.</p>';
+                container.innerHTML = '<p style="text-align:center; padding-top:20px; opacity:0.5;">Empty basket.</p>';
             } else { 
                 basket.forEach((item, index) => { 
                     total += item.price;
                     const div = document.createElement('div'); 
-                    div.style = "display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);";
-                    div.innerHTML = `<span>${item.name}</span><span>$${item.price.toFixed(2)}</span>`;
+                    div.style = "display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); margin-bottom: 8px; border-radius: 8px;";
+                    div.innerHTML = `
+                        <div>
+                            <p style="font-size:0.9rem; margin:0;">${item.name}</p>
+                            <p style="font-size:0.8rem; color:var(--accent-gold); margin:0;">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:var(--error-red); cursor:pointer; font-size:0.7rem;">REMOVE</button>`;
                     container.appendChild(div); 
                 });
             }
