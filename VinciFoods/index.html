@@ -5,25 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Home</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Using the same high-end typography as the Demo and Checkout pages -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Specific enhancement for the Home Hero when logged in */
+        /* Essential Scroll & Layout Fixes */
+        html, body {
+            height: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
         .user-welcome {
             color: var(--accent-gold);
             font-size: 1.1rem;
             margin-bottom: 10px;
             font-weight: 600;
-            display: none; /* Controlled via JS */
+            display: none;
         }
         
+        /* Hero section needs enough padding to feel premium and scrollable */
+        .hero {
+            padding: 120px 10%;
+            text-align: center;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         .hero h1 {
             letter-spacing: -2px;
             line-height: 1.1;
+            font-size: 4rem;
         }
 
-        /* Responsive adjustments for the features grid */
+        /* Responsive adjustments */
         @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
             .features-grid {
                 grid-template-columns: 1fr;
                 padding: 40px 5%;
@@ -42,40 +60,53 @@
         </ul>
     </nav>
 
-    <header class="hero">
-        <div id="welcome-msg" class="user-welcome"></div>
-        <h1>Freshly Made.<br>Fast Delivery.</h1>
-        <p>Your favorite meals delivered with a touch of purple. No cap, just flavor.</p>
-        <div class="hero-btns" style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
-            <a href="order.html" class="cta-button">Order Now</a>
-            <a href="aboutus.html" class="cta-button" style="background: transparent; border: 1px solid var(--accent-purple);">Learn More</a>
-        </div>
-    </header>
+    <!-- Main Content Area -->
+    <main>
+        <header class="hero">
+            <div id="welcome-msg" class="user-welcome"></div>
+            <h1>Freshly Made.<br>Fast Delivery.</h1>
+            <p style="max-width: 600px; margin: 20px auto;">Your favorite meals delivered with a touch of purple. No cap, just flavor.</p>
+            <div class="hero-btns" style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+                <a href="order.html" class="cta-button">Order Now</a>
+                <a href="aboutus.html" class="cta-button" style="background: transparent; border: 1px solid var(--accent-purple); color: #fff;">Learn More</a>
+            </div>
+        </header>
 
-    <section class="features-grid">
-        <div class="feature-item">
-            <div style="font-size: 2.5rem; margin-bottom: 15px;">⚡</div>
-            <h3>Flash Delivery</h3>
-            <p>Hot food in 30 mins or less. Zoomer speed included.</p>
-        </div>
-        <div class="feature-item">
-            <div style="font-size: 2.5rem; margin-bottom: 15px;">🌿</div>
-            <h3>Organic Sourced</h3>
-            <p>Main character energy ingredients. Healthy and local.</p>
-        </div>
-        <div class="feature-item">
-            <div style="font-size: 2.5rem; margin-bottom: 15px;">💜</div>
-            <h3>24/7 Support</h3>
-            <p>We're here whenever you're hungry. Always on standby.</p>
-        </div>
-    </section>
+        <!-- Added more vertical space to ensure scrollability -->
+        <section class="features-section" style="padding: 100px 10%; background: rgba(0,0,0,0.2);">
+            <h2 style="text-align: center; margin-bottom: 60px; font-size: 2.5rem;">The Vinci Standard</h2>
+            <div class="menu-grid">
+                <div class="feature-item" style="padding: 50px;">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">⚡</div>
+                    <h3>Flash Delivery</h3>
+                    <p>Hot food in 30 mins or less. Zoomer speed included.</p>
+                </div>
+                <div class="feature-item" style="padding: 50px;">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🌿</div>
+                    <h3>Organic Sourced</h3>
+                    <p>Main character energy ingredients. Healthy and local.</p>
+                </div>
+                <div class="feature-item" style="padding: 50px;">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">💜</div>
+                    <h3>24/7 Support</h3>
+                    <p>We're here whenever you're hungry. Always on standby.</p>
+                </div>
+            </div>
+        </section>
 
-    <!-- Global Cart Toggle -->
+        <!-- Extra content section to test scrolling -->
+        <section style="padding: 100px 10%; text-align: center;">
+            <h2 style="color: var(--accent-purple);">Hungry yet?</h2>
+            <p style="margin-bottom: 30px;">Join thousands of users in the Philippines ordering daily.</p>
+            <a href="order.html" class="cta-button">Explore Menu</a>
+        </section>
+    </main>
+
+    <!-- Global Cart Toggle: Locked to the bottom-right as seen in image_9322ff.jpg -->
     <div class="cart-toggle" onclick="toggleCart()">
         🛒 <span id="cart-count">0</span>
     </div>
     
-    <!-- Sidebar remains persistent and handles cart calculations -->
     <div id="sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Your Basket</h3>
@@ -159,12 +190,8 @@
 
         if (rawUserData) { 
             const userData = JSON.parse(rawUserData);
-            
-            // Personalize the hero section
             welcomeMsg.innerText = `Welcome back, ${userData.user}! ✨`;
             welcomeMsg.style.display = "block";
-            
-            // Update nav link
             authLink.innerText = "Logout"; 
             authLink.href = "#"; 
             authLink.onclick = (e) => { 
@@ -176,7 +203,6 @@
             }; 
         }
 
-        // Initialize UI on load
         updateUI();
     </script>
 </body>
