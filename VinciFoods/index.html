@@ -51,12 +51,12 @@
 </head>
 <body id="page-body">
     <nav>
-        <div class="logo">VinciFoods</div>
+        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="aboutus.html">About</a></li>
-            <li><a href="order.html">Order</a></li>
-            <li><a href="login.html" id="authLink">Login</a></li>
+            <li><a href="index.html" class="active" onclick="event.preventDefault(); navTo('index.html');">Home</a></li>
+            <li><a href="aboutus.html" onclick="event.preventDefault(); navTo('aboutus.html');">About</a></li>
+            <li><a href="order.html" onclick="event.preventDefault(); navTo('order.html');">Order</a></li>
+            <li><a href="login.html" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
         </ul>
     </nav>
 
@@ -67,12 +67,11 @@
             <h1>Freshly Made.<br>Fast Delivery.</h1>
             <p style="max-width: 600px; margin: 20px auto;">Your favorite meals delivered with a touch of purple. No cap, just flavor.</p>
             <div class="hero-btns" style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
-                <a href="order.html" class="cta-button">Order Now</a>
-                <a href="aboutus.html" class="cta-button" style="background: transparent; border: 1px solid var(--accent-purple); color: #fff;">Learn More</a>
+                <a href="order.html" class="cta-button" onclick="event.preventDefault(); navTo('order.html');">Order Now</a>
+                <a href="aboutus.html" class="cta-button" style="background: transparent; border: 1px solid var(--accent-purple); color: #fff;" onclick="event.preventDefault(); navTo('aboutus.html');">Learn More</a>
             </div>
         </header>
 
-        <!-- Added more vertical space to ensure scrollability -->
         <section class="features-section" style="padding: 100px 10%; background: rgba(0,0,0,0.2);">
             <h2 style="text-align: center; margin-bottom: 60px; font-size: 2.5rem;">The Vinci Standard</h2>
             <div class="menu-grid">
@@ -94,15 +93,14 @@
             </div>
         </section>
 
-        <!-- Extra content section to test scrolling -->
         <section style="padding: 100px 10%; text-align: center;">
             <h2 style="color: var(--accent-purple);">Hungry yet?</h2>
             <p style="margin-bottom: 30px;">Join thousands of users in the Philippines ordering daily.</p>
-            <a href="order.html" class="cta-button">Explore Menu</a>
+            <a href="order.html" class="cta-button" onclick="event.preventDefault(); navTo('order.html');">Explore Menu</a>
         </section>
     </main>
 
-    <!-- Global Cart Toggle: Locked to the bottom-right as seen in image_9322ff.jpg -->
+    <!-- Global Cart Toggle -->
     <div class="cart-toggle" onclick="toggleCart()">
         🛒 <span id="cart-count">0</span>
     </div>
@@ -129,6 +127,18 @@
     </footer>
 
     <script>
+        // --- PAGE TRANSITION LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loaded');
+        });
+
+        function navTo(url) {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
         // --- PERSISTENT CART ENGINE ---
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
         
@@ -177,9 +187,9 @@
             }
             if (!localStorage.getItem('currentUser')) { 
                 alert("Login first! We need to know who you are."); 
-                window.location.href = 'login.html'; 
+                navTo('login.html'); 
             } else { 
-                window.location.href = 'checkout.html'; 
+                navTo('checkout.html'); 
             } 
         }
 
@@ -193,14 +203,18 @@
             welcomeMsg.innerText = `Welcome back, ${userData.user}! ✨`;
             welcomeMsg.style.display = "block";
             authLink.innerText = "Logout"; 
-            authLink.href = "#"; 
-            authLink.onclick = (e) => { 
-                e.preventDefault();
+        }
+
+        function handleAuthClick(e) {
+            e.preventDefault();
+            if (localStorage.getItem('currentUser')) {
                 if(confirm("Ready to sign out?")) {
                     localStorage.removeItem('currentUser'); 
                     window.location.reload(); 
                 }
-            }; 
+            } else {
+                navTo('login.html');
+            }
         }
 
         updateUI();
