@@ -64,12 +64,12 @@
 </head>
 <body id="page-body">
     <nav>
-        <div class="logo">VinciFoods</div>
+        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutus.html">About</a></li>
-            <li><a href="order.html" class="active">Order</a></li>
-            <li><a href="login.html" id="authLink">Login</a></li>
+            <li><a href="index.html" onclick="event.preventDefault(); navTo('index.html');">Home</a></li>
+            <li><a href="aboutus.html" onclick="event.preventDefault(); navTo('aboutus.html');">About</a></li>
+            <li><a href="order.html" class="active" onclick="event.preventDefault(); navTo('order.html');">Order</a></li>
+            <li><a href="login.html" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
         </ul>
     </nav>
 
@@ -81,6 +81,7 @@
 
         <section class="menu-section">
             <div class="menu-grid">
+                <!-- Burger -->
                 <div class="food-item">
                     <span class="food-tag">Bestseller</span>
                     <h3>Vinci Burger</h3>
@@ -89,6 +90,7 @@
                     <button class="submit-btn" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
                 </div>
                 
+                <!-- Pasta -->
                 <div class="food-item">
                     <span class="food-tag">Chef's Pick</span>
                     <h3>Lavender Pasta</h3>
@@ -97,6 +99,7 @@
                     <button class="submit-btn" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
                 </div>
 
+                <!-- Fries -->
                 <div class="food-item">
                     <span class="food-tag">Premium Side</span>
                     <h3>Nebula Fries</h3>
@@ -105,6 +108,7 @@
                     <button class="submit-btn" onclick="addToCart('Nebula Fries', 6.00)">Add to Basket</button>
                 </div>
 
+                <!-- Shake -->
                 <div class="food-item">
                     <span class="food-tag">Signature Drink</span>
                     <h3>Vinci Shake</h3>
@@ -142,6 +146,18 @@
     </footer>
 
     <script>
+        // --- PAGE TRANSITION LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loaded');
+        });
+
+        function navTo(url) {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
         // --- PERSISTENT CART ENGINE ---
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
@@ -154,7 +170,7 @@
             
             if (!rawUser) {
                 alert("Login required to add items to your basket!");
-                window.location.href = 'login.html';
+                navTo('login.html');
                 return;
             }
 
@@ -209,27 +225,32 @@
             
             if (!localStorage.getItem('currentUser')) {
                 alert("Please login to complete your order.");
-                window.location.href = 'login.html';
+                navTo('login.html');
             } else {
-                window.location.href = 'checkout.html';
+                navTo('checkout.html');
             }
         }
 
-        // --- AUTH SYNC ---
+        // --- AUTH SYNC & LOGOUT ---
         const authLink = document.getElementById('authLink');
         const rawUserData = localStorage.getItem('currentUser');
 
         if (rawUserData) {
             const userData = JSON.parse(rawUserData);
             authLink.innerText = "Logout";
-            authLink.href = "#";
-            authLink.onclick = (e) => {
-                e.preventDefault();
+        }
+
+        function handleAuthClick(e) {
+            e.preventDefault();
+            if (localStorage.getItem('currentUser')) {
+                const userData = JSON.parse(localStorage.getItem('currentUser'));
                 if(confirm(`Signing out, ${userData.user}?`)) {
                     localStorage.removeItem('currentUser');
-                    window.location.reload();
+                    navTo('index.html');
                 }
-            };
+            } else {
+                navTo('login.html');
+            }
         }
 
         // Initialize UI on load
