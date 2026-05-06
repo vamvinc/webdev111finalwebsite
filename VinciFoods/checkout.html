@@ -75,15 +75,26 @@
                     <label>Full Name</label>
                     <input type="text" id="custName" class="checkout-input" placeholder="Vince" required>
                 </div>
-                <!-- Contact Number Field -->
+                
+                <!-- Contact Number Field: Strictly numbers only -->
                 <div class="form-group">
                     <label>Contact Number</label>
-                    <input type="tel" id="custPhone" class="checkout-input" placeholder="09XX-XXX-XXXX" required>
+                    <input 
+                        type="tel" 
+                        id="custPhone" 
+                        class="checkout-input" 
+                        placeholder="09123456789" 
+                        pattern="[0-9]+" 
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
+                        required
+                    >
                 </div>
+
                 <div class="form-group">
                     <label>Delivery Address</label>
                     <input type="text" id="custAddr" class="checkout-input" placeholder="Street, City, Metro Manila" required>
                 </div>
+
                 <div class="form-group">
                     <label>Payment Method</label>
                     <select id="payMethod" class="checkout-input" style="width: 100%;" required>
@@ -144,7 +155,7 @@
         function generateReceipt() {
             const form = document.getElementById('paymentForm');
             
-            // VALIDATION: Prevent printing if fields are empty
+            // VALIDATION: Ensures fields are filled correctly before printing
             if (!form.checkValidity()) {
                 form.reportValidity();
                 return;
