@@ -6,13 +6,59 @@
     <title>VinciFoods | Admin Dashboard (Demo)</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Specific Admin Styles */
+        .admin-mode {
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(188, 19, 254, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(68, 221, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            transition: var(--transition-cool);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent-purple);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Command Center Entrance Animations */
+        header h1, header p, .stat-card, .summary-card {
+            opacity: 0;
+            transform: translateY(30px) skewY(1deg);
+            transition: var(--transition-cool);
+        }
+
+        body.loaded header h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
+        body.loaded header p  { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
+        
+        /* Staggered Stats */
+        body.loaded .stat-card:nth-child(1) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
+        body.loaded .stat-card:nth-child(2) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.4s; }
+        body.loaded .stat-card:nth-child(3) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.5s; }
+        
+        body.loaded .summary-card { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.6s; }
+
+        table tr { transition: background 0.3s ease; }
+        table tr:hover { background: rgba(157, 124, 253, 0.05); }
+
+    </style>
 </head>
 <body id="page-body" class="admin-mode">
+    <!-- The Curtain Reveal Layer -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-neon), var(--accent-purple)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+
     <nav>
-        <div class="logo">VinciFoods <span style="font-size: 0.7rem; color: var(--accent-gold); letter-spacing: 1px;">ADMIN</span></div>
+        <div class="logo" onclick="navTo('index.html')" style="cursor: pointer;">VinciFoods <span style="font-size: 0.7rem; color: var(--accent-gold); letter-spacing: 1px;">ADMIN</span></div>
         <ul class="nav-links">
-            <li><a href="index.html">View Site</a></li>
-            <li><a href="login.html">Logout</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">View Site</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('login.html')">Logout</a></li>
         </ul>
     </nav>
 
@@ -22,8 +68,8 @@
             <p style="color: var(--text-muted);">Real-time demo of store metrics and order management.</p>
         </header>
 
-        <!-- Stats Grid -->
-        <div class="menu-grid" style="margin-bottom: 40px;">
+        <!-- Stats Grid (Repurposing menu-grid from style.css) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px;">
             <div class="stat-card" style="padding: 30px; text-align: center;">
                 <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Total Sales</p>
                 <h2 style="font-size: 2.2rem; color: var(--accent-gold); margin-top: 10px;">₱12,405.00</h2>
@@ -39,7 +85,7 @@
         </div>
 
         <!-- Order Management Table -->
-        <div class="summary-card" style="padding: 30px;">
+        <div class="summary-card" style="padding: 30px; background: var(--bg-card); border-radius: 28px; border: 1px solid rgba(255,255,255,0.08);">
             <h3 style="margin-bottom: 20px; font-weight: 600;">Incoming Requests</h3>
             <div style="overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; color: var(--text-muted); min-width: 600px;">
@@ -58,14 +104,14 @@
                             <td style="color: #fff;">Demo User</td>
                             <td>3x Vinci Special, 1x Soda</td>
                             <td><span style="color: var(--accent-gold); font-weight: 600;">PREPARING</span></td>
-                            <td><button class="submit-btn" style="padding: 8px 15px; font-size: 0.7rem;">Complete</button></td>
+                            <td><button class="btn-primary" style="padding: 8px 15px; font-size: 0.7rem;">Complete</button></td>
                         </tr>
                         <tr>
                             <td style="padding: 20px 10px; color: #fff;">#VFC-101</td>
                             <td style="color: #fff;">Guest Visitor</td>
                             <td>1x Golden Wrap</td>
                             <td><span style="color: var(--success-green); font-weight: 600;">DELIVERED</span></td>
-                            <td><button class="submit-btn" style="padding: 8px 15px; font-size: 0.7rem; opacity: 0.5;">Archived</button></td>
+                            <td><button class="btn-secondary" style="padding: 8px 15px; font-size: 0.7rem; opacity: 0.5;">Archived</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -74,26 +120,21 @@
     </main>
 
     <script>
-        // --- DEMO OVERRIDE ---
-        // We've removed the 'Access Denied' alert check for this demo session.
-        document.addEventListener("DOMContentLoaded", () => {
-            // Instant Fade-In
-            document.body.classList.add('loaded');
-            console.log("Admin Dashboard: Demo Mode Active (Auth Bypassed)");
-        });
+        // --- COOL NAV LOGIC ---
+        function navTo(url) {
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0'; // Sweep the curtain
+            setTimeout(() => {
+                window.location.href = url;
+            }, 700);
+        }
 
-        // --- SMOOTH EXIT TRANSITION ---
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', e => {
-                const target = link.getAttribute('href');
-                if (target && target !== "#") {
-                    e.preventDefault();
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => {
-                        window.location.href = target;
-                    }, 500);
-                }
-            });
+        document.addEventListener("DOMContentLoaded", () => {
+            // Instant Clip-Path Reveal + Staggered text
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+            console.log("Admin Dashboard: Demo Mode Active");
         });
     </script>
 </body>
