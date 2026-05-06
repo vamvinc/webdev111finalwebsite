@@ -1,280 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | SuperAdmin</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Mono&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --admin-gold: #ffcc33;
-            --admin-red: #ff4d4d;
-            --admin-bg: #0a0814;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | SuperAdmin</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --admin-gold: #ffcc33;
+            --admin-red: #ff4d4d;
+            --admin-bg: #0a0814;
+        }
 
-        body {
-            background: var(--admin-bg);
-            background-image: 
-                linear-gradient(rgba(157, 124, 253, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(157, 124, 253, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
-            overflow-x: hidden;
-        }
+        body {
+            background: var(--admin-bg);
+            background-image: 
+                linear-gradient(rgba(157, 124, 253, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157, 124, 253, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            overflow-x: hidden;
+        }
 
-        .admin-nav {
-            background: rgba(15, 10, 25, 0.95);
-            border-bottom: 2px solid var(--admin-gold);
-            backdrop-filter: blur(15px);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .admin-nav {
+            background: rgba(15, 10, 25, 0.95);
+            border-bottom: 2px solid var(--admin-gold);
+            backdrop-filter: blur(15px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-        .stat-card {
-            background: rgba(20, 15, 35, 0.8);
-            padding: 25px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 204, 51, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0;
-            transform: translateY(20px);
-        }
+        .stat-card {
+            background: rgba(20, 15, 35, 0.8);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 204, 51, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-        body.loaded .stat-card {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        body.loaded .stat-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        /* Staggered entrance for admin cards */
-        .stat-card:nth-child(1) { transition-delay: 0.1s; }
-        .stat-card:nth-child(2) { transition-delay: 0.2s; }
-        .stat-card:nth-child(3) { transition-delay: 0.3s; }
-        .stat-card:nth-child(4) { transition-delay: 0.4s; }
+        /* Staggered entrance for admin cards */
+        .stat-card:nth-child(1) { transition-delay: 0.1s; }
+        .stat-card:nth-child(2) { transition-delay: 0.2s; }
+        .stat-card:nth-child(3) { transition-delay: 0.3s; }
+        .stat-card:nth-child(4) { transition-delay: 0.4s; }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--admin-gold);
-            box-shadow: 0 10px 30px rgba(255, 204, 51, 0.1);
-        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--admin-gold);
+            box-shadow: 0 10px 30px rgba(255, 204, 51, 0.1);
+        }
 
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
 
-        .stat-value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            font-family: 'Space Mono', monospace;
-            color: #fff;
-        }
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'Space Mono', monospace;
+            color: #fff;
+        }
 
-        /* --- TERMINAL STYLING --- */
-        .terminal-window {
-            background: #000;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-        }
+        /* --- TERMINAL STYLING --- */
+        .terminal-window {
+            background: #000;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
 
-        .terminal-header {
-            background: #1a1a1a;
-            padding: 10px 15px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
 
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #ff5f56; }
-        .amber { background: #ffbd2e; }
-        .green { background: #27c93f; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .amber { background: #ffbd2e; }
+        .green { background: #27c93f; }
 
-        .log-entry {
-            font-family: 'Space Mono', monospace;
-            padding: 10px 15px;
-            font-size: 0.85rem;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            color: #aaa;
-        }
+        .log-entry {
+            font-family: 'Space Mono', monospace;
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            color: #aaa;
+        }
 
-        .timestamp { color: var(--accent-purple); margin-right: 10px; }
+        .timestamp { color: var(--accent-purple); margin-right: 10px; }
 
-        .bar {
-            width: 40px;
-            border-radius: 6px 6px 0 0;
-            transition: height 1s ease;
-            position: relative;
-            background: linear-gradient(to top, var(--accent-purple), var(--admin-gold));
-        }
+        .bar {
+            width: 40px;
+            border-radius: 6px 6px 0 0;
+            transition: height 1s ease;
+            position: relative;
+            background: linear-gradient(to top, var(--accent-purple), var(--admin-gold));
+        }
 
-        .btn-shutdown {
-            background: rgba(255, 77, 77, 0.1);
-            border: 1px solid var(--admin-red);
-            color: var(--admin-red);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+        .btn-shutdown {
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid var(--admin-red);
+            color: var(--admin-red);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-        .btn-shutdown:hover {
-            background: var(--admin-red);
-            color: white;
-        }
-    </style>
+        .btn-shutdown:hover {
+            background: var(--admin-red);
+            color: white;
+        }
+    </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--admin-gold), var(--admin-red)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--admin-gold), var(--admin-red)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
-    <nav class="admin-nav">
-        <div class="logo" style="color: var(--admin-gold); font-size: 1.2rem; cursor: pointer;" onclick="navTo('index.html')">
-            <span style="opacity: 0.4;">&gt;</span> VINCIFOODS_CORE_v2.0
-        </div>
-        <ul class="nav-links" style="list-style: none;">
-            <li><button onclick="systemExit()" class="btn-shutdown">SHUTDOWN SYSTEM</button></li>
-        </ul>
-    </nav>
+    <nav class="admin-nav">
+        <div class="logo" style="color: var(--admin-gold); font-size: 1.2rem; cursor: pointer;" onclick="navTo('index.html')">
+            <span style="opacity: 0.4;">&gt;</span> VINCIFOODS_CORE_v2.0
+        </div>
+        <ul class="nav-links" style="list-style: none;">
+            <li><button onclick="systemExit()" class="btn-shutdown">SHUTDOWN SYSTEM</button></li>
+        </ul>
+    </nav>
 
-    <div style="padding: 40px 8%;">
-        <header style="margin-bottom: 40px; border-left: 4px solid var(--admin-gold); padding-left: 20px;">
-            <h1 style="font-size: 2.5rem; letter-spacing: -1px; color: #fff;">Console Command</h1>
-            <p style="color: var(--text-muted);">Infrastructure: <span style="color: #0f0;">ONLINE</span> | Region: Manila, PH</p>
-        </header>
+    <div style="padding: 40px 8%;">
+        <header style="margin-bottom: 40px; border-left: 4px solid var(--admin-gold); padding-left: 20px;">
+            <h1 style="font-size: 2.5rem; letter-spacing: -1px; color: #fff;">Console Command</h1>
+            <p style="color: var(--text-muted);">Infrastructure: <span style="color: #0f0;">ONLINE</span> | Region: Manila, PH</p>
+        </header>
 
-        <!-- Dynamic Metrics -->
-        <div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
-            <div class="stat-card">
-                <p class="stat-label">System Revenue</p>
-                <h2 class="stat-value" id="totalRev" style="color: #0f0;">$0.00</h2>
-            </div>
-            <div class="stat-card">
-                <p class="stat-label">Verified Squad</p>
-                <h2 class="stat-value" id="userCount">0</h2>
-            </div>
-            <div class="stat-card">
-                <p class="stat-label">Pending Orders</p>
-                <h2 class="stat-value" id="orderCount" style="color: var(--admin-gold);">0</h2>
-            </div>
-            <div class="stat-card">
-                <p class="stat-label">Server Latency</p>
-                <h2 class="stat-value" style="color: #4df;">12ms</h2>
-            </div>
-        </div>
+        <!-- Dynamic Metrics -->
+        <div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+            <div class="stat-card">
+                <p class="stat-label">System Revenue</p>
+                <h2 class="stat-value" id="totalRev" style="color: #0f0;">$0.00</h2>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Verified Squad</p>
+                <h2 class="stat-value" id="userCount">0</h2>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Pending Orders</p>
+                <h2 class="stat-value" id="orderCount" style="color: var(--admin-gold);">0</h2>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Server Latency</p>
+                <h2 class="stat-value" style="color: #4df;">12ms</h2>
+            </div>
+        </div>
 
-        <div style="display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap;">
-            <!-- Traffic Visualization -->
-            <div style="flex: 2; min-width: 340px; background: rgba(10,8,20,0.6); padding: 30px; border-radius: 24px; border: 1px solid rgba(157, 124, 253, 0.1);">
-                <h3 style="margin-bottom: 25px; font-size: 1rem; color: var(--admin-gold);">Network Traffic Distribution</h3>
-                <div style="height: 250px; display: flex; align-items: flex-end; justify-content: space-around; padding: 0 20px;">
-                    <div class="bar" style="height: 45%;"></div>
-                    <div class="bar" style="height: 85%;"></div>
-                    <div class="bar" style="height: 60%;"></div>
-                    <div class="bar" style="height: 95%;"></div>
-                    <div class="bar" style="height: 30%;"></div>
-                    <div class="bar" style="height: 75%;"></div>
-                </div>
-            </div>
-            
-            <!-- Terminal Logs -->
-            <div class="terminal-window" style="flex: 1; min-width: 340px;">
-                <div class="terminal-header">
-                    <div class="dot red"></div>
-                    <div class="dot amber"></div>
-                    <div class="dot green"></div>
-                    <span style="font-size: 0.7rem; color: #666; margin-left: 10px; font-family: 'Space Mono';">security_kernel.log</span>
-                </div>
-                <div id="log-container" style="height: 260px; overflow-y: auto;">
-                    <!-- Logs populated via script -->
-                </div>
-            </div>
-        </div>
-    </div>
+        <div style="display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap;">
+            <!-- Traffic Visualization -->
+            <div style="flex: 2; min-width: 340px; background: rgba(10,8,20,0.6); padding: 30px; border-radius: 24px; border: 1px solid rgba(157, 124, 253, 0.1);">
+                <h3 style="margin-bottom: 25px; font-size: 1rem; color: var(--admin-gold);">Network Traffic Distribution</h3>
+                <div style="height: 250px; display: flex; align-items: flex-end; justify-content: space-around; padding: 0 20px;">
+                    <div class="bar" style="height: 45%;"></div>
+                    <div class="bar" style="height: 85%;"></div>
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 95%;"></div>
+                    <div class="bar" style="height: 30%;"></div>
+                    <div class="bar" style="height: 75%;"></div>
+                </div>
+            </div>
+            
+            <!-- Terminal Logs -->
+            <div class="terminal-window" style="flex: 1; min-width: 340px;">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot amber"></div>
+                    <div class="dot green"></div>
+                    <span style="font-size: 0.7rem; color: #666; margin-left: 10px; font-family: 'Space Mono';">security_kernel.log</span>
+                </div>
+                <div id="log-container" style="height: 260px; overflow-y: auto;">
+                    <!-- Logs populated via script -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        // --- PAGE TRANSITION ENGINE ---
-        function navTo(url) {
-            const loader = document.getElementById('loader-layer');
-            loader.style.left = '0';
-            setTimeout(() => {
-                window.location.href = url;
-            }, 700);
-        }
+    <script>
+        // --- PAGE TRANSITION ENGINE ---
+        function navTo(url) {
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => {
+                window.location.href = url;
+            }, 700);
+        }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 100);
-            refreshStats();
-        });
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+            refreshStats();
+        });
 
-        // --- REAL-TIME DATA ENGINE ---
-        function refreshStats() {
-            let userCount = 0;
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.includes('@')) userCount++;
-            }
+        // --- REAL-TIME DATA ENGINE ---
+        function refreshStats() {
+            let userCount = 0;
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.includes('@')) userCount++;
+            }
 
-            const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
-            const basket = JSON.parse(localStorage.getItem('userCart')) || [];
+            const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
+            const basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
-            document.getElementById('userCount').innerText = userCount;
-            document.getElementById('orderCount').innerText = orders.length || basket.length;
-            
-            const revenue = (userCount * 12.5 + orders.length * 45).toFixed(2);
-            document.getElementById('totalRev').innerText = `$${revenue}`;
-        }
+            document.getElementById('userCount').innerText = userCount;
+            document.getElementById('orderCount').innerText = orders.length || basket.length;
+            
+            const revenue = (userCount * 12.5 + orders.length * 45).toFixed(2);
+            document.getElementById('totalRev').innerText = `$${revenue}`;
+        }
 
-        // --- TERMINAL LOG GENERATOR ---
-        const logContainer = document.getElementById('log-container');
-        const activities = [
-            "User session established", "Encryption layer active", 
-            "Database handshake successful", "Cache cleared", 
-            "New registration detected", "Order processed",
-            "Admin privileges verified", "Firewall packet filtered"
-        ];
+        // --- TERMINAL LOG GENERATOR ---
+        const logContainer = document.getElementById('log-container');
+        const activities = [
+            "User session established", "Encryption layer active", 
+            "Database handshake successful", "Cache cleared", 
+            "New registration detected", "Order processed",
+            "Admin privileges verified", "Firewall packet filtered"
+        ];
 
-        function addLog() {
-            const time = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
-            const action = activities[Math.floor(Math.random() * activities.length)];
-            const div = document.createElement('div');
-            div.className = 'log-entry';
-            div.innerHTML = `<span class="timestamp">[${time}]</span> <span>${action}</span>`;
-            
-            logContainer.prepend(div);
-            if (logContainer.children.length > 10) logContainer.lastChild.remove();
-        }
+        function addLog() {
+            const time = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
+            const action = activities[Math.floor(Math.random() * activities.length)];
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerHTML = `<span class="timestamp">[${time}]</span> <span>${action}</span>`;
+            
+            logContainer.prepend(div);
+            if (logContainer.children.length > 10) logContainer.lastChild.remove();
+        }
 
-        function systemExit() {
-            if(confirm("CRITICAL: Terminate administrative authority and purge session?")) {
-                localStorage.removeItem('currentUser');
-                navTo('login.html');
-            }
-        }
+        function systemExit() {
+            if(confirm("CRITICAL: Terminate administrative authority and purge session?")) {
+                localStorage.removeItem('currentUser');
+                navTo('login.html');
+            }
+        }
 
-        // Initialization
-        setInterval(addLog, 3000);
-        setInterval(() => {
-            const bars = document.querySelectorAll('.bar');
-            bars.forEach(bar => {
-                const h = Math.floor(Math.random() * 70) + 20;
-                bar.style.height = h + '%';
-            });
-        }, 2000);
-    </script>
+        // Initialization
+        setInterval(addLog, 3000);
+        setInterval(() => {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach(bar => {
+                const h = Math.floor(Math.random() * 70) + 20;
+                bar.style.height = h + '%';
+            });
+        }, 2000);
+    </script>
 </body>
 </html>
