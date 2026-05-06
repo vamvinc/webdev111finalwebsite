@@ -5,8 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Home</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Using the same high-end typography as the Demo and Checkout pages -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Specific enhancement for the Home Hero when logged in */
+        .user-welcome {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: none; /* Controlled via JS */
+        }
+        
+        .hero h1 {
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        /* Responsive adjustments for the features grid */
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 40px 5%;
+            }
+        }
+    </style>
 </head>
-<body>
+<body id="page-body">
     <nav>
         <div class="logo">VinciFoods</div>
         <ul class="nav-links">
@@ -18,30 +43,39 @@
     </nav>
 
     <header class="hero">
+        <div id="welcome-msg" class="user-welcome"></div>
         <h1>Freshly Made.<br>Fast Delivery.</h1>
         <p>Your favorite meals delivered with a touch of purple. No cap, just flavor.</p>
-        <a href="order.html" class="cta-button">Order Now</a>
+        <div class="hero-btns" style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+            <a href="order.html" class="cta-button">Order Now</a>
+            <a href="aboutus.html" class="cta-button" style="background: transparent; border: 1px solid var(--accent-purple);">Learn More</a>
+        </div>
     </header>
 
     <section class="features-grid">
         <div class="feature-item">
+            <div style="font-size: 2.5rem; margin-bottom: 15px;">⚡</div>
             <h3>Flash Delivery</h3>
             <p>Hot food in 30 mins or less. Zoomer speed included.</p>
         </div>
         <div class="feature-item">
+            <div style="font-size: 2.5rem; margin-bottom: 15px;">🌿</div>
             <h3>Organic Sourced</h3>
             <p>Main character energy ingredients. Healthy and local.</p>
         </div>
         <div class="feature-item">
+            <div style="font-size: 2.5rem; margin-bottom: 15px;">💜</div>
             <h3>24/7 Support</h3>
             <p>We're here whenever you're hungry. Always on standby.</p>
         </div>
     </section>
 
+    <!-- Global Cart Toggle -->
     <div class="cart-toggle" onclick="toggleCart()">
         🛒 <span id="cart-count">0</span>
     </div>
     
+    <!-- Sidebar remains persistent and handles cart calculations -->
     <div id="sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Your Basket</h3>
@@ -55,7 +89,7 @@
                 <span>Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
             </div>
-            <button class="submit-btn" onclick="checkout()">Checkout</button>
+            <button class="submit-btn" onclick="checkout()">Proceed to Checkout</button>
         </div>
     </div>
 
@@ -64,7 +98,7 @@
     </footer>
 
     <script>
-        // --- SHARED PERSISTENT CART ENGINE ---
+        // --- PERSISTENT CART ENGINE ---
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
         
         function toggleCart() { 
@@ -85,14 +119,13 @@
                     total += item.price;
                     const div = document.createElement('div'); 
                     div.className = 'cart-item';
-                    // Added flex styling directly to the JS to keep layout consistent
-                    div.style = "display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);";
+                    div.style = "display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);";
                     div.innerHTML = `
                         <div style="text-align: left;">
-                            <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
+                            <p style="font-weight:600; font-size:0.9rem; color:#fff;">${item.name}</p>
                             <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold; font-size: 0.8rem;">Remove</button>`;
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-size: 0.75rem;">Remove</button>`;
                     container.appendChild(div); 
                 });
             }
@@ -106,7 +139,6 @@
             updateUI(); 
         }
 
-        // --- UPDATED CHECKOUT LOGIC (Now redirects to checkout.html) ---
         function checkout() { 
             if (basket.length === 0) {
                 alert("Basket is empty! Go get some food.");
@@ -116,31 +148,36 @@
                 alert("Login first! We need to know who you are."); 
                 window.location.href = 'login.html'; 
             } else { 
-                // Consistent with order.html and aboutus.html
                 window.location.href = 'checkout.html'; 
             } 
         }
 
-        // Initialize UI
-        updateUI();
-
-        // --- FIXED AUTH LOGIC ---
+        // --- AUTH & PERSONALIZATION LOGIC ---
         const authLink = document.getElementById('authLink');
-        const currentUser = localStorage.getItem('currentUser');
+        const welcomeMsg = document.getElementById('welcome-msg');
+        const rawUserData = localStorage.getItem('currentUser');
 
-        if (currentUser) { 
+        if (rawUserData) { 
+            const userData = JSON.parse(rawUserData);
+            
+            // Personalize the hero section
+            welcomeMsg.innerText = `Welcome back, ${userData.user}! ✨`;
+            welcomeMsg.style.display = "block";
+            
+            // Update nav link
             authLink.innerText = "Logout"; 
             authLink.href = "#"; 
             authLink.onclick = (e) => { 
                 e.preventDefault();
-                localStorage.removeItem('currentUser'); 
-                window.location.reload(); 
+                if(confirm("Ready to sign out?")) {
+                    localStorage.removeItem('currentUser'); 
+                    window.location.reload(); 
+                }
             }; 
-        } else {
-            authLink.innerText = "Login";
-            authLink.href = "login.html";
-            authLink.onclick = null;
         }
+
+        // Initialize UI on load
+        updateUI();
     </script>
 </body>
 </html>
