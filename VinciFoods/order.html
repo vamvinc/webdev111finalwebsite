@@ -7,7 +7,37 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Essential Scroll & Layout Fixes */
+        /* --- BRANDED LOGO TRANSITION --- */
+        #loader-layer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #1a1625; /* Theme-consistent dark purple */
+            z-index: 10001;
+            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        #loader-logo {
+            width: 200px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+        }
+
+        #loader-layer.active #loader-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- LAYOUT & SCROLL --- */
         html, body {
             height: auto;
             overflow-y: auto;
@@ -15,55 +45,46 @@
             background: var(--bg-dark);
         }
 
-        /* Specific styles for the menu grid */
         .menu-section {
             padding: 40px 10% 100px 10%;
         }
+
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
             margin-top: 30px;
         }
+
+        /* --- STAGGERED ITEM ANIMATION --- */
         .food-item {
             background: var(--bg-card);
             padding: 30px;
             border-radius: 24px;
             border: 1px solid rgba(157, 124, 253, 0.1);
             text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             backdrop-filter: blur(10px);
             opacity: 0;
-            transform: scale(0.9);
+            transform: translateY(30px);
         }
         
         body.loaded .food-item {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0);
         }
 
-        /* Staggered load animation for items */
-        .food-item:nth-child(1) { transition-delay: 0.1s; }
-        .food-item:nth-child(2) { transition-delay: 0.2s; }
-        .food-item:nth-child(3) { transition-delay: 0.3s; }
-        .food-item:nth-child(4) { transition-delay: 0.4s; }
+        .food-item:nth-child(1) { transition-delay: 0.2s; }
+        .food-item:nth-child(2) { transition-delay: 0.3s; }
+        .food-item:nth-child(3) { transition-delay: 0.4s; }
+        .food-item:nth-child(4) { transition-delay: 0.5s; }
 
         .food-item:hover {
             transform: translateY(-12px);
             border-color: var(--accent-purple);
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
-        .food-item h3 {
-            color: #fff;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        .food-item .price {
-            color: var(--accent-gold);
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
+
         .food-tag {
             background: rgba(157, 124, 253, 0.1);
             color: var(--accent-purple);
@@ -75,11 +96,73 @@
             margin-bottom: 10px;
             font-weight: 700;
         }
+
+        /* --- SIDEBAR GLASSMORPHISM --- */
+        .cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: rgba(26, 22, 37, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(157, 124, 253, 0.2);
+            z-index: 9999;
+            transition: right 0.5s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -20px 0 50px rgba(0,0,0,0.5);
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-purple);
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 9998;
+            box-shadow: 0 10px 30px rgba(157, 124, 253, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .cart-toggle:hover {
+            transform: scale(1.1) rotate(-10deg);
+        }
+
+        #cart-count {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            font-size: 0.75rem;
+            font-weight: 800;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Updated Branded Transition Layer -->
+    <div id="loader-layer">
+        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+    </div>
 
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
@@ -92,8 +175,8 @@
     </nav>
 
     <main>
-        <header class="hero" style="min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 10% 40px 10%;">
-            <h1 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The Menu</h1>
+        <header class="hero" style="min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 10% 40px 10%;">
+            <h1 style="font-size: clamp(2.5rem, 8vw, 3.5rem); font-weight: 800; letter-spacing: -2px;">The Menu</h1>
             <p style="color: var(--text-muted); max-width: 600px; margin: 20px auto;">Gourmet meals, high-key speed. Select your favorites below to build your basket.</p>
         </header>
 
@@ -138,24 +221,26 @@
         </section>
     </main>
 
-    <!-- Persistent Floating Cart Trigger -->
+    <!-- Floating Basket Button -->
     <div class="cart-toggle" onclick="toggleCart()">
         🛒 <span id="cart-count">0</span>
     </div>
 
-    <!-- Right-side Basket Sidebar -->
+    <!-- Right Sidebar Basket -->
     <div id="sidebar" class="cart-sidebar">
-        <div class="cart-header">
-            <h3>Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
+        <div class="cart-header" style="padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(157, 124, 253, 0.1);">
+            <h3 style="color: white; font-weight: 800; font-size: 1.5rem;">Your Basket</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2.5rem; line-height: 1;">&times;</button>
         </div>
-        <div id="cart-items"></div>
-        <div class="cart-total" style="padding: 20px; border-top: 1px solid rgba(157,124,253,0.2);">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <span>Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
+        
+        <div id="cart-items" style="flex: 1; overflow-y: auto; padding: 20px;"></div>
+
+        <div class="cart-total" style="padding: 30px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(157,124,253,0.2);">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size: 1.1rem;">
+                <span style="color: var(--text-muted);">Total:</span>
+                <span id="total-price" style="color:var(--accent-gold); font-weight:800;">$0.00</span>
             </div>
-            <button class="submit-btn" onclick="checkout()" style="width: 100%;">Checkout Now</button>
+            <button class="submit-btn" onclick="checkout()" style="width: 100%; padding: 18px;">Proceed to Checkout</button>
         </div>
     </div>
 
@@ -168,17 +253,18 @@
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
+            setTimeout(() => { loader.classList.add('active'); }, 100);
+            setTimeout(() => { window.location.href = url; }, 800);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 document.body.classList.add('loaded');
+                updateUI();
             }, 100);
-            updateUI(); // Initialize UI on load
         });
 
-        // --- PERSISTENT CART ENGINE ---
+        // --- CART ENGINE ---
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
         function toggleCart() {
@@ -186,18 +272,14 @@
         }
 
         function addToCart(name, price) {
-            const rawUser = localStorage.getItem('currentUser');
-            
-            if (!rawUser) {
-                alert("Login required to add items to your basket!");
+            if (!localStorage.getItem('currentUser')) {
+                alert("Please login to start your order!");
                 navTo('login.html');
                 return;
             }
 
             basket.push({ name, price });
             updateUI();
-            
-            // Auto-open cart for feedback
             document.getElementById('sidebar').classList.add('active');
         }
 
@@ -210,19 +292,22 @@
             let total = 0;
 
             if (basket.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Your basket is empty. Sadge.</p>';
+                container.innerHTML = `
+                    <div style="text-align:center; margin-top:50px;">
+                        <p style="font-size: 3rem; margin-bottom: 10px;">🛒</p>
+                        <p style="color:var(--text-muted);">Your basket is empty. Sadge.</p>
+                    </div>`;
             } else {
                 basket.forEach((item, index) => {
                     total += item.price;
                     const itemDiv = document.createElement('div');
-                    itemDiv.className = 'cart-item';
-                    itemDiv.style = "display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; background: rgba(157, 124, 253, 0.05); margin-bottom: 10px; border-radius: 12px;";
+                    itemDiv.style = "display: flex; justify-content: space-between; padding: 15px; background: rgba(157, 124, 253, 0.05); margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(157, 124, 253, 0.1); align-items: center;";
                     itemDiv.innerHTML = `
                         <div style="text-align: left;">
-                            <p style="font-weight:600; font-size:0.9rem; color:#fff;">${item.name}</p>
-                            <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
+                            <p style="font-weight:600; color:#fff; font-size:0.95rem;">${item.name}</p>
+                            <p style="font-size:0.85rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold; font-size: 0.75rem;">Remove</button>
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:700; font-size: 0.75rem; text-transform:uppercase;">Remove</button>
                     `;
                     container.appendChild(itemDiv);
                 });
@@ -239,31 +324,22 @@
 
         function checkout() {
             if (basket.length === 0) {
-                alert("Basket is empty! Pick some food first.");
+                alert("Add some items before checking out!");
                 return;
             }
-            
-            if (!localStorage.getItem('currentUser')) {
-                alert("Please login to complete your order.");
-                navTo('login.html');
-            } else {
-                navTo('checkout.html');
-            }
+            navTo('checkout.html');
         }
 
-        // --- AUTH SYNC & LOGOUT ---
+        // --- AUTH SYNC ---
         const authLink = document.getElementById('authLink');
-        const rawUserData = localStorage.getItem('currentUser');
-
-        if (rawUserData) {
+        if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
         }
 
         function handleAuthClick(e) {
             e.preventDefault();
             if (localStorage.getItem('currentUser')) {
-                const userData = JSON.parse(localStorage.getItem('currentUser'));
-                if(confirm(`Signing out, ${userData.user}?`)) {
+                if(confirm("Sign out of VinciFoods?")) {
                     localStorage.removeItem('currentUser');
                     navTo('index.html');
                 }
