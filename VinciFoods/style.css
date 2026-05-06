@@ -306,39 +306,6 @@ body.loaded nav {
     margin-top: 40px;
 }
 
-/* --- LEARN MORE (SECONDARY BUTTON) FIX --- */
-.btn-secondary {
-    color: var(--accent-purple);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 10px 15px;
-    transition: var(--transition-smooth);
-    position: relative;
-    display: inline-block;
-}
-
-.btn-secondary:hover {
-    color: var(--text-white);
-    filter: drop-shadow(0 0 10px var(--accent-purple));
-    transform: translateY(-2px);
-}
-
-/* Optional: Animated underline to match the high-end feel */
-.btn-secondary::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 5px;
-    left: 15px;
-    background: linear-gradient(to right, var(--accent-purple), var(--accent-neon));
-    transition: var(--transition-smooth);
-}
-
-.btn-secondary:hover::after {
-    width: calc(100% - 30px);
-}
 
 /* --- USER & ADMIN UTILS --- */
 .admin-badge {
