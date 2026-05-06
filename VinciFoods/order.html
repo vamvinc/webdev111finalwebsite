@@ -6,7 +6,7 @@
     <title>VinciFoods | Order Now</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Specific styles for the menu grid to keep it organized */
+        /* Specific styles for the menu grid */
         .menu-section {
             padding: 60px 10%;
         }
@@ -120,10 +120,16 @@
             document.getElementById('sidebar').classList.toggle('active');
         }
 
+        // Updated: Users must be logged in to add items
         function addToCart(name, price) {
+            if (!localStorage.getItem('currentUser')) {
+                alert("Login required to add items to your basket!");
+                window.location.href = 'login.html';
+                return;
+            }
+
             basket.push({ name, price });
             updateUI();
-            // Automatically open the cart to show the user it was added
             document.getElementById('sidebar').classList.add('active');
         }
 
@@ -164,8 +170,10 @@
             updateUI();
         }
 
+        // Updated: Extra check for login during checkout
         function checkout() {
             if (basket.length === 0) return alert("Basket is empty!");
+            
             if (!localStorage.getItem('currentUser')) {
                 alert("Login first! Main character energy only.");
                 window.location.href = 'login.html';
@@ -180,10 +188,11 @@
         // Init UI
         updateUI();
 
-        // Auth Logic
+        // Auth Logic for Navbar
         const authLink = document.getElementById('authLink');
         if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
+            authLink.href = "#"; // Prevent navigation
             authLink.onclick = () => {
                 localStorage.removeItem('currentUser');
                 window.location.reload();
