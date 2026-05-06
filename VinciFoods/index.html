@@ -85,12 +85,14 @@
                     total += item.price;
                     const div = document.createElement('div'); 
                     div.className = 'cart-item';
+                    // Added flex styling directly to the JS to keep layout consistent
+                    div.style = "display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);";
                     div.innerHTML = `
-                        <div>
+                        <div style="text-align: left;">
                             <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
                             <p style="font-size:0.8rem; color:var(--accent-gold);">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold;">Remove</button>`;
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:bold; font-size: 0.8rem;">Remove</button>`;
                     container.appendChild(div); 
                 });
             }
@@ -104,16 +106,18 @@
             updateUI(); 
         }
 
+        // --- UPDATED CHECKOUT LOGIC (Now redirects to checkout.html) ---
         function checkout() { 
-            if (basket.length === 0) return alert("Basket is empty! Go get some food."); 
+            if (basket.length === 0) {
+                alert("Basket is empty! Go get some food.");
+                return;
+            }
             if (!localStorage.getItem('currentUser')) { 
                 alert("Login first! We need to know who you are."); 
                 window.location.href = 'login.html'; 
             } else { 
-                alert("Order Success! It's giving delivered."); 
-                basket = []; 
-                updateUI(); 
-                toggleCart(); 
+                // Consistent with order.html and aboutus.html
+                window.location.href = 'checkout.html'; 
             } 
         }
 
@@ -122,7 +126,7 @@
 
         // --- FIXED AUTH LOGIC ---
         const authLink = document.getElementById('authLink');
-        const currentUser = localStorage.getItem('currentUser'); // Removed JSON.parse to prevent errors
+        const currentUser = localStorage.getItem('currentUser');
 
         if (currentUser) { 
             authLink.innerText = "Logout"; 
@@ -135,6 +139,7 @@
         } else {
             authLink.innerText = "Login";
             authLink.href = "login.html";
+            authLink.onclick = null;
         }
     </script>
 </body>
