@@ -7,9 +7,16 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        /* Essential Scroll & Layout Fixes */
+        html, body {
+            height: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
         /* Specific styles for the menu grid */
         .menu-section {
-            padding: 60px 10%;
+            padding: 40px 10% 100px 10%;
         }
         .menu-grid {
             display: grid;
@@ -20,7 +27,7 @@
         .food-item {
             background: var(--bg-card);
             padding: 30px;
-            border-radius: 24px; /* Increased for smoother look */
+            border-radius: 24px;
             border: 1px solid rgba(157, 124, 253, 0.1);
             text-align: center;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -55,7 +62,7 @@
         }
     </style>
 </head>
-<body>
+<body id="page-body">
     <nav>
         <div class="logo">VinciFoods</div>
         <ul class="nav-links">
@@ -66,46 +73,48 @@
         </ul>
     </nav>
 
-    <header class="hero" style="padding: 80px 10% 40px 10%; text-align: center;">
-        <h1 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The Menu</h1>
-        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Gourmet meals, high-key speed. Select your favorites below to build your basket.</p>
-    </header>
+    <main>
+        <header class="hero" style="min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 10% 40px 10%;">
+            <h1 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The Menu</h1>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 20px auto;">Gourmet meals, high-key speed. Select your favorites below to build your basket.</p>
+        </header>
 
-    <section class="menu-section">
-        <div class="menu-grid">
-            <div class="food-item">
-                <span class="food-tag">Bestseller</span>
-                <h3>Vinci Burger</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Double patty with signature purple slaw.</p>
-                <p class="price">$12.00</p>
-                <button class="submit-btn" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
-            </div>
-            
-            <div class="food-item">
-                <span class="food-tag">Chef's Pick</span>
-                <h3>Lavender Pasta</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Creamy beet-infused sauce with parmesan.</p>
-                <p class="price">$14.50</p>
-                <button class="submit-btn" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
-            </div>
+        <section class="menu-section">
+            <div class="menu-grid">
+                <div class="food-item">
+                    <span class="food-tag">Bestseller</span>
+                    <h3>Vinci Burger</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Double patty with signature purple slaw.</p>
+                    <p class="price">$12.00</p>
+                    <button class="submit-btn" onclick="addToCart('Vinci Burger', 12.00)">Add to Basket</button>
+                </div>
+                
+                <div class="food-item">
+                    <span class="food-tag">Chef's Pick</span>
+                    <h3>Lavender Pasta</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Creamy beet-infused sauce with parmesan.</p>
+                    <p class="price">$14.50</p>
+                    <button class="submit-btn" onclick="addToCart('Lavender Pasta', 14.50)">Add to Basket</button>
+                </div>
 
-            <div class="food-item">
-                <span class="food-tag">Premium Side</span>
-                <h3>Nebula Fries</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Loaded fries with truffle oil and herbs.</p>
-                <p class="price">$6.00</p>
-                <button class="submit-btn" onclick="addToCart('Nebula Fries', 6.00)">Add to Basket</button>
-            </div>
+                <div class="food-item">
+                    <span class="food-tag">Premium Side</span>
+                    <h3>Nebula Fries</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Loaded fries with truffle oil and herbs.</p>
+                    <p class="price">$6.00</p>
+                    <button class="submit-btn" onclick="addToCart('Nebula Fries', 6.00)">Add to Basket</button>
+                </div>
 
-            <div class="food-item">
-                <span class="food-tag">Signature Drink</span>
-                <h3>Vinci Shake</h3>
-                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Ube-vanilla swirl with gold flakes.</p>
-                <p class="price">$7.25</p>
-                <button class="submit-btn" onclick="addToCart('Vinci Shake', 7.25)">Add to Basket</button>
+                <div class="food-item">
+                    <span class="food-tag">Signature Drink</span>
+                    <h3>Vinci Shake</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Ube-vanilla swirl with gold flakes.</p>
+                    <p class="price">$7.25</p>
+                    <button class="submit-btn" onclick="addToCart('Vinci Shake', 7.25)">Add to Basket</button>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Persistent Floating Cart Trigger -->
     <div class="cart-toggle" onclick="toggleCart()">
@@ -119,7 +128,7 @@
             <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
         </div>
         <div id="cart-items"></div>
-        <div class="cart-total">
+        <div class="cart-total" style="padding: 20px; border-top: 1px solid rgba(157,124,253,0.2);">
             <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
                 <span>Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
@@ -206,9 +215,6 @@
             }
         }
 
-        // Initialize UI
-        updateUI();
-
         // --- AUTH SYNC ---
         const authLink = document.getElementById('authLink');
         const rawUserData = localStorage.getItem('currentUser');
@@ -225,6 +231,9 @@
                 }
             };
         }
+
+        // Initialize UI on load
+        updateUI();
     </script>
 </body>
 </html>
