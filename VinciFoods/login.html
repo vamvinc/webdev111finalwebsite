@@ -148,14 +148,14 @@
         }
     </style>
 </head>
-<body>
+<body id="page-body">
 
     <nav>
-        <div class="logo">VinciFoods</div>
+        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutus.html">About</a></li>
-            <li><a href="order.html">Order</a></li>
+            <li><a href="index.html" onclick="event.preventDefault(); navTo('index.html');">Home</a></li>
+            <li><a href="aboutus.html" onclick="event.preventDefault(); navTo('aboutus.html');">About</a></li>
+            <li><a href="order.html" onclick="event.preventDefault(); navTo('order.html');">Order</a></li>
             <li><a href="login.html" id="authLink" class="active">Login</a></li>
         </ul>
     </nav>
@@ -185,13 +185,13 @@
                 <span class="demo-title">Developer Demo Access</span>
                 <div class="demo-btn-group">
                     <button type="button" class="role-btn" onclick="quickLogin('Admin_Vinci', 'admin', 'admin.html')">Admin</button>
-                    <button type="button" class="role-btn demo-alt" onclick="window.location.href='demoaccount.html'">POV Select</button>
+                    <button type="button" class="role-btn demo-alt" onclick="navTo('demoaccount.html')">POV Select</button>
                     <button type="button" class="role-btn" onclick="quickLogin('SuperVinci', 'superadmin', 'superadmin.html')">Super</button>
                 </div>
             </div>
 
             <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.85rem;">
-                Don't have an account? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;">Register Here</a>
+                Don't have an account? <a href="register.html" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="event.preventDefault(); navTo('register.html');">Register Here</a>
             </p>
         </div>
     </div>
@@ -201,6 +201,18 @@
     </footer>
 
     <script>
+        // --- PAGE TRANSITION LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loaded');
+        });
+
+        function navTo(url) {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
         const lCheck = document.getElementById('lCheck');
         const lBtn = document.getElementById('lBtn');
         
@@ -215,7 +227,7 @@
                 timestamp: new Date().getTime()
             };
             localStorage.setItem('currentUser', JSON.stringify(sessionData));
-            window.location.href = targetPage;
+            navTo(targetPage); // Use navTo for smooth transition
         }
 
         document.getElementById('lForm').onsubmit = (e) => {
@@ -241,21 +253,23 @@
                     };
                     localStorage.setItem('currentUser', JSON.stringify(sessionData));
                     alert(`Welcome back, ${user.name}!`); 
-                    window.location.href = 'index.html';
+                    navTo('index.html'); // Use navTo for smooth transition
                     return;
                 }
             }
             alert("Oops! Invalid email or password. Please try again.");
         };
 
-        // Header Sync
+        // Header Sync & Logout Transition
         const authLink = document.getElementById('authLink');
         if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
             authLink.onclick = (e) => { 
                 e.preventDefault();
-                localStorage.removeItem('currentUser'); 
-                window.location.reload();
+                if(confirm("Ready to sign out?")) {
+                    localStorage.removeItem('currentUser'); 
+                    navTo('login.html'); // Fade out then reload/redirect
+                }
             };
         }
     </script>
