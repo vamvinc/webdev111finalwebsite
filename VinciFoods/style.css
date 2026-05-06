@@ -279,6 +279,14 @@ body.loaded nav {
 }
 
 /* --- BUTTONS --- */
+.hero-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px; /* Spacing fix for image_857fbc.png */
+    margin-top: 40px;
+}
+
 .btn-primary, .submit-btn, .btn-shutdown {
     padding: 14px 35px;
     border-radius: 16px;
@@ -296,6 +304,39 @@ body.loaded nav {
     background: linear-gradient(135deg, var(--accent-purple), var(--accent-neon));
     color: white;
     box-shadow: 0 8px 20px rgba(157, 124, 253, 0.3);
+}
+
+/* LEARN MORE (SECONDARY) FIX */
+.secondary-btn {
+    color: var(--accent-purple);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 14px 20px;
+    transition: var(--transition-smooth);
+    position: relative;
+    display: inline-block;
+}
+
+.secondary-btn:hover {
+    color: var(--text-white);
+    filter: drop-shadow(0 0 10px var(--accent-purple));
+    transform: translateY(-2px);
+}
+
+.secondary-btn::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 8px;
+    left: 20px;
+    background: linear-gradient(to right, var(--accent-purple), var(--accent-neon));
+    transition: var(--transition-smooth);
+}
+
+.secondary-btn:hover::after {
+    width: calc(100% - 40px);
 }
 
 .btn-shutdown {
