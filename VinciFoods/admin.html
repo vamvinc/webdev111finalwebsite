@@ -3,138 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Admin Dashboard (Demo)</title>
+    <title>VinciFoods | Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Specific Admin Styles */
-        .admin-mode {
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(188, 19, 254, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(68, 221, 255, 0.1) 0%, transparent 50%);
+        /* --- LOGO TRANSITION STYLES --- */
+        #loader-layer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            /* Matches the dark purple background of Image_20260212_002545_039.jpg */
+            background: #1a1625; 
+            z-index: 10001;
+            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        #loader-logo {
+            width: 200px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+        }
+
+        #loader-layer.active #loader-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Admin Specific Layout */
+        .admin-container {
+            max-width: 1200px;
+            margin: 120px auto;
+            padding: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         .stat-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            transition: var(--transition-cool);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(157, 124, 253, 0.2);
+            text-align: center;
         }
 
-        .stat-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--accent-purple);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-        }
+        .stat-card h3 { color: var(--accent-purple); margin-bottom: 10px; }
+        .stat-card p { font-size: 2rem; font-weight: 800; color: var(--accent-gold); }
 
-        /* Command Center Entrance Animations */
-        header h1, header p, .stat-card, .summary-card {
+        /* Smooth Entrance */
+        .admin-container {
             opacity: 0;
-            transform: translateY(30px) skewY(1deg);
-            transition: var(--transition-cool);
+            transform: translateY(20px);
+            transition: 0.8s ease-out;
         }
-
-        body.loaded header h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
-        body.loaded header p  { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
-        
-        /* Staggered Stats */
-        body.loaded .stat-card:nth-child(1) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
-        body.loaded .stat-card:nth-child(2) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.4s; }
-        body.loaded .stat-card:nth-child(3) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.5s; }
-        
-        body.loaded .summary-card { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.6s; }
-
-        table tr { transition: background 0.3s ease; }
-        table tr:hover { background: rgba(157, 124, 253, 0.05); }
-
+        body.loaded .admin-container {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
-<body id="page-body" class="admin-mode">
-    <!-- The Curtain Reveal Layer -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-neon), var(--accent-purple)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+<body id="page-body">
+
+    <!-- Transition Layer with Logo -->
+    <div id="loader-layer">
+        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+    </div>
 
     <nav>
-        <div class="logo" onclick="navTo('index.html')" style="cursor: pointer;">VinciFoods <span style="font-size: 0.7rem; color: var(--accent-gold); letter-spacing: 1px;">ADMIN</span></div>
+        <div class="logo" onclick="navTo('index.html')" style="cursor: pointer;">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="javascript:void(0)" onclick="navTo('index.html')">View Site</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('login.html')">Logout</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
+            <li><a href="javascript:void(0)" onclick="handleAuthAction()" id="authLink">Logout</a></li>
         </ul>
     </nav>
 
-    <main style="padding: 40px 10%;">
-        <header style="margin-bottom: 40px;">
-            <h1 style="font-size: 2.5rem; font-weight: 800;">Command Center</h1>
-            <p style="color: var(--text-muted);">Real-time demo of store metrics and order management.</p>
+    <main class="admin-container">
+        <header style="margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem;">Admin Dashboard</h1>
+            <p style="color: var(--text-muted);">Welcome back, Administrator. Here is the daily overview.</p>
         </header>
 
-        <!-- Stats Grid (Repurposing menu-grid from style.css) -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px;">
-            <div class="stat-card" style="padding: 30px; text-align: center;">
-                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Total Sales</p>
-                <h2 style="font-size: 2.2rem; color: var(--accent-gold); margin-top: 10px;">₱12,405.00</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Sales</h3>
+                <p id="total-sales">$0.00</p>
             </div>
-            <div class="stat-card" style="padding: 30px; text-align: center;">
-                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Pending Orders</p>
-                <h2 style="font-size: 2.2rem; color: var(--accent-purple); margin-top: 10px;">8</h2>
+            <div class="stat-card">
+                <h3>Orders Today</h3>
+                <p id="order-count">0</p>
             </div>
-            <div class="stat-card" style="padding: 30px; text-align: center;">
-                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Preparation Avg</p>
-                <h2 style="font-size: 2.2rem; color: var(--info-blue); margin-top: 10px;">14m</h2>
+            <div class="stat-card">
+                <h3>New Users</h3>
+                <p id="user-count">0</p>
             </div>
         </div>
 
-        <!-- Order Management Table -->
-        <div class="summary-card" style="padding: 30px; background: var(--bg-card); border-radius: 28px; border: 1px solid rgba(255,255,255,0.08);">
-            <h3 style="margin-bottom: 20px; font-weight: 600;">Incoming Requests</h3>
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; color: var(--text-muted); min-width: 600px;">
-                    <thead style="border-bottom: 1px solid rgba(157, 124, 253, 0.2); text-align: left;">
-                        <tr>
-                            <th style="padding: 15px 10px;">ID</th>
-                            <th>Customer</th>
-                            <th>Order Items</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
-                            <td style="padding: 20px 10px; color: #fff;">#VFC-102</td>
-                            <td style="color: #fff;">Demo User</td>
-                            <td>3x Vinci Special, 1x Soda</td>
-                            <td><span style="color: var(--accent-gold); font-weight: 600;">PREPARING</span></td>
-                            <td><button class="btn-primary" style="padding: 8px 15px; font-size: 0.7rem;">Complete</button></td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 20px 10px; color: #fff;">#VFC-101</td>
-                            <td style="color: #fff;">Guest Visitor</td>
-                            <td>1x Golden Wrap</td>
-                            <td><span style="color: var(--success-green); font-weight: 600;">DELIVERED</span></td>
-                            <td><button class="btn-secondary" style="padding: 8px 15px; font-size: 0.7rem; opacity: 0.5;">Archived</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+        <section class="delivery-card" style="padding: 30px;">
+            <h2 style="margin-bottom: 20px; color: var(--accent-purple);">Recent Orders</h2>
+            <div id="admin-orders-list" style="color: var(--text-muted);">
+                No recent orders to display.
             </div>
-        </div>
+        </section>
     </main>
 
+    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p></footer>
+
     <script>
-        // --- COOL NAV LOGIC ---
+        // --- ADMIN SECURITY CHECK ---
+        function checkAdminAuth() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            // Assuming admin has a specific flag or you just check if anyone is logged in for now
+            if (!currentUser) {
+                alert("Access Denied. Please login.");
+                window.location.href = 'login.html';
+            }
+            const authLink = document.getElementById('authLink');
+            authLink.innerText = "Logout";
+        }
+
+        function handleAuthAction() {
+            if (confirm("Logout from Admin Panel?")) {
+                localStorage.removeItem('currentUser');
+                navTo('index.html');
+            }
+        }
+
+        // --- NAVIGATION & TRANSITIONS ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
-            loader.style.left = '0'; // Sweep the curtain
+            loader.style.left = '0';
             setTimeout(() => {
-                window.location.href = url;
-            }, 700);
+                loader.classList.add('active');
+            }, 100);
+            setTimeout(() => { 
+                window.location.href = url; 
+            }, 800);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Instant Clip-Path Reveal + Staggered text
+            checkAdminAuth();
             setTimeout(() => {
                 document.body.classList.add('loaded');
             }, 100);
-            console.log("Admin Dashboard: Demo Mode Active");
+            
+            // Mock data for Admin display
+            const basketHistory = JSON.parse(localStorage.getItem('userCart')) || [];
+            document.getElementById('order-count').innerText = basketHistory.length;
         });
     </script>
 </body>
