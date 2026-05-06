@@ -1,334 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | SuperAdmin Control</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Mono&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --admin-gold: #ffcc33;
-            --admin-red: #ff4d4d;
-            --admin-bg: #0a0814;
-            --terminal-bg: #05050a;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | SuperAdmin</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --admin-gold: #ffcc33;
+            --admin-red: #ff4d4d;
+            --admin-bg: #0a0814;
+        }
 
-        body {
-            background: var(--admin-bg);
-            background-image: 
-                linear-gradient(rgba(157, 124, 253, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(157, 124, 253, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            color: white;
-            min-height: 100vh;
-        }
+        body {
+            background: var(--admin-bg);
+            background-image: 
+                linear-gradient(rgba(157, 124, 253, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157, 124, 253, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            overflow-x: hidden;
+        }
 
-        /* --- ADMIN NAVIGATION --- */
-        .admin-nav {
-            background: rgba(15, 10, 25, 0.9);
-            border-bottom: 2px solid var(--admin-gold);
-            backdrop-filter: blur(20px);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .admin-nav {
+            background: rgba(15, 10, 25, 0.95);
+            border-bottom: 2px solid var(--admin-gold);
+            backdrop-filter: blur(15px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-        .admin-logo {
-            font-family: 'Space Mono', monospace;
-            color: var(--admin-gold);
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .stat-card {
+            background: rgba(20, 15, 35, 0.8);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 204, 51, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-        .admin-logo span {
-            background: var(--admin-gold);
-            color: black;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-        }
+        body.loaded .stat-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        /* --- STAT CARDS --- */
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+        /* Staggered entrance for admin cards */
+        .stat-card:nth-child(1) { transition-delay: 0.1s; }
+        .stat-card:nth-child(2) { transition-delay: 0.2s; }
+        .stat-card:nth-child(3) { transition-delay: 0.3s; }
+        .stat-card:nth-child(4) { transition-delay: 0.4s; }
 
-        .stat-card {
-            background: rgba(20, 15, 35, 0.6);
-            padding: 30px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 204, 51, 0.1);
-            position: relative;
-            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            overflow: hidden;
-        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--admin-gold);
+            box-shadow: 0 10px 30px rgba(255, 204, 51, 0.1);
+        }
 
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--admin-gold);
-            opacity: 0.3;
-        }
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
 
-        .stat-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--admin-gold);
-            background: rgba(255, 204, 51, 0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'Space Mono', monospace;
+            color: #fff;
+        }
 
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-        }
+        /* --- TERMINAL STYLING --- */
+        .terminal-window {
+            background: #000;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
 
-        .stat-value {
-            font-size: 2.8rem;
-            font-weight: 800;
-            font-family: 'Space Mono', monospace;
-            margin-top: 10px;
-        }
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
 
-        /* --- TERMINAL WINDOW --- */
-        .terminal-window {
-            background: var(--terminal-bg);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            flex: 1;
-            min-width: 320px;
-        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .amber { background: #ffbd2e; }
+        .green { background: #27c93f; }
 
-        .terminal-header {
-            background: #15151a;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid #222;
-        }
+        .log-entry {
+            font-family: 'Space Mono', monospace;
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            color: #aaa;
+        }
 
-        .terminal-body {
-            height: 350px;
-            padding: 20px;
-            overflow-y: auto;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #00ff41; /* Classic Matrix Green */
-        }
+        .timestamp { color: var(--accent-purple); margin-right: 10px; }
 
-        .log-line { margin-bottom: 8px; opacity: 0; transform: translateX(-10px); animation: logIn 0.3s forwards; }
-        @keyframes logIn { to { opacity: 1; transform: translateX(0); } }
+        .bar {
+            width: 40px;
+            border-radius: 6px 6px 0 0;
+            transition: height 1s ease;
+            position: relative;
+            background: linear-gradient(to top, var(--accent-purple), var(--admin-gold));
+        }
 
-        .log-ts { color: var(--admin-gold); margin-right: 12px; }
+        .btn-shutdown {
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid var(--admin-red);
+            color: var(--admin-red);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-        /* --- VISUALIZER --- */
-        .chart-container {
-            flex: 2;
-            min-width: 400px;
-            background: rgba(20, 15, 35, 0.4);
-            border-radius: 24px;
-            padding: 30px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-        }
-
-        .bar-wrapper {
-            height: 250px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            padding-top: 20px;
-        }
-
-        .bar {
-            width: 45px;
-            background: linear-gradient(to top, var(--accent-purple), var(--admin-gold));
-            border-radius: 8px 8px 2px 2px;
-            transition: height 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-            position: relative;
-        }
-
-        .btn-panic {
-            background: rgba(255, 77, 77, 0.1);
-            border: 1px solid var(--admin-red);
-            color: var(--admin-red);
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Space Mono', monospace;
-        }
-
-        .btn-panic:hover {
-            background: var(--admin-red);
-            color: white;
-            box-shadow: 0 0 20px rgba(255, 77, 77, 0.4);
-        }
-    </style>
+        .btn-shutdown:hover {
+            background: var(--admin-red);
+            color: white;
+        }
+    </style>
 </head>
 <body id="page-body">
-    <!-- Transition Curtain -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--admin-gold), var(--admin-red)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--admin-gold), var(--admin-red)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
-    <nav class="admin-nav">
-        <div class="admin-logo" onclick="navTo('index.html')" style="cursor:pointer;">
-            VINCIFOODS_CORE <span>S-ADMIN</span>
-        </div>
-        <button onclick="systemExit()" class="btn-panic">PURGE_SESSION</button>
-    </nav>
+    <nav class="admin-nav">
+        <div class="logo" style="color: var(--admin-gold); font-size: 1.2rem; cursor: pointer;" onclick="navTo('index.html')">
+            <span style="opacity: 0.4;">&gt;</span> VINCIFOODS_CORE_v2.0
+        </div>
+        <ul class="nav-links" style="list-style: none;">
+            <li><button onclick="systemExit()" class="btn-shutdown">SHUTDOWN SYSTEM</button></li>
+        </ul>
+    </nav>
 
-    <div style="padding: 60px 8%;">
-        <header style="margin-bottom: 50px;">
-            <h1 style="font-size: 3rem; letter-spacing: -2px;">Control Center</h1>
-            <p style="color: var(--text-muted); font-family: 'Space Mono';">System Status: <span style="color: var(--admin-gold);">AUTHORITY_VERIFIED</span></p>
-        </header>
+    <div style="padding: 40px 8%;">
+        <header style="margin-bottom: 40px; border-left: 4px solid var(--admin-gold); padding-left: 20px;">
+            <h1 style="font-size: 2.5rem; letter-spacing: -1px; color: #fff;">Console Command</h1>
+            <p style="color: var(--text-muted);">Infrastructure: <span style="color: #0f0;">ONLINE</span> | Region: Manila, PH</p>
+        </header>
 
-        <!-- Metric Grid -->
-        <div class="stat-grid">
-            <div class="stat-card">
-                <p class="stat-label">Projected Revenue</p>
-                <div class="stat-value" id="totalRev" style="color: #00ff41;">$0.00</div>
-            </div>
-            <div class="stat-card">
-                <p class="stat-label">User Database</p>
-                <div class="stat-value" id="userCount">0</div>
-            </div>
-            <div class="stat-card">
-                <p class="stat-label">Active Orders</p>
-                <div class="stat-value" id="orderCount" style="color: var(--admin-gold);">0</div>
-            </div>
-            <div class="stat-card">
-                <p class="stat-label">Node Latency</p>
-                <div class="stat-value" style="color: #4df;">9ms</div>
-            </div>
-        </div>
+        <!-- Dynamic Metrics -->
+        <div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+            <div class="stat-card">
+                <p class="stat-label">System Revenue</p>
+                <h2 class="stat-value" id="totalRev" style="color: #0f0;">$0.00</h2>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Verified Squad</p>
+                <h2 class="stat-value" id="userCount">0</h2>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Pending Orders</p>
+                <h2 class="stat-value" id="orderCount" style="color: var(--admin-gold);">0</h2>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Server Latency</p>
+                <h2 class="stat-value" style="color: #4df;">12ms</h2>
+            </div>
+        </div>
 
-        <div style="display: flex; gap: 30px; flex-wrap: wrap; margin-top: 20px;">
-            <!-- Charting Area -->
-            <div class="chart-container">
-                <h3 style="font-size: 0.9rem; color: var(--admin-gold); text-transform: uppercase; letter-spacing: 2px;">Load Distribution</h3>
-                <div class="bar-wrapper">
-                    <div class="bar" style="height: 40%"></div>
-                    <div class="bar" style="height: 70%"></div>
-                    <div class="bar" style="height: 55%"></div>
-                    <div class="bar" style="height: 90%"></div>
-                    <div class="bar" style="height: 30%"></div>
-                    <div class="bar" style="height: 85%"></div>
-                </div>
-            </div>
+        <div style="display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap;">
+            <!-- Traffic Visualization -->
+            <div style="flex: 2; min-width: 340px; background: rgba(10,8,20,0.6); padding: 30px; border-radius: 24px; border: 1px solid rgba(157, 124, 253, 0.1);">
+                <h3 style="margin-bottom: 25px; font-size: 1rem; color: var(--admin-gold);">Network Traffic Distribution</h3>
+                <div style="height: 250px; display: flex; align-items: flex-end; justify-content: space-around; padding: 0 20px;">
+                    <div class="bar" style="height: 45%;"></div>
+                    <div class="bar" style="height: 85%;"></div>
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 95%;"></div>
+                    <div class="bar" style="height: 30%;"></div>
+                    <div class="bar" style="height: 75%;"></div>
+                </div>
+            </div>
+            
+            <!-- Terminal Logs -->
+            <div class="terminal-window" style="flex: 1; min-width: 340px;">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot amber"></div>
+                    <div class="dot green"></div>
+                    <span style="font-size: 0.7rem; color: #666; margin-left: 10px; font-family: 'Space Mono';">security_kernel.log</span>
+                </div>
+                <div id="log-container" style="height: 260px; overflow-y: auto;">
+                    <!-- Logs populated via script -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Terminal Area -->
-            <div class="terminal-window">
-                <div class="terminal-header">
-                    <div style="width:10px; height:10px; border-radius:50%; background:#ff5f56;"></div>
-                    <div style="width:10px; height:10px; border-radius:50%; background:#ffbd2e;"></div>
-                    <div style="width:10px; height:10px; border-radius:50%; background:#27c93f;"></div>
-                    <span style="font-size: 0.65rem; color: #555; margin-left: 10px; font-family: 'Space Mono';">SYS_KERNEL_MONITOR</span>
-                </div>
-                <div id="terminal-body" class="terminal-body">
-                    <!-- Logs injection -->
-                </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        // --- PAGE TRANSITION ENGINE ---
+        function navTo(url) {
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => {
+                window.location.href = url;
+            }, 700);
+        }
 
-    <script>
-        function navTo(url) {
-            const loader = document.getElementById('loader-layer');
-            loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+            refreshStats();
+        });
 
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add('loaded');
-            syncData();
-            initTerminal();
-            animateBars();
-        });
+        // --- REAL-TIME DATA ENGINE ---
+        function refreshStats() {
+            let userCount = 0;
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.includes('@')) userCount++;
+            }
 
-        // --- DATA SYNC ---
-        function syncData() {
-            let uCount = 0;
-            for (let i = 0; i < localStorage.length; i++) {
-                if (localStorage.key(i).includes('@')) uCount++;
-            }
+            const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
+            const basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
-            const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
-            const cartItems = JSON.parse(localStorage.getItem('userCart')) || [];
-            
-            document.getElementById('userCount').innerText = uCount;
-            document.getElementById('orderCount').innerText = orders.length || cartItems.length;
-            
-            // Artificial Revenue Logic
-            const revenue = (uCount * 14.99 + (orders.length * 22.50)).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-            document.getElementById('totalRev').innerText = `$${revenue}`;
-        }
+            document.getElementById('userCount').innerText = userCount;
+            document.getElementById('orderCount').innerText = orders.length || basket.length;
+            
+            const revenue = (userCount * 12.5 + orders.length * 45).toFixed(2);
+            document.getElementById('totalRev').innerText = `$${revenue}`;
+        }
 
-        // --- TERMINAL SIMULATION ---
-        const logs = [
-            "Handshake verified with LocalStorage API",
-            "Encryption keys rotated (AES-256)",
-            "Node Manila-01 traffic spike detected",
-            "User session payload sanitized",
-            "Heuristic firewall blocking IP 192.168.1.1",
-            "Database integrity check: 100%",
-            "New registration push success",
-            "CSS Variable injection completed",
-            "Admin authority heartbeat: STABLE"
-        ];
+        // --- TERMINAL LOG GENERATOR ---
+        const logContainer = document.getElementById('log-container');
+        const activities = [
+            "User session established", "Encryption layer active", 
+            "Database handshake successful", "Cache cleared", 
+            "New registration detected", "Order processed",
+            "Admin privileges verified", "Firewall packet filtered"
+        ];
 
-        function initTerminal() {
-            const body = document.getElementById('terminal-body');
-            setInterval(() => {
-                const ts = new Date().toLocaleTimeString('en-GB');
-                const msg = logs[Math.floor(Math.random() * logs.length)];
-                const div = document.createElement('div');
-                div.className = 'log-line';
-                div.innerHTML = `<span class="log-ts">[${ts}]</span> > ${msg}`;
-                body.prepend(div);
-                if(body.children.length > 15) body.lastChild.remove();
-            }, 2500);
-        }
+        function addLog() {
+            const time = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
+            const action = activities[Math.floor(Math.random() * activities.length)];
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerHTML = `<span class="timestamp">[${time}]</span> <span>${action}</span>`;
+            
+            logContainer.prepend(div);
+            if (logContainer.children.length > 10) logContainer.lastChild.remove();
+        }
 
-        // --- VISUALIZER ANIMATION ---
-        function animateBars() {
-            const bars = document.querySelectorAll('.bar');
-            setInterval(() => {
-                bars.forEach(bar => {
-                    const h = Math.floor(Math.random() * 65) + 25;
-                    bar.style.height = h + '%';
-                });
-            }, 3000);
-        }
+        function systemExit() {
+            if(confirm("CRITICAL: Terminate administrative authority and purge session?")) {
+                localStorage.removeItem('currentUser');
+                navTo('login.html');
+            }
+        }
 
-        function systemExit() {
-            if(confirm("TERMINATE SESSION: Purge all administrative authority?")) {
-                localStorage.removeItem('currentUser');
-                navTo('login.html');
-            }
-        }
-    </script>
+        // Initialization
+        setInterval(addLog, 3000);
+        setInterval(() => {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach(bar => {
+                const h = Math.floor(Math.random() * 70) + 20;
+                bar.style.height = h + '%';
+            });
+        }, 2000);
+    </script>
 </body>
 </html>
+
+update superadmin.html
