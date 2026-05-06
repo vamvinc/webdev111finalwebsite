@@ -38,6 +38,17 @@
             margin-top: 20px;
             text-align: right;
         }
+
+        /* Print-specific styles to save ink and hide UI */
+        @media print {
+            nav, .submit-btn, .print-btn, .form-group, h2, .logo {
+                display: none !important;
+            }
+            body { background: white; color: black; }
+            .summary-card { border: none; background: white; width: 100%; }
+            .final-total { color: black; }
+            .summary-item { border-bottom: 1px solid #eee; }
+        }
     </style>
 </head>
 <body>
@@ -55,15 +66,15 @@
             <form id="paymentForm">
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" placeholder="Vince" required>
+                    <input type="text" id="custName" class="checkout-input" placeholder="Vince" required>
                 </div>
                 <div class="form-group">
                     <label>Delivery Address</label>
-                    <input type="text" placeholder="Street, City, Metro Manila" required>
+                    <input type="text" id="custAddr" class="checkout-input" placeholder="Street, City, Metro Manila" required>
                 </div>
                 <div class="form-group">
                     <label>Payment Method</label>
-                    <select class="role-btn" style="width: 100%; margin-top: 10px; background: rgba(0,0,0,0.3);">
+                    <select id="payMethod" class="checkout-input" style="width: 100%;">
                         <option>GCash</option>
                         <option>Cash on Delivery</option>
                         <option>Maya</option>
@@ -80,6 +91,11 @@
                 <!-- Items will be injected here -->
             </div>
             <div class="final-total" id="grand-total">$0.00</div>
+            
+            <!-- Print Button -->
+            <button onclick="generateReceipt()" class="cta-button print-btn" style="width: 100%; margin-top: 15px; background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold);">
+                Print Receipt 🖨️
+            </button>
         </div>
     </section>
 
@@ -110,6 +126,60 @@
         });
 
         totalDisplay.innerText = `Total: $${total.toFixed(2)}`;
+
+        // Function to create a printable receipt window
+        function generateReceipt() {
+            const name = document.getElementById('custName').value || "Valued Customer";
+            const addr = document.getElementById('custAddr').value || "Not Specified";
+            const method = document.getElementById('payMethod').value;
+            const date = new Date().toLocaleString();
+            
+            const receiptWindow = window.open('', '_blank');
+            receiptWindow.document.write(`
+                <html>
+                <head>
+                    <title>VinciFoods Receipt</title>
+                    <style>
+                        body { font-family: 'Courier New', Courier, monospace; padding: 40px; color: #333; line-height: 1.6; }
+                        .header { text-align: center; border-bottom: 2px dashed #333; padding-bottom: 20px; }
+                        .details { margin: 20px 0; }
+                        .item { display: flex; justify-content: space-between; margin: 5px 0; }
+                        .total { border-top: 2px solid #333; margin-top: 20px; padding-top: 10px; font-weight: bold; font-size: 1.2rem; text-align: right; }
+                        .footer { text-align: center; margin-top: 40px; font-style: italic; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>VINCIFOODS</h1>
+                        <p>Order Date: ${date}</p>
+                    </div>
+                    <div class="details">
+                        <p><strong>Customer:</strong> ${name}</p>
+                        <p><strong>Address:</strong> ${addr}</p>
+                        <p><strong>Payment:</strong> ${method}</p>
+                    </div>
+                    <hr>
+                    <div id="receipt-items">
+                        ${basket.map(item => `
+                            <div class="item">
+                                <span>${item.name}</span>
+                                <span>$${item.price.toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="total">Total Paid: $${total.toFixed(2)}</div>
+                    <div class="footer">
+                        <p>Stay Hungry, Stay Purple. ✨</p>
+                        <p>Thank you for your order!</p>
+                    </div>
+                    <script>
+                        window.onload = function() { window.print(); window.close(); }
+                    <\/script>
+                </body>
+                </html>
+            `);
+            receiptWindow.document.close();
+        }
 
         document.getElementById('paymentForm').onsubmit = (e) => {
             e.preventDefault();
