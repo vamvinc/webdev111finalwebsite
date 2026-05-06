@@ -14,7 +14,7 @@
             left: -100%;
             width: 100%;
             height: 100vh;
-            background: #1a1625; /* Theme-consistent dark purple */
+            background: #0a051a; /* Deep violet theme */
             z-index: 10001;
             transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
             display: flex;
@@ -24,12 +24,12 @@
         }
 
         #loader-logo {
-            width: 200px;
+            width: 220px;
             height: auto;
             opacity: 0;
             transform: scale(0.8);
-            transition: all 0.5s ease-out;
-            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 0 25px rgba(157, 124, 253, 0.6));
         }
 
         #loader-layer.active #loader-logo {
@@ -104,8 +104,8 @@
             top: 0;
             width: 400px;
             height: 100vh;
-            background: rgba(26, 22, 37, 0.95);
-            backdrop-filter: blur(20px);
+            background: rgba(10, 5, 26, 0.98);
+            backdrop-filter: blur(25px);
             border-left: 1px solid rgba(157, 124, 253, 0.2);
             z-index: 9999;
             transition: right 0.5s cubic-bezier(0.83, 0, 0.17, 1);
@@ -159,13 +159,16 @@
     </style>
 </head>
 <body id="page-body">
-    <!-- Updated Branded Transition Layer -->
+    <!-- Branded Transition Layer -->
     <div id="loader-layer">
-        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+        <img src="Image_20260212_002545_039.png" id="loader-logo" alt="Vinci Logo">
     </div>
 
     <nav>
-        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
+        <div class="logo-container" onclick="navTo('index.html')" style="cursor: pointer; display: flex; align-items: center; gap: 12px;">
+            <img src="Image_20260212_002545_039.png" alt="V" style="height: 40px; filter: drop-shadow(0 0 5px var(--accent-purple));">
+            <span class="logo">VinciFoods</span>
+        </div>
         <ul class="nav-links">
             <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
             <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
