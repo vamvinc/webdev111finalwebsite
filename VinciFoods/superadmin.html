@@ -19,6 +19,7 @@
                 linear-gradient(rgba(157, 124, 253, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(157, 124, 253, 0.03) 1px, transparent 1px);
             background-size: 30px 30px;
+            overflow-x: hidden;
         }
 
         .admin-nav {
@@ -29,6 +30,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .stat-card {
@@ -39,7 +43,20 @@
             position: relative;
             overflow: hidden;
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(20px);
         }
+
+        body.loaded .stat-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered entrance for admin cards */
+        .stat-card:nth-child(1) { transition-delay: 0.1s; }
+        .stat-card:nth-child(2) { transition-delay: 0.2s; }
+        .stat-card:nth-child(3) { transition-delay: 0.3s; }
+        .stat-card:nth-child(4) { transition-delay: 0.4s; }
 
         .stat-card:hover {
             transform: translateY(-5px);
@@ -120,6 +137,9 @@
     </style>
 </head>
 <body id="page-body">
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--admin-gold), var(--admin-red)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+
     <nav class="admin-nav">
         <div class="logo" style="color: var(--admin-gold); font-size: 1.2rem; cursor: pointer;" onclick="navTo('index.html')">
             <span style="opacity: 0.4;">&gt;</span> VINCIFOODS_CORE_v2.0
@@ -186,16 +206,20 @@
 
     <script>
         // --- PAGE TRANSITION ENGINE ---
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add('loaded');
-        });
-
         function navTo(url) {
-            document.body.classList.add('fade-out');
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
             setTimeout(() => {
                 window.location.href = url;
-            }, 500);
+            }, 700);
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+            refreshStats();
+        });
 
         // --- REAL-TIME DATA ENGINE ---
         function refreshStats() {
@@ -206,7 +230,7 @@
             }
 
             const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
-            const basket = JSON.parse(localStorage.getItem('userCart')) || []; // Updated key to match order.html
+            const basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
             document.getElementById('userCount').innerText = userCount;
             document.getElementById('orderCount').innerText = orders.length || basket.length;
@@ -220,7 +244,8 @@
         const activities = [
             "User session established", "Encryption layer active", 
             "Database handshake successful", "Cache cleared", 
-            "New registration detected", "Order processed"
+            "New registration detected", "Order processed",
+            "Admin privileges verified", "Firewall packet filtered"
         ];
 
         function addLog() {
@@ -242,8 +267,7 @@
         }
 
         // Initialization
-        refreshStats();
-        setInterval(addLog, 4000);
+        setInterval(addLog, 3000);
         setInterval(() => {
             const bars = document.querySelectorAll('.bar');
             bars.forEach(bar => {
