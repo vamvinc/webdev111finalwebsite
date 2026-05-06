@@ -11,6 +11,7 @@
             --admin-gold: #ffcc33;
             --admin-red: #ff4d4d;
             --admin-bg: #0a0814;
+            --accent-purple: #9d7cfd;
         }
 
         body {
@@ -19,13 +20,15 @@
                 linear-gradient(rgba(157, 124, 253, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(157, 124, 253, 0.03) 1px, transparent 1px);
             background-size: 30px 30px;
+            color: #fff;
             overflow-x: hidden;
         }
 
+        /* --- ADMIN HUD --- */
         .admin-nav {
-            background: rgba(15, 10, 25, 0.95);
-            border-bottom: 2px solid var(--admin-gold);
-            backdrop-filter: blur(15px);
+            background: rgba(15, 10, 25, 0.98);
+            border-bottom: 1px solid rgba(255, 204, 51, 0.3);
+            backdrop-filter: blur(20px);
             padding: 15px 5%;
             display: flex;
             justify-content: space-between;
@@ -39,241 +42,241 @@
             background: rgba(20, 15, 35, 0.8);
             padding: 25px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 204, 51, 0.1);
-            position: relative;
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
             transform: translateY(20px);
         }
 
-        body.loaded .stat-card {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Staggered entrance for admin cards */
-        .stat-card:nth-child(1) { transition-delay: 0.1s; }
-        .stat-card:nth-child(2) { transition-delay: 0.2s; }
-        .stat-card:nth-child(3) { transition-delay: 0.3s; }
-        .stat-card:nth-child(4) { transition-delay: 0.4s; }
+        body.loaded .stat-card { opacity: 1; transform: translateY(0); }
 
         .stat-card:hover {
-            transform: translateY(-5px);
             border-color: var(--admin-gold);
-            box-shadow: 0 10px 30px rgba(255, 204, 51, 0.1);
-        }
-
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            box-shadow: 0 10px 30px rgba(255, 204, 51, 0.05);
         }
 
         .stat-value {
             font-size: 2.2rem;
             font-weight: 800;
             font-family: 'Space Mono', monospace;
-            color: #fff;
+            letter-spacing: -1px;
         }
 
-        /* --- TERMINAL STYLING --- */
+        /* --- DATA TABLE --- */
+        .data-table-container {
+            background: rgba(157, 124, 253, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        th {
+            text-align: left;
+            color: var(--admin-gold);
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: #ccc;
+        }
+
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            background: rgba(77, 255, 121, 0.1);
+            color: #0f0;
+        }
+
+        /* --- TERMINAL --- */
         .terminal-window {
             background: #000;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
-
-        .terminal-header {
-            background: #1a1a1a;
-            padding: 10px 15px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #ff5f56; }
-        .amber { background: #ffbd2e; }
-        .green { background: #27c93f; }
 
         .log-entry {
             font-family: 'Space Mono', monospace;
-            padding: 10px 15px;
-            font-size: 0.85rem;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            color: #aaa;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
         }
-
-        .timestamp { color: var(--accent-purple); margin-right: 10px; }
 
         .bar {
-            width: 40px;
-            border-radius: 6px 6px 0 0;
-            transition: height 1s ease;
-            position: relative;
+            width: 35px;
             background: linear-gradient(to top, var(--accent-purple), var(--admin-gold));
-        }
-
-        .btn-shutdown {
-            background: rgba(255, 77, 77, 0.1);
-            border: 1px solid var(--admin-red);
-            color: var(--admin-red);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-shutdown:hover {
-            background: var(--admin-red);
-            color: white;
+            border-radius: 4px 4px 0 0;
+            transition: height 1s ease;
         }
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--admin-gold), var(--admin-red)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Transition Curtain -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: #000; z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none; display: flex; align-items: center; justify-content: center;">
+        <h1 style="color: var(--admin-gold); font-family: 'Space Mono';">SYNCING_CORE...</h1>
+    </div>
 
     <nav class="admin-nav">
-        <div class="logo" style="color: var(--admin-gold); font-size: 1.2rem; cursor: pointer;" onclick="navTo('index.html')">
-            <span style="opacity: 0.4;">&gt;</span> VINCIFOODS_CORE_v2.0
+        <div class="logo" style="color: var(--admin-gold); font-family: 'Space Mono'; cursor: pointer;" onclick="navTo('index.html')">
+            VINCIFOODS_CORE_v2.0
         </div>
-        <ul class="nav-links" style="list-style: none;">
-            <li><button onclick="systemExit()" class="btn-shutdown">SHUTDOWN SYSTEM</button></li>
-        </ul>
+        <div id="system-clock" style="font-family: 'Space Mono'; color: var(--accent-purple); font-size: 0.9rem;">00:00:00</div>
+        <button onclick="systemExit()" class="btn-shutdown">TERMINATE SESSION</button>
     </nav>
 
-    <div style="padding: 40px 8%;">
-        <header style="margin-bottom: 40px; border-left: 4px solid var(--admin-gold); padding-left: 20px;">
-            <h1 style="font-size: 2.5rem; letter-spacing: -1px; color: #fff;">Console Command</h1>
-            <p style="color: var(--text-muted);">Infrastructure: <span style="color: #0f0;">ONLINE</span> | Region: Manila, PH</p>
+    <div style="padding: 40px 5%;">
+        <header style="margin-bottom: 40px;">
+            <h1 style="font-size: 2.2rem; margin-bottom: 5px;">Administrative Command</h1>
+            <p style="color: var(--text-muted);">Status: <span id="uptime" style="color: #0f0;">CORE ONLINE</span> | Active Admin: SuperVince</p>
         </header>
 
-        <!-- Dynamic Metrics -->
-        <div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
-            <div class="stat-card">
-                <p class="stat-label">System Revenue</p>
+        <!-- KPI GRID -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+            <div class="stat-card" style="transition-delay: 0.1s;">
+                <p style="color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase;">Est. Revenue</p>
                 <h2 class="stat-value" id="totalRev" style="color: #0f0;">$0.00</h2>
             </div>
-            <div class="stat-card">
-                <p class="stat-label">Verified Squad</p>
+            <div class="stat-card" style="transition-delay: 0.2s;">
+                <p style="color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase;">Active Squad</p>
                 <h2 class="stat-value" id="userCount">0</h2>
             </div>
-            <div class="stat-card">
-                <p class="stat-label">Pending Orders</p>
+            <div class="stat-card" style="transition-delay: 0.3s;">
+                <p style="color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase;">Incoming Loads</p>
                 <h2 class="stat-value" id="orderCount" style="color: var(--admin-gold);">0</h2>
             </div>
-            <div class="stat-card">
-                <p class="stat-label">Server Latency</p>
-                <h2 class="stat-value" style="color: #4df;">12ms</h2>
+            <div class="stat-card" style="transition-delay: 0.4s;">
+                <p style="color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase;">Network Load</p>
+                <h2 class="stat-value" style="color: #4df;">12%</h2>
             </div>
         </div>
 
-        <div style="display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap;">
-            <!-- Traffic Visualization -->
-            <div style="flex: 2; min-width: 340px; background: rgba(10,8,20,0.6); padding: 30px; border-radius: 24px; border: 1px solid rgba(157, 124, 253, 0.1);">
-                <h3 style="margin-bottom: 25px; font-size: 1rem; color: var(--admin-gold);">Network Traffic Distribution</h3>
-                <div style="height: 250px; display: flex; align-items: flex-end; justify-content: space-around; padding: 0 20px;">
-                    <div class="bar" style="height: 45%;"></div>
-                    <div class="bar" style="height: 85%;"></div>
-                    <div class="bar" style="height: 60%;"></div>
-                    <div class="bar" style="height: 95%;"></div>
-                    <div class="bar" style="height: 30%;"></div>
-                    <div class="bar" style="height: 75%;"></div>
-                </div>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 30px;">
+            <!-- Order Feed -->
+            <div class="data-table-container">
+                <h3 style="margin-bottom: 15px; font-size: 0.9rem; color: var(--admin-gold);">Recent Transmissions</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Timestamp</th>
+                            <th>Payload</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="order-rows">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
             </div>
-            
-            <!-- Terminal Logs -->
-            <div class="terminal-window" style="flex: 1; min-width: 340px;">
-                <div class="terminal-header">
-                    <div class="dot red"></div>
-                    <div class="dot amber"></div>
-                    <div class="dot green"></div>
-                    <span style="font-size: 0.7rem; color: #666; margin-left: 10px; font-family: 'Space Mono';">security_kernel.log</span>
+
+            <!-- Visualizer & Logs -->
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                <div style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="height: 150px; display: flex; align-items: flex-end; justify-content: space-around;">
+                        <div class="bar" style="height: 40%"></div>
+                        <div class="bar" style="height: 80%"></div>
+                        <div class="bar" style="height: 60%"></div>
+                        <div class="bar" style="height: 90%"></div>
+                        <div class="bar" style="height: 50%"></div>
+                    </div>
                 </div>
-                <div id="log-container" style="height: 260px; overflow-y: auto;">
-                    <!-- Logs populated via script -->
+
+                <div class="terminal-window">
+                    <div style="background: #111; padding: 8px 15px; font-size: 0.7rem; color: #555;">SECURITY_KERNEL.LOG</div>
+                    <div id="log-container" style="height: 180px; overflow-y: auto;"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- PAGE TRANSITION ENGINE ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
-            setTimeout(() => {
-                window.location.href = url;
-            }, 700);
+            setTimeout(() => { window.location.href = url; }, 700);
         }
 
+        // Clock Update
+        setInterval(() => {
+            document.getElementById('system-clock').innerText = new Date().toLocaleTimeString('en-GB');
+        }, 1000);
+
         document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 100);
-            refreshStats();
+            setTimeout(() => document.body.classList.add('loaded'), 100);
+            refreshCore();
         });
 
-        // --- REAL-TIME DATA ENGINE ---
-        function refreshStats() {
-            let userCount = 0;
+        function refreshCore() {
+            let users = [];
+            // Filter keys that look like emails
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-                if (key.includes('@')) userCount++;
+                if (key.includes('@') && !key.includes('vinci_')) {
+                    const userData = JSON.parse(localStorage.getItem(key));
+                    users.push({email: key, ...userData});
+                }
             }
 
             const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
-            const basket = JSON.parse(localStorage.getItem('userCart')) || [];
-
-            document.getElementById('userCount').innerText = userCount;
-            document.getElementById('orderCount').innerText = orders.length || basket.length;
             
-            const revenue = (userCount * 12.5 + orders.length * 45).toFixed(2);
+            document.getElementById('userCount').innerText = users.length;
+            document.getElementById('orderCount').innerText = orders.length;
+            
+            // Calc Revenue (Example formula)
+            const revenue = (users.length * 5.50 + orders.length * 28.75).toFixed(2);
             document.getElementById('totalRev').innerText = `$${revenue}`;
+
+            // Populate Table
+            const tbody = document.getElementById('order-rows');
+            tbody.innerHTML = orders.length ? '' : '<tr><td colspan="4" style="text-align:center; opacity:0.3;">NO RECENT PAYLOADS</td></tr>';
+            
+            orders.slice(-5).reverse().forEach(ord => {
+                const row = `<tr>
+                    <td>${ord.email || 'GUEST'}</td>
+                    <td>${new Date(ord.date).toLocaleTimeString()}</td>
+                    <td>${ord.items.length} Items</td>
+                    <td><span class="status-pill">ENCRYPTED</span></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
         }
 
-        // --- TERMINAL LOG GENERATOR ---
-        const logContainer = document.getElementById('log-container');
-        const activities = [
-            "User session established", "Encryption layer active", 
-            "Database handshake successful", "Cache cleared", 
-            "New registration detected", "Order processed",
-            "Admin privileges verified", "Firewall packet filtered"
-        ];
-
+        // Log Engine
+        const logs = ["Packet filtered", "Handshake verified", "Node stable", "User authorized", "Cart persisted"];
         function addLog() {
-            const time = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
-            const action = activities[Math.floor(Math.random() * activities.length)];
+            const container = document.getElementById('log-container');
             const div = document.createElement('div');
             div.className = 'log-entry';
-            div.innerHTML = `<span class="timestamp">[${time}]</span> <span>${action}</span>`;
-            
-            logContainer.prepend(div);
-            if (logContainer.children.length > 10) logContainer.lastChild.remove();
+            div.innerHTML = `<span style="color:var(--accent-purple)">[${new Date().toLocaleTimeString()}]</span> ${logs[Math.floor(Math.random()*logs.length)]}`;
+            container.prepend(div);
+            if(container.children.length > 8) container.lastChild.remove();
         }
 
+        setInterval(addLog, 4000);
+
         function systemExit() {
-            if(confirm("CRITICAL: Terminate administrative authority and purge session?")) {
+            if(confirm("CONFIRM SYSTEM PURGE: Sign out of Admin?")) {
                 localStorage.removeItem('currentUser');
                 navTo('login.html');
             }
         }
 
-        // Initialization
-        setInterval(addLog, 3000);
+        // Visualizer Update
         setInterval(() => {
-            const bars = document.querySelectorAll('.bar');
-            bars.forEach(bar => {
-                const h = Math.floor(Math.random() * 70) + 20;
-                bar.style.height = h + '%';
-            });
+            document.querySelectorAll('.bar').forEach(b => b.style.height = (Math.random()*70 + 20) + '%');
         }, 2000);
     </script>
 </body>
