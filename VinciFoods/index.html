@@ -34,7 +34,6 @@
             margin-bottom: 40px;
         }
 
-        /* Fixing the buttons from image_92a03a.png */
         .hero-btns {
             display: flex;
             gap: 20px;
@@ -42,7 +41,6 @@
             flex-wrap: wrap;
         }
 
-        /* Grid specific to the "Vinci Standard" section */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -70,7 +68,9 @@
     <main>
         <!-- Hero Section -->
         <header class="hero">
-            <div id="welcome-msg" class="user-welcome"></div>
+            <!-- FIXED: Added display:none to prevent the "yellow blip" when no user is logged in -->
+            <div id="welcome-msg" class="user-welcome" style="display: none; margin-bottom: 20px;"></div>
+            
             <h1>Freshly Made.<br><span style="color: var(--accent-purple);">Fast Delivery.</span></h1>
             <p>Your favorite meals delivered with a touch of purple. No cap, just flavor.</p>
             
@@ -106,7 +106,7 @@
             </div>
         </section>
 
-        <!-- Call to Action Section -->
+        <!-- CTA Section -->
         <section style="padding: 120px 10%; text-align: center; background: rgba(157, 124, 253, 0.05); border-radius: 50px; margin: 0 5% 100px 5%;">
             <h2 style="color: var(--accent-gold); font-size: 2.5rem; margin-bottom: 10px;">Hungry yet?</h2>
             <p style="margin-bottom: 40px; color: var(--text-muted);">Join thousands of users in the Philippines ordering daily.</p>
@@ -141,9 +141,10 @@
     </footer>
 
     <script>
-        // --- PAGE TRANSITION LOGIC ---
+        // --- PAGE TRANSITION & SESSION LOGIC ---
         document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add('loaded');
+            checkSession();
             updateUI();
         });
 
@@ -152,6 +153,23 @@
             setTimeout(() => {
                 window.location.href = url;
             }, 500);
+        }
+
+        function checkSession() {
+            const welcomeMsg = document.getElementById('welcome-msg');
+            const authLink = document.getElementById('authLink');
+            const rawUserData = localStorage.getItem('currentUser');
+
+            if (rawUserData) {
+                const userData = JSON.parse(rawUserData);
+                const displayName = userData.user || userData.name;
+                welcomeMsg.innerText = `Welcome back, ${displayName}! ✨`;
+                welcomeMsg.style.display = "inline-block"; // Show only when user exists
+                authLink.innerText = "Logout";
+            } else {
+                welcomeMsg.style.display = "none"; // Ensure it stays hidden
+                authLink.innerText = "Login";
+            }
         }
 
         // --- PERSISTENT CART ENGINE ---
@@ -205,18 +223,6 @@
             } else { 
                 navTo('checkout.html'); 
             } 
-        }
-
-        // --- AUTH & PERSONALIZATION ---
-        const authLink = document.getElementById('authLink');
-        const welcomeMsg = document.getElementById('welcome-msg');
-        const rawUserData = localStorage.getItem('currentUser');
-
-        if (rawUserData) { 
-            const userData = JSON.parse(rawUserData);
-            welcomeMsg.innerText = `Welcome back, ${userData.user || userData.name}! ✨`;
-            welcomeMsg.style.display = "block";
-            authLink.innerText = "Logout"; 
         }
 
         function handleAuthClick(e) {
