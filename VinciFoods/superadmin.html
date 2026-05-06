@@ -26,6 +26,9 @@
             border-bottom: 2px solid var(--admin-gold);
             backdrop-filter: blur(15px);
             padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .stat-card {
@@ -73,6 +76,7 @@
             border-bottom: 1px solid #333;
             display: flex;
             gap: 8px;
+            align-items: center;
         }
 
         .dot { width: 12px; height: 12px; border-radius: 50%; }
@@ -89,13 +93,6 @@
         }
 
         .timestamp { color: var(--accent-purple); margin-right: 10px; }
-        .status-tag { 
-            padding: 2px 8px; 
-            border-radius: 4px; 
-            font-size: 0.7rem; 
-            margin-left: auto;
-            border: 1px solid;
-        }
 
         .bar {
             width: 40px;
@@ -122,24 +119,24 @@
         }
     </style>
 </head>
-<body>
+<body id="page-body">
     <nav class="admin-nav">
-        <div class="logo" style="color: var(--admin-gold); font-size: 1.2rem;">
+        <div class="logo" style="color: var(--admin-gold); font-size: 1.2rem; cursor: pointer;" onclick="navTo('index.html')">
             <span style="opacity: 0.4;">&gt;</span> VINCIFOODS_CORE_v2.0
         </div>
-        <ul class="nav-links">
+        <ul class="nav-links" style="list-style: none;">
             <li><button onclick="systemExit()" class="btn-shutdown">SHUTDOWN SYSTEM</button></li>
         </ul>
     </nav>
 
     <div style="padding: 40px 8%;">
         <header style="margin-bottom: 40px; border-left: 4px solid var(--admin-gold); padding-left: 20px;">
-            <h1 style="font-size: 2.5rem; letter-spacing: -1px;">Console Command</h1>
+            <h1 style="font-size: 2.5rem; letter-spacing: -1px; color: #fff;">Console Command</h1>
             <p style="color: var(--text-muted);">Infrastructure: <span style="color: #0f0;">ONLINE</span> | Region: Manila, PH</p>
         </header>
 
         <!-- Dynamic Metrics -->
-        <div class="menu-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+        <div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
             <div class="stat-card">
                 <p class="stat-label">System Revenue</p>
                 <h2 class="stat-value" id="totalRev" style="color: #0f0;">$0.00</h2>
@@ -160,15 +157,15 @@
 
         <div style="display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap;">
             <!-- Traffic Visualization -->
-            <div class="auth-container" style="flex: 2; max-width: none; min-width: 340px; background: rgba(10,8,20,0.6);">
+            <div style="flex: 2; min-width: 340px; background: rgba(10,8,20,0.6); padding: 30px; border-radius: 24px; border: 1px solid rgba(157, 124, 253, 0.1);">
                 <h3 style="margin-bottom: 25px; font-size: 1rem; color: var(--admin-gold);">Network Traffic Distribution</h3>
                 <div style="height: 250px; display: flex; align-items: flex-end; justify-content: space-around; padding: 0 20px;">
-                    <div class="bar" data-value="45%" style="height: 45%;"></div>
-                    <div class="bar" data-value="85%" style="height: 85%;"></div>
-                    <div class="bar" data-value="60%" style="height: 60%;"></div>
-                    <div class="bar" data-value="95%" style="height: 95%;"></div>
-                    <div class="bar" data-value="30%" style="height: 30%;"></div>
-                    <div class="bar" data-value="75%" style="height: 75%;"></div>
+                    <div class="bar" style="height: 45%;"></div>
+                    <div class="bar" style="height: 85%;"></div>
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 95%;"></div>
+                    <div class="bar" style="height: 30%;"></div>
+                    <div class="bar" style="height: 75%;"></div>
                 </div>
             </div>
             
@@ -181,32 +178,39 @@
                     <span style="font-size: 0.7rem; color: #666; margin-left: 10px; font-family: 'Space Mono';">security_kernel.log</span>
                 </div>
                 <div id="log-container" style="height: 260px; overflow-y: auto;">
-                    <!-- Logs will populate here -->
+                    <!-- Logs populated via script -->
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // --- PAGE TRANSITION ENGINE ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loaded');
+        });
+
+        function navTo(url) {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
         // --- REAL-TIME DATA ENGINE ---
         function refreshStats() {
             let userCount = 0;
-            let orderTotal = 0;
-            
-            // Loop through localStorage to find users (excluding system keys)
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key.includes('@')) userCount++;
             }
 
-            // Get Orders from your VinciFoods cart/order system
             const orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const basket = JSON.parse(localStorage.getItem('userCart')) || []; // Updated key to match order.html
 
             document.getElementById('userCount').innerText = userCount;
-            document.getElementById('orderCount').innerText = orders.length || cart.length;
+            document.getElementById('orderCount').innerText = orders.length || basket.length;
             
-            // Generate a fake but realistic revenue based on orders
             const revenue = (userCount * 12.5 + orders.length * 45).toFixed(2);
             document.getElementById('totalRev').innerText = `$${revenue}`;
         }
@@ -233,11 +237,11 @@
         function systemExit() {
             if(confirm("CRITICAL: Terminate administrative authority and purge session?")) {
                 localStorage.removeItem('currentUser');
-                window.location.href = 'login.html';
+                navTo('login.html');
             }
         }
 
-        // Initialize & Loops
+        // Initialization
         refreshStats();
         setInterval(addLog, 4000);
         setInterval(() => {
