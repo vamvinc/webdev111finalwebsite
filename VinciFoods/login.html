@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Login & Admin Demo</title>
+    <title>VinciFoods | Secure Login</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -20,21 +20,22 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
+            background: radial-gradient(circle at center, rgba(157, 124, 253, 0.08) 0%, transparent 70%);
         }
 
         .auth-container {
             background: var(--bg-card);
-            padding: 40px;
-            border-radius: 28px;
+            padding: 50px 45px;
+            border-radius: 35px;
             border: 1px solid rgba(157, 124, 253, 0.2);
             width: 100%;
-            max-width: 440px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            backdrop-filter: blur(15px);
+            max-width: 460px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            backdrop-filter: blur(20px);
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         body.loaded .auth-container {
@@ -43,103 +44,122 @@
         }
 
         .auth-container h2 {
-            color: var(--accent-purple);
-            margin-bottom: 10px;
+            color: #fff;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
             text-align: center;
             font-weight: 800;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
         }
 
         .auth-subtitle {
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 30px;
+            font-size: 0.95rem;
+            margin-bottom: 35px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             position: relative;
         }
 
         .form-group label {
             display: block;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            font-size: 0.7rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 14px 18px;
-            border-radius: 14px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            background: rgba(10, 10, 15, 0.4);
+            padding: 16px 20px;
+            border-radius: 18px;
+            border: 1px solid rgba(157, 124, 253, 0.15);
+            background: rgba(10, 10, 15, 0.6);
             color: white;
             outline: none;
-            transition: all 0.3s ease;
+            font-family: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .form-group input:focus {
             border-color: var(--accent-purple);
-            background: rgba(157, 124, 253, 0.05);
-            box-shadow: 0 0 20px rgba(157, 124, 253, 0.15);
+            background: rgba(157, 124, 253, 0.08);
+            box-shadow: 0 0 25px rgba(157, 124, 253, 0.2);
         }
+
+        /* Password Toggle Styling */
+        .pass-toggle {
+            position: absolute;
+            right: 18px;
+            top: 42px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+            user-select: none;
+            transition: color 0.3s;
+        }
+        .pass-toggle:hover { color: var(--accent-purple); }
 
         .terms-box {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin: 25px 0;
             color: var(--text-muted);
             font-size: 0.85rem;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
         }
 
         /* --- DEMO ACCESS PANEL --- */
         .demo-selector {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(157, 124, 253, 0.1);
+            margin-top: 35px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(157, 124, 253, 0.15);
             text-align: center;
         }
         
         .demo-title {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             color: var(--accent-gold);
-            letter-spacing: 2px;
-            margin-bottom: 15px;
+            letter-spacing: 2.5px;
+            margin-bottom: 20px;
             display: block;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .demo-btn-group {
-            display: flex;
-            gap: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
             justify-content: center;
         }
 
         .role-btn {
-            background: rgba(157, 124, 253, 0.05);
-            border: 1px solid rgba(157, 124, 253, 0.3);
+            background: rgba(157, 124, 253, 0.08);
+            border: 1px solid rgba(157, 124, 253, 0.2);
             color: var(--accent-purple);
-            padding: 12px 15px;
-            border-radius: 12px;
+            padding: 14px 10px;
+            border-radius: 16px;
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            flex: 1;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .role-btn:hover {
             background: var(--accent-purple);
             color: white;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(157, 124, 253, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(157, 124, 253, 0.3);
         }
 
         .demo-alt {
@@ -152,11 +172,17 @@
             background: var(--accent-gold);
             color: var(--bg-dark);
             border-color: var(--accent-gold);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        footer {
+            padding: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
     </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
+    <!-- Transition Layer -->
     <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
     <nav>
@@ -171,42 +197,43 @@
 
     <div class="auth-wrapper">
         <div class="auth-container">
-            <h2>Welcome Back</h2>
-            <p class="auth-subtitle">Sign in to experience the purple standard.</p>
+            <h2>Sign In</h2>
+            <p class="auth-subtitle">Welcome back to the <span style="color: var(--accent-purple); font-weight: 600;">Vinci</span> network.</p>
             
             <form id="lForm">
                 <div class="form-group">
-                    <label for="lEmail">Email Address</label>
+                    <label for="lEmail">Protocol ID (Email)</label>
                     <input type="email" id="lEmail" placeholder="vince@example.com" required>
                 </div>
                 <div class="form-group">
-                    <label for="lPass">Password</label>
+                    <label for="lPass">Access Cipher</label>
                     <input type="password" id="lPass" placeholder="••••••••" required>
+                    <span class="pass-toggle" id="togglePass">SHOW</span>
                 </div>
                 <div class="terms-box">
-                    <input type="checkbox" id="lCheck" style="accent-color: var(--accent-purple);">
-                    <label for="lCheck" style="cursor:pointer;">Confirm identity (Anti-bot)</label>
+                    <input type="checkbox" id="lCheck" style="width: 20px; height: 20px; accent-color: var(--accent-purple); cursor: pointer;">
+                    <label for="lCheck" style="cursor:pointer; font-weight: 500;">Verify biometric handshake (Anti-bot)</label>
                 </div>
-                <button type="submit" id="lBtn" class="submit-btn" style="width: 100%;" disabled>Sign In</button>
+                <button type="submit" id="lBtn" class="submit-btn" style="width: 100%; height: 60px; font-size: 1rem; letter-spacing: 1px;" disabled>Access System</button>
             </form>
 
             <div class="demo-selector">
-                <span class="demo-title">Developer Demo Access</span>
+                <span class="demo-title">Override Controls</span>
                 <div class="demo-btn-group">
-                    <button type="button" class="role-btn" onclick="quickLogin('Admin_Vinci', 'admin', 'admin.html')">Admin</button>
-                    <button type="button" class="role-btn demo-alt" onclick="navTo('demoaccount.html')">POV Select</button>
-                    <button type="button" class="role-btn" onclick="quickLogin('SuperVinci', 'superadmin', 'superadmin.html')">Super</button>
+                    <button type="button" class="role-btn" onclick="quickLogin('Admin_Vinci', 'Admin', 'admin.html')">Admin</button>
+                    <button type="button" class="role-btn demo-alt" onclick="navTo('demoaccount.html')">Modes</button>
+                    <button type="button" class="role-btn" onclick="quickLogin('SuperVinci', 'Super', 'superadmin.html')">Super</button>
                 </div>
             </div>
 
-            <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.85rem;">
-                Don't have an account? <a href="javascript:void(0)" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="navTo('register.html')">Register Here</a>
+            <p style="text-align:center; margin-top:30px; color:var(--text-muted); font-size: 0.9rem;">
+                New to the system? <a href="javascript:void(0)" style="color:var(--accent-purple); text-decoration:none; font-weight:bold; border-bottom: 1px solid var(--accent-purple);" onclick="navTo('register.html')">Create Identity</a>
             </p>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
+    <footer style="text-align: center;">
+        <p style="opacity: 0.5;">&copy; 2026 VinciFoods | System Status: <span style="color: #00ff88;">Operational</span></p>
     </footer>
 
     <script>
@@ -223,12 +250,23 @@
             }, 100);
         });
 
+        // --- PASSWORD TOGGLE ---
+        const togglePass = document.getElementById('togglePass');
+        const lPass = document.getElementById('lPass');
+        togglePass.onclick = () => {
+            const type = lPass.getAttribute('type') === 'password' ? 'text' : 'password';
+            lPass.setAttribute('type', type);
+            togglePass.innerText = type === 'password' ? 'SHOW' : 'HIDE';
+        };
+
+        // --- FORM LOGIC ---
         const lCheck = document.getElementById('lCheck');
         const lBtn = document.getElementById('lBtn');
-        
-        lCheck.onchange = () => lBtn.disabled = !lCheck.checked;
+        lCheck.onchange = () => {
+            lBtn.disabled = !lCheck.checked;
+            lBtn.style.opacity = lCheck.checked ? "1" : "0.5";
+        };
 
-        // Session logic synchronized with Home Page
         function quickLogin(username, role, targetPage) {
             const sessionData = {
                 user: username,
@@ -247,7 +285,7 @@
 
             // Direct Admin Check
             if (email === "admin@vinci.com") {
-                quickLogin('Admin_Vinci', 'admin', 'admin.html');
+                quickLogin('Admin_Vinci', 'Admin', 'admin.html');
                 return;
             }
 
@@ -259,23 +297,23 @@
                     const sessionData = {
                         user: user.name,
                         email: email,
-                        role: 'customer'
+                        role: 'Customer'
                     };
                     localStorage.setItem('currentUser', JSON.stringify(sessionData));
                     navTo('index.html');
                     return;
                 }
             }
-            alert("Credentials not found. Check your details and try again.");
+            alert("Security Alert: Credentials not found in central database.");
         };
 
-        // Header Sync & Logout
+        // Header Sync
         const authLink = document.getElementById('authLink');
         if (localStorage.getItem('currentUser')) {
             authLink.innerText = "Logout";
             authLink.onclick = (e) => { 
                 e.preventDefault();
-                if(confirm("Ready to sign out?")) {
+                if(confirm("Terminate current session?")) {
                     localStorage.removeItem('currentUser'); 
                     navTo('login.html');
                 }
