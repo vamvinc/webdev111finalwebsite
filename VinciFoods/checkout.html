@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Secure Checkout</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         .checkout-section {
             padding: 60px 10%;
@@ -76,9 +77,9 @@
 </head>
 <body id="page-body">
     <nav>
-        <div class="logo">VinciFoods</div>
+        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="order.html">Return to Menu</a></li>
+            <li><a href="order.html" onclick="event.preventDefault(); navTo('order.html');">Return to Menu</a></li>
         </ul>
     </nav>
 
@@ -148,6 +149,18 @@
     </section>
 
     <script>
+        // --- PAGE TRANSITION LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loaded');
+        });
+
+        function navTo(url) {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
         // Check if user is logged in
         if (!localStorage.getItem('currentUser')) {
             window.location.href = 'login.html';
@@ -249,11 +262,12 @@
             localStorage.removeItem('userCart');
             
             // Visual success feedback
-            document.querySelector('.submit-btn').innerText = "Order Placed! Redirecting...";
-            document.querySelector('.submit-btn').style.background = "var(--success-green)";
+            const btn = document.querySelector('.submit-btn');
+            btn.innerText = "Order Placed! Redirecting...";
+            btn.style.background = "var(--success-green)";
             
             setTimeout(() => {
-                window.location.href = 'index.html';
+                navTo('index.html');
             }, 2000);
         };
     </script>
