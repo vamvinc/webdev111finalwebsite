@@ -1,245 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Join the Squad</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        /* --- CENTERED LAYOUT FIX --- */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background: var(--bg-dark);
-            overflow-x: hidden;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | Join the Squad</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CENTERED LAYOUT FIX --- */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: var(--bg-dark);
+            overflow-x: hidden;
+        }
 
-        .auth-wrapper {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-        }
+        .auth-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
 
-        .auth-container {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 28px;
-            border: 1px solid rgba(157, 124, 253, 0.2);
-            width: 100%;
-            max-width: 440px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            backdrop-filter: blur(15px);
-            /* Entry animation for the card */
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease-out;
-        }
+        .auth-container {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 28px;
+            border: 1px solid rgba(157, 124, 253, 0.2);
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(15px);
+            /* Entry animation for the card */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
 
-        body.loaded .auth-container {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        body.loaded .auth-container {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        .auth-container h2 {
-            color: var(--accent-purple);
-            margin-bottom: 10px;
-            text-align: center;
-            font-size: 2.2rem;
-            font-weight: 800;
-        }
+        .auth-container h2 {
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
 
-        .auth-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 30px;
-        }
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+        }
 
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-        .form-group label {
-            display: block;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .form-group label {
+            display: block;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        .form-group input {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 12px;
-            border: 1px solid rgba(157, 124, 253, 0.2);
-            background: rgba(10, 10, 15, 0.5);
-            color: white;
-            outline: none;
-            transition: 0.3s;
-        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(157, 124, 253, 0.2);
+            background: rgba(10, 10, 15, 0.5);
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
 
-        .form-group input:focus {
-            border-color: var(--accent-purple);
-            background: rgba(10, 10, 15, 0.8);
-            box-shadow: 0 0 15px rgba(157, 124, 253, 0.2);
-        }
+        .form-group input:focus {
+            border-color: var(--accent-purple);
+            background: rgba(10, 10, 15, 0.8);
+            box-shadow: 0 0 15px rgba(157, 124, 253, 0.2);
+        }
 
-        .terms-box {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 25px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
+        .terms-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 25px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
 
-        .terms-box input[type="checkbox"] {
-            margin-top: 3px;
-            accent-color: var(--accent-purple);
-            cursor: pointer;
-            width: 18px;
-            height: 18px;
-        }
+        .terms-box input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: var(--accent-purple);
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
 
-        .submit-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            filter: grayscale(1);
-            transform: none !important;
-        }
-    </style>
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(1);
+            transform: none !important;
+        }
+    </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer Reveal (Curtain) -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
-    <nav>
-        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
-        <ul class="nav-links">
-            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
-            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
-        </ul>
-    </nav>
+    <nav>
+        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
+        <ul class="nav-links">
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
+            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
+        </ul>
+    </nav>
 
-    <div class="auth-wrapper">
-        <div class="auth-container">
-            <h2>Create Account</h2>
-            <p class="auth-subtitle">Join the purple movement. High-key flavors await.</p>
-            
-            <form id="rForm">
-                <div class="form-group">
-                    <label for="rName">Full Name</label>
-                    <input type="text" id="rName" placeholder="Vince" required>
-                </div>
-                <div class="form-group">
-                    <label for="rEmail">Email Address</label>
-                    <input type="email" id="rEmail" placeholder="vince@vinci.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="rPass">Password</label>
-                    <input type="password" id="rPass" placeholder="••••••••" required minlength="6">
-                </div>
-                <div class="terms-box">
-                    <input type="checkbox" id="rCheck">
-                    <label for="rCheck" style="cursor:pointer;">
-                        I agree to the Terms of Service and acknowledge that purple is the superior color.
-                    </label>
-                </div>
-                <button type="submit" id="rBtn" class="submit-btn" style="width: 100%;" disabled>Register Now</button>
-            </form>
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Join the purple movement. High-key flavors await.</p>
+            
+            <form id="rForm">
+                <div class="form-group">
+                    <label for="rName">Full Name</label>
+                    <input type="text" id="rName" placeholder="Vince" required>
+                </div>
+                <div class="form-group">
+                    <label for="rEmail">Email Address</label>
+                    <input type="email" id="rEmail" placeholder="vince@vinci.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="rPass">Password</label>
+                    <input type="password" id="rPass" placeholder="••••••••" required minlength="6">
+                </div>
+                <div class="terms-box">
+                    <input type="checkbox" id="rCheck">
+                    <label for="rCheck" style="cursor:pointer;">
+                        I agree to the Terms of Service and acknowledge that purple is the superior color.
+                    </label>
+                </div>
+                <button type="submit" id="rBtn" class="submit-btn" style="width: 100%;" disabled>Register Now</button>
+            </form>
 
-            <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.9rem;">
-                Already a member? <a href="javascript:void(0)" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="navTo('login.html')">Sign In</a>
-            </p>
-        </div>
-    </div>
+            <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.9rem;">
+                Already a member? <a href="javascript:void(0)" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="navTo('login.html')">Sign In</a>
+            </p>
+        </div>
+    </div>
 
-    <footer>
-        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
-    </footer>
+    <footer>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
+    </footer>
 
-    <script>
-        // --- PAGE TRANSITION LOGIC ---
-        function navTo(url) {
-            const loader = document.getElementById('loader-layer');
-            loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
-        }
+    <script>
+        // --- PAGE TRANSITION LOGIC ---
+        function navTo(url) {
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => { window.location.href = url; }, 700);
+        }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 100);
-        });
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
 
-        const rCheck = document.getElementById('rCheck');
-        const rBtn = document.getElementById('rBtn');
-        
-        // Dynamic Button State
-        rCheck.onchange = () => rBtn.disabled = !rCheck.checked;
+        const rCheck = document.getElementById('rCheck');
+        const rBtn = document.getElementById('rBtn');
+        
+        // Dynamic Button State
+        rCheck.onchange = () => rBtn.disabled = !rCheck.checked;
 
-        document.getElementById('rForm').onsubmit = (e) => {
-            e.preventDefault();
-            const email = document.getElementById('rEmail').value;
-            const name = document.getElementById('rName').value;
-            const pass = document.getElementById('rPass').value;
-            
-            // Check for Reserved Admin Emails
-            if (email.includes('admin@vinci.com') || email.includes('super@vinci.com')) {
-                alert("This is a reserved developer email. Please use a different one.");
-                return;
-            }
+        document.getElementById('rForm').onsubmit = (e) => {
+            e.preventDefault();
+            const email = document.getElementById('rEmail').value;
+            const name = document.getElementById('rName').value;
+            const pass = document.getElementById('rPass').value;
+            
+            // Check for Reserved Admin Emails
+            if (email.includes('admin@vinci.com') || email.includes('super@vinci.com')) {
+                alert("This is a reserved developer email. Please use a different one.");
+                return;
+            }
 
-            // Duplicate Email Check
-            if (localStorage.getItem(email)) {
-                alert("This email is already part of the squad! Try logging in.");
-                navTo('login.html');
-                return;
-            }
+            // Duplicate Email Check
+            if (localStorage.getItem(email)) {
+                alert("This email is already part of the squad! Try logging in.");
+                navTo('login.html');
+                return;
+            }
 
-            // Create User Object
-            const user = {
-                name: name,
-                pass: pass,
-                joinedDate: new Date().toLocaleDateString()
-            };
+            // Create User Object
+            const user = {
+                name: name,
+                pass: pass,
+                joinedDate: new Date().toLocaleDateString()
+            };
 
-            // Store User (Key is the email)
-            localStorage.setItem(email, JSON.stringify(user));
-            
-            alert(`Welcome to VinciFoods, ${name}! Redirecting you to login...`);
-            navTo('login.html');
-        };
+            // Store User (Key is the email)
+            localStorage.setItem(email, JSON.stringify(user));
+            
+            alert(`Welcome to VinciFoods, ${name}! Redirecting you to login...`);
+            navTo('login.html');
+        };
 
-        // Navigation Sync & Logout Transition
-        const authLink = document.getElementById('authLink');
-        const session = localStorage.getItem('currentUser');
-        
-        if (session) {
-            authLink.innerText = "Logout";
-        }
+        // Navigation Sync & Logout Transition
+        const authLink = document.getElementById('authLink');
+        const session = localStorage.getItem('currentUser');
+        
+        if (session) {
+            authLink.innerText = "Logout";
+        }
 
-        function handleAuthClick(e) {
-            e.preventDefault();
-            if (localStorage.getItem('currentUser')) {
-                if(confirm("Ready to sign out?")) {
-                    localStorage.removeItem('currentUser'); 
-                    navTo('login.html'); 
-                }
-            } else {
-                navTo('login.html');
-            }
-        }
-    </script>
+        function handleAuthClick(e) {
+            e.preventDefault();
+            if (localStorage.getItem('currentUser')) {
+                if(confirm("Ready to sign out?")) {
+                    localStorage.removeItem('currentUser'); 
+                    navTo('login.html'); 
+                }
+            } else {
+                navTo('login.html');
+            }
+        }
+    </script>
 </body>
 </html>
