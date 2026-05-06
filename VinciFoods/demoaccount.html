@@ -98,12 +98,12 @@
         }
     </style>
 </head>
-<body>
+<body id="page-body">
     <nav>
-        <div class="logo">VinciFoods</div>
+        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="login.html">Back to Login</a></li>
+            <li><a href="index.html" onclick="event.preventDefault(); navTo('index.html');">Home</a></li>
+            <li><a href="login.html" onclick="event.preventDefault(); navTo('login.html');">Back to Login</a></li>
         </ul>
     </nav>
 
@@ -143,6 +143,18 @@
     </div>
 
     <script>
+        // --- PAGE TRANSITION LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loaded'); //
+        });
+
+        function navTo(url) {
+            document.body.classList.add('fade-out'); //
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
         function loginAs(username, role, redirect) {
             // Detailed session object for the app to consume
             const sessionData = {
@@ -161,21 +173,20 @@
             
             // Visual feedback
             const btn = event.currentTarget.querySelector('.cta-button');
-            const originalText = btn.innerText;
             btn.innerText = "Initializing...";
             btn.style.opacity = "0.7";
             
-            // Small delay for "feel"
+            // Use smooth transition for login
             setTimeout(() => {
-                window.location.href = redirect;
+                navTo(redirect); //
             }, 800);
         }
 
-        // Redirect if already logged in to prevent session hijacking
+        // Check for active session
         window.onload = () => {
             const activeSession = localStorage.getItem('currentUser');
             if (activeSession) {
-                console.log("Active session detected. Redirecting to dashboard...");
+                console.log("Active session detected.");
             }
         };
     </script>
