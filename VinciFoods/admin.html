@@ -14,8 +14,7 @@
             left: -100%;
             width: 100%;
             height: 100vh;
-            /* Matches the dark purple background of Image_20260212_002545_039.jpg */
-            background: #1a1625; 
+            background: #0a051a; 
             z-index: 10001;
             transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
             display: flex;
@@ -25,12 +24,12 @@
         }
 
         #loader-logo {
-            width: 200px;
+            width: 220px;
             height: auto;
             opacity: 0;
             transform: scale(0.8);
-            transition: all 0.5s ease-out;
-            filter: drop-shadow(0 0 15px rgba(157, 124, 253, 0.4));
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 0 25px rgba(157, 124, 253, 0.6));
         }
 
         #loader-layer.active #loader-logo {
@@ -43,6 +42,14 @@
             max-width: 1200px;
             margin: 120px auto;
             padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.8s ease-out;
+        }
+
+        body.loaded .admin-container {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .stats-grid {
@@ -53,37 +60,37 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--bg-card);
+            backdrop-filter: blur(15px);
             padding: 30px;
-            border-radius: 15px;
+            border-radius: 20px;
             border: 1px solid rgba(157, 124, 253, 0.2);
             text-align: center;
+            transition: var(--transition-smooth);
         }
 
-        .stat-card h3 { color: var(--accent-purple); margin-bottom: 10px; }
-        .stat-card p { font-size: 2rem; font-weight: 800; color: var(--accent-gold); }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+        }
 
-        /* Smooth Entrance */
-        .admin-container {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: 0.8s ease-out;
-        }
-        body.loaded .admin-container {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .stat-card h3 { color: var(--accent-purple); margin-bottom: 10px; font-size: 1rem; }
+        .stat-card p { font-size: 2.2rem; font-weight: 800; color: var(--accent-gold); }
+
     </style>
 </head>
 <body id="page-body">
 
-    <!-- Transition Layer with Logo -->
+    <!-- Transition Layer with PNG Logo -->
     <div id="loader-layer">
-        <img src="Image_20260212_002545_039.jpg" id="loader-logo" alt="Vinci Logo">
+        <img src="Image_20260212_002545_039.png" id="loader-logo" alt="Vinci Logo">
     </div>
 
     <nav>
-        <div class="logo" onclick="navTo('index.html')" style="cursor: pointer;">VinciFoods</div>
+        <div class="logo-container" onclick="navTo('index.html')" style="cursor: pointer; display: flex; align-items: center; gap: 12px;">
+            <img src="Image_20260212_002545_039.png" alt="V" style="height: 40px; filter: drop-shadow(0 0 5px var(--accent-purple));">
+            <span class="logo">VinciFoods</span>
+        </div>
         <ul class="nav-links">
             <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
             <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
@@ -94,8 +101,9 @@
 
     <main class="admin-container">
         <header style="margin-bottom: 50px;">
-            <h1 style="font-size: 2.5rem;">Admin Dashboard</h1>
-            <p style="color: var(--text-muted);">Welcome back, Administrator. Here is the daily overview.</p>
+            <div class="admin-badge" style="margin-bottom: 15px;">SUPERADMIN ACCESS</div>
+            <h1 style="font-size: 2.8rem; letter-spacing: -1px;">Dashboard</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Welcome back, Vince. System monitoring is online.</p>
         </header>
 
         <div class="stats-grid">
@@ -113,23 +121,24 @@
             </div>
         </div>
 
-        <section class="delivery-card" style="padding: 30px;">
-            <h2 style="margin-bottom: 20px; color: var(--accent-purple);">Recent Orders</h2>
-            <div id="admin-orders-list" style="color: var(--text-muted);">
-                No recent orders to display.
+        <section class="feature-item" style="padding: 40px; text-align: left;">
+            <h2 style="margin-bottom: 25px; color: var(--accent-purple); display: flex; align-items: center; gap: 10px;">
+                <span>📋</span> Recent Orders
+            </h2>
+            <div id="admin-orders-list" style="color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                No active orders in the transmission queue.
             </div>
         </section>
     </main>
 
-    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p></footer>
+    <footer><p>&copy; 2026 VinciFoods | System Admin Console</p></footer>
 
     <script>
         // --- ADMIN SECURITY CHECK ---
         function checkAdminAuth() {
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            // Assuming admin has a specific flag or you just check if anyone is logged in for now
             if (!currentUser) {
-                alert("Access Denied. Please login.");
+                alert("Access Denied. Redirecting to login...");
                 window.location.href = 'login.html';
             }
             const authLink = document.getElementById('authLink');
@@ -161,9 +170,14 @@
                 document.body.classList.add('loaded');
             }, 100);
             
-            // Mock data for Admin display
+            // Sync dashboard with actual cart data
             const basketHistory = JSON.parse(localStorage.getItem('userCart')) || [];
             document.getElementById('order-count').innerText = basketHistory.length;
+
+            // Simple math for sales display
+            let total = 0;
+            basketHistory.forEach(item => total += item.price);
+            document.getElementById('total-sales').innerText = `$${total.toFixed(2)}`;
         });
     </script>
 </body>
