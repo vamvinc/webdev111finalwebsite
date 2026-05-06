@@ -8,33 +8,94 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         .demo-container {
-            max-width: 800px;
-            margin: 100px auto;
+            max-width: 900px;
+            margin: 80px auto;
             text-align: center;
             padding: 20px;
         }
+
         .demo-grid {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 40px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
         }
+
         .demo-card {
             background: var(--bg-card);
-            padding: 40px;
-            border-radius: 20px;
-            border: 2px solid rgba(157, 124, 253, 0.1);
-            transition: 0.3s;
-            flex: 1;
-            min-width: 280px;
+            padding: 50px 30px;
+            border-radius: 28px;
+            border: 1px solid rgba(157, 124, 253, 0.1);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(157, 124, 253, 0.05));
+            z-index: 0;
+        }
+
         .demo-card:hover {
             border-color: var(--accent-purple);
-            transform: translateY(-10px);
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        .demo-icon { font-size: 3rem; margin-bottom: 15px; }
+
+        .demo-icon { 
+            font-size: 3.5rem; 
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            z-index: 1;
+        }
+
+        .demo-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            z-index: 1;
+        }
+
+        .demo-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            z-index: 1;
+        }
+
+        .role-tag {
+            background: rgba(157, 124, 253, 0.1);
+            color: var(--accent-purple);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -47,48 +108,76 @@
     </nav>
 
     <div class="demo-container">
-        <h1 style="color: var(--accent-gold); font-size: 2.5rem;">Choose Your POV</h1>
-        <p style="color: var(--text-muted);">Select a role to instantly enter the VinciFoods ecosystem.</p>
+        <h1 style="color: var(--accent-gold); font-size: 3rem; font-weight: 800; letter-spacing: -1px;">Choose Your POV</h1>
+        <p style="color: var(--text-muted); max-width: 500px; margin: 10px auto;">Experience the full VinciFoods ecosystem instantly. Select a role to populate the session data and proceed.</p>
 
         <div class="demo-grid">
             <!-- CUSTOMER DEMO -->
-            <div class="demo-card" onclick="loginAs('Vince', 'customer', 'index.html')">
+            <div class="demo-card" onclick="loginAs('Vince', 'customer', 'order.html')">
+                <span class="status-badge">UNLOCKED</span>
                 <div class="demo-icon">🍕</div>
+                <span class="role-tag">Consumer Mode</span>
                 <h3 style="color: #fff;">Customer View</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
-                    Browse the menu, add to basket, and test the checkout flow.
+                <p>
+                    Browse our high-fidelity menu, manage your persistent basket, and simulate the secure checkout process.
                 </p>
-                <button class="cta-button" style="margin-top: 20px; width: 100%;">Enter as Vince</button>
+                <button class="cta-button" style="width: 100%; z-index: 1;">Launch as Vince</button>
             </div>
 
             <!-- ADMIN DEMO -->
             <div class="demo-card" onclick="loginAs('Admin_Vinci', 'admin', 'admin.html')">
+                <span class="status-badge">SECURE</span>
                 <div class="demo-icon">👑</div>
+                <span class="role-tag" style="color: var(--accent-gold); background: rgba(212, 175, 55, 0.1);">System Owner</span>
                 <h3 style="color: #fff;">Admin Dashboard</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
-                    Manage orders, track analytics, and oversee operations.
+                <p>
+                    Take control of the inventory, track real-time sales analytics, and manage incoming order streams.
                 </p>
-                <button class="cta-button" style="margin-top: 20px; width: 100%; background: var(--accent-purple);">Enter Admin</button>
+                <button class="cta-button" style="width: 100%; background: var(--accent-purple); z-index: 1;">Launch Admin</button>
             </div>
         </div>
+        
+        <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-muted);">
+            Note: Demo sessions use <strong>localStorage</strong> and will reset upon manual logout.
+        </p>
     </div>
 
     <script>
         function loginAs(username, role, redirect) {
-            // Save the demo session to localStorage
+            // Detailed session object for the app to consume
             const sessionData = {
                 user: username,
                 role: role,
                 isDemo: true,
-                timestamp: new Date().getTime()
+                loginTime: new Date().toLocaleTimeString(),
+                preferences: {
+                    theme: 'dark',
+                    notifications: true
+                }
             };
             
+            // Set the primary auth key
             localStorage.setItem('currentUser', JSON.stringify(sessionData));
             
-            // Visual feedback before redirecting
-            alert(`Entering as ${username}... It's giving access.`);
-            window.location.href = redirect;
+            // Visual feedback
+            const btn = event.currentTarget.querySelector('.cta-button');
+            const originalText = btn.innerText;
+            btn.innerText = "Initializing...";
+            btn.style.opacity = "0.7";
+            
+            // Small delay for "feel"
+            setTimeout(() => {
+                window.location.href = redirect;
+            }, 800);
         }
+
+        // Redirect if already logged in to prevent session hijacking
+        window.onload = () => {
+            const activeSession = localStorage.getItem('currentUser');
+            if (activeSession) {
+                console.log("Active session detected. Redirecting to dashboard...");
+            }
+        };
     </script>
 </body>
 </html>
