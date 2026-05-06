@@ -1,268 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Join the Squad</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        /* --- CENTERED LAYOUT FIX --- */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background: var(--bg-dark);
-            overflow-x: hidden;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | Join the Squad</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CENTERED LAYOUT FIX --- */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: var(--bg-dark);
+            overflow-x: hidden;
+        }
 
-        .auth-wrapper {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 60px 20px;
-            background: radial-gradient(circle at center, rgba(157, 124, 253, 0.05) 0%, transparent 70%);
-        }
+        .auth-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
 
-        .auth-container {
-            background: var(--bg-card);
-            padding: 50px 40px;
-            border-radius: 32px;
-            border: 1px solid rgba(157, 124, 253, 0.15);
-            width: 100%;
-            max-width: 460px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            backdrop-filter: blur(20px);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+        .auth-container {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 28px;
+            border: 1px solid rgba(157, 124, 253, 0.2);
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(15px);
+            /* Entry animation for the card */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
 
-        body.loaded .auth-container {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        body.loaded .auth-container {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        .auth-container h2 {
-            color: #fff;
-            margin-bottom: 8px;
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -1.5px;
-        }
+        .auth-container h2 {
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
 
-        .auth-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 35px;
-        }
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+        }
 
-        .form-group {
-            margin-bottom: 22px;
-            text-align: left;
-        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-        .form-group label {
-            display: block;
-            color: var(--accent-purple);
-            margin-bottom: 10px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
+        .form-group label {
+            display: block;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        .form-group input {
-            width: 100%;
-            padding: 16px 20px;
-            border-radius: 14px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            background: rgba(255, 255, 255, 0.03);
-            color: white;
-            outline: none;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: inherit;
-        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(157, 124, 253, 0.2);
+            background: rgba(10, 10, 15, 0.5);
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
 
-        .form-group input:focus {
-            border-color: var(--accent-purple);
-            background: rgba(157, 124, 253, 0.05);
-            box-shadow: 0 0 20px rgba(157, 124, 253, 0.15);
-            transform: scale(1.01);
-        }
+        .form-group input:focus {
+            border-color: var(--accent-purple);
+            background: rgba(10, 10, 15, 0.8);
+            box-shadow: 0 0 15px rgba(157, 124, 253, 0.2);
+        }
 
-        .terms-box {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            margin: 30px 0;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.5;
-            background: rgba(157, 124, 253, 0.05);
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px dashed rgba(157, 124, 253, 0.2);
-        }
+        .terms-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 25px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
 
-        .terms-box input[type="checkbox"] {
-            margin-top: 4px;
-            accent-color: var(--accent-purple);
-            cursor: pointer;
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
+        .terms-box input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: var(--accent-purple);
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
 
-        .submit-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            filter: grayscale(1);
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .auth-footer-link {
-            text-align: center;
-            margin-top: 30px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .auth-footer-link a {
-            color: var(--accent-purple);
-            text-decoration: none;
-            font-weight: 800;
-            margin-left: 5px;
-            transition: 0.3s;
-        }
-
-        .auth-footer-link a:hover {
-            color: var(--accent-neon);
-            text-shadow: 0 0 10px rgba(157, 124, 253, 0.5);
-        }
-    </style>
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(1);
+            transform: none !important;
+        }
+    </style>
 </head>
 <body id="page-body">
-    <!-- Transition Layer -->
-    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
+    <!-- Transition Layer Reveal (Curtain) -->
+    <div id="loader-layer" style="position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon)); z-index: 10001; transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1); pointer-events: none;"></div>
 
-    <nav>
-        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
-        <ul class="nav-links">
-            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
-            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
-        </ul>
-    </nav>
+    <nav>
+        <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
+        <ul class="nav-links">
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
+            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
+        </ul>
+    </nav>
 
-    <div class="auth-wrapper">
-        <div class="auth-container">
-            <h2>Join the Squad</h2>
-            <p class="auth-subtitle">Create your account for a high-key dining experience.</p>
-            
-            <form id="rForm">
-                <div class="form-group">
-                    <label for="rName">Full Name</label>
-                    <input type="text" id="rName" placeholder="Enter your name" required>
-                </div>
-                <div class="form-group">
-                    <label for="rEmail">Email Address</label>
-                    <input type="email" id="rEmail" placeholder="vince@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="rPass">Password</label>
-                    <input type="password" id="rPass" placeholder="Min. 6 characters" required minlength="6">
-                </div>
-                <div class="terms-box">
-                    <input type="checkbox" id="rCheck">
-                    <label for="rCheck" style="cursor:pointer;">
-                        I agree to the Terms of Service and acknowledge that <strong>VinciFoods</strong> is the peak of gourmet speed.
-                    </label>
-                </div>
-                <button type="submit" id="rBtn" class="submit-btn" style="width: 100%; height: 60px; font-size: 1.1rem;" disabled>Create Account</button>
-            </form>
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Join the purple movement. High-key flavors await.</p>
+            
+            <form id="rForm">
+                <div class="form-group">
+                    <label for="rName">Full Name</label>
+                    <input type="text" id="rName" placeholder="Vince" required>
+                </div>
+                <div class="form-group">
+                    <label for="rEmail">Email Address</label>
+                    <input type="email" id="rEmail" placeholder="vince@vinci.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="rPass">Password</label>
+                    <input type="password" id="rPass" placeholder="••••••••" required minlength="6">
+                </div>
+                <div class="terms-box">
+                    <input type="checkbox" id="rCheck">
+                    <label for="rCheck" style="cursor:pointer;">
+                        I agree to the Terms of Service and acknowledge that purple is the superior color.
+                    </label>
+                </div>
+                <button type="submit" id="rBtn" class="submit-btn" style="width: 100%;" disabled>Register Now</button>
+            </form>
 
-            <div class="auth-footer-link">
-                Already part of the movement? <a href="javascript:void(0)" onclick="navTo('login.html')">Sign In</a>
-            </div>
-        </div>
-    </div>
+            <p style="text-align:center; margin-top:25px; color:var(--text-muted); font-size: 0.9rem;">
+                Already a member? <a href="javascript:void(0)" style="color:var(--accent-purple); text-decoration:none; font-weight:bold;" onclick="navTo('login.html')">Sign In</a>
+            </p>
+        </div>
+    </div>
 
-    <footer>
-        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
-    </footer>
+    <footer>
+        <p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p>
+    </footer>
 
-    <script>
-        // --- PAGE TRANSITION LOGIC ---
-        function navTo(url) {
-            const loader = document.getElementById('loader-layer');
-            loader.style.left = '0';
-            setTimeout(() => { window.location.href = url; }, 700);
-        }
+    <script>
+        // --- PAGE TRANSITION LOGIC ---
+        function navTo(url) {
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => { window.location.href = url; }, 700);
+        }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 100);
-        });
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 100);
+        });
 
-        const rCheck = document.getElementById('rCheck');
-        const rBtn = document.getElementById('rBtn');
-        
-        rCheck.onchange = () => rBtn.disabled = !rCheck.checked;
+        const rCheck = document.getElementById('rCheck');
+        const rBtn = document.getElementById('rBtn');
+        
+        // Dynamic Button State
+        rCheck.onchange = () => rBtn.disabled = !rCheck.checked;
 
-        document.getElementById('rForm').onsubmit = (e) => {
-            e.preventDefault();
-            const email = document.getElementById('rEmail').value.trim().toLowerCase();
-            const name = document.getElementById('rName').value.trim();
-            const pass = document.getElementById('rPass').value;
-            
-            if (email.endsWith('@vinci.com')) {
-                alert("Restricted Domain: @vinci.com is reserved for corporate entities.");
-                return;
-            }
+        document.getElementById('rForm').onsubmit = (e) => {
+            e.preventDefault();
+            const email = document.getElementById('rEmail').value;
+            const name = document.getElementById('rName').value;
+            const pass = document.getElementById('rPass').value;
+            
+            // Check for Reserved Admin Emails
+            if (email.includes('admin@vinci.com') || email.includes('super@vinci.com')) {
+                alert("This is a reserved developer email. Please use a different one.");
+                return;
+            }
 
-            if (localStorage.getItem(email)) {
-                alert("This email is already in our system. Try signing in instead!");
-                navTo('login.html');
-                return;
-            }
+            // Duplicate Email Check
+            if (localStorage.getItem(email)) {
+                alert("This email is already part of the squad! Try logging in.");
+                navTo('login.html');
+                return;
+            }
 
-            const user = {
-                user: name,
-                pass: pass,
-                joined: new Date().toISOString()
-            };
+            // Create User Object
+            const user = {
+                name: name,
+                pass: pass,
+                joinedDate: new Date().toLocaleDateString()
+            };
 
-            localStorage.setItem(email, JSON.stringify(user));
-            
-            alert(`Account verified! Welcome to the squad, ${name}.`);
-            navTo('login.html');
-        };
+            // Store User (Key is the email)
+            localStorage.setItem(email, JSON.stringify(user));
+            
+            alert(`Welcome to VinciFoods, ${name}! Redirecting you to login...`);
+            navTo('login.html');
+        };
 
-        const authLink = document.getElementById('authLink');
-        const session = localStorage.getItem('currentUser');
-        
-        if (session) {
-            authLink.innerText = "Logout";
-        }
+        // Navigation Sync & Logout Transition
+        const authLink = document.getElementById('authLink');
+        const session = localStorage.getItem('currentUser');
+        
+        if (session) {
+            authLink.innerText = "Logout";
+        }
 
-        function handleAuthClick(e) {
-            e.preventDefault();
-            if (localStorage.getItem('currentUser')) {
-                if(confirm("Confirm Session Termination?")) {
-                    localStorage.removeItem('currentUser'); 
-                    navTo('login.html'); 
-                }
-            } else {
-                navTo('login.html');
-            }
-        }
-    </script>
+        function handleAuthClick(e) {
+            e.preventDefault();
+            if (localStorage.getItem('currentUser')) {
+                if(confirm("Ready to sign out?")) {
+                    localStorage.removeItem('currentUser'); 
+                    navTo('login.html'); 
+                }
+            } else {
+                navTo('login.html');
+            }
+        }
+    </script>
 </body>
 </html>
+
+update register.html too
