@@ -3,86 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Secure Checkout</title>
+    <title>VinciFoods | Checkout</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        .checkout-section {
-            padding: 60px 10%;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 900px) {
-            .checkout-section { grid-template-columns: 1fr; padding: 20px 5%; }
-        }
-
-        /* Entrance Animations */
-        .hero h1, .hero p, .summary-card {
-            opacity: 0;
-            transform: translateY(30px) skewY(1deg);
-            transition: var(--transition-cool);
-        }
-
-        body.loaded .hero h1 { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.1s; }
-        body.loaded .hero p  { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.2s; }
-        body.loaded .summary-card:nth-child(1) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.3s; }
-        body.loaded .summary-card:nth-child(2) { opacity: 1; transform: translateY(0) skewY(0); transition-delay: 0.4s; }
-
-        .summary-card {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .summary-item {
+        body {
             display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.95rem;
+            flex-direction: column;
+            min-height: 100vh;
+            background: var(--bg-dark);
+            overflow-x: hidden;
         }
 
-        .final-total-display {
-            font-size: 1.8rem;
-            color: var(--accent-gold);
+        .checkout-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        .checkout-container {
+            background: var(--bg-card);
+            padding: 45px;
+            border-radius: 28px;
+            border: 1px solid rgba(157, 124, 253, 0.2);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        body.loaded .checkout-container {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .checkout-container h2 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
             font-weight: 800;
-            margin-top: 25px;
-            text-align: right;
             letter-spacing: -1px;
         }
 
-        /* Contrast Fix for Dropdown */
-        select.checkout-input option {
-            background-color: #1a1a1a; 
-            color: #ffffff;
-            padding: 10px;
+        /* --- FIXED INPUT STYLING --- */
+        .form-group {
+            margin-bottom: 22px;
+            text-align: left;
         }
 
-        .checkout-label {
+        .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             color: var(--accent-purple);
-            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
-        @media print {
-            nav, .submit-btn, .print-btn, .form-group, h2, .logo, .cart-toggle {
-                display: none !important;
-            }
-            body { background: white; color: black; }
-            .summary-card { border: none; background: white; width: 100%; box-shadow: none; }
-            .final-total-display { color: black; }
-            .summary-item { border-bottom: 1px solid #eee; }
+        .form-group input, 
+        .form-group select {
+            width: 100%; /* Fixes the short input issue */
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(157, 124, 253, 0.2);
+            background: rgba(10, 10, 15, 0.5);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box; /* Ensures padding doesn't break width */
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            border-color: var(--accent-purple);
+            background: rgba(10, 10, 15, 0.8);
+            box-shadow: 0 0 15px rgba(157, 124, 253, 0.2);
+        }
+
+        /* Styling the dropdown options */
+        select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .order-summary {
+            background: rgba(157, 124, 253, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px dashed rgba(157, 124, 253, 0.3);
         }
     </style>
 </head>
@@ -93,77 +110,52 @@
     <nav>
         <div class="logo" style="cursor: pointer;" onclick="navTo('index.html')">VinciFoods</div>
         <ul class="nav-links">
-            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Return to Menu</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Menu</a></li>
         </ul>
     </nav>
 
-    <header class="hero" style="min-height: auto; padding: 40px 0; text-align: center;">
-        <h1>Secure Checkout</h1>
-        <p>Complete your order to satisfy those cravings. ⚡</p>
-    </header>
+    <div class="checkout-wrapper">
+        <div class="checkout-container">
+            <h2>Delivery Details</h2>
 
-    <section class="checkout-section">
-        <!-- Delivery Details -->
-        <div class="summary-card">
-            <h2 style="color: var(--text-white); margin-bottom: 30px; font-weight: 800;">Delivery Details</h2>
-            <form id="paymentForm">
+            <div class="order-summary">
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 5px;">Basket Total</p>
+                <h3 id="display-total" style="color: var(--accent-gold); font-size: 1.5rem;">$0.00</h3>
+            </div>
+            
+            <form id="checkoutForm">
                 <div class="form-group">
-                    <label class="checkout-label">Full Name</label>
-                    <input type="text" id="custName" class="checkout-input" placeholder="Vince" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="checkout-label">Contact Number</label>
-                    <input 
-                        type="tel" 
-                        id="custPhone" 
-                        class="checkout-input" 
-                        placeholder="09123456789" 
-                        pattern="[0-9]+" 
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
-                        required
-                    >
+                    <label>Full Name</label>
+                    <input type="text" id="cName" placeholder="Vince" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="checkout-label">Delivery Address</label>
-                    <input type="text" id="custAddr" class="checkout-input" placeholder="Street, City, Metro Manila" required>
+                    <label>Contact Number</label>
+                    <input type="tel" id="cPhone" placeholder="09123456789" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="checkout-label">Payment Method</label>
-                    <select id="payMethod" class="checkout-input" style="width: 100%;" required>
+                    <label>Delivery Address</label>
+                    <input type="text" id="cAddress" placeholder="Street, City, Metro Manila" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="cPayment" required>
                         <option value="" disabled selected>Select Payment Method</option>
-                        <option value="GCash">GCash</option>
-                        <option value="Cash on Delivery">Cash on Delivery</option>
-                        <option value="Maya">Maya</option>
+                        <option value="cod">Cash on Delivery (COD)</option>
+                        <option value="gcash">GCash</option>
+                        <option value="card">Credit/Debit Card</option>
                     </select>
                 </div>
-                <button type="submit" class="submit-btn" style="width: 100%; margin-top: 30px; font-size: 1.1rem;">Confirm & Place Order</button>
+
+                <button type="submit" class="submit-btn" style="width: 100%; margin-top: 10px;">Confirm & Place Order</button>
             </form>
         </div>
-
-        <!-- Order Summary -->
-        <div class="summary-card" style="height: fit-content;">
-            <h2 style="color: var(--text-white); margin-bottom: 30px; font-weight: 800;">Your Order</h2>
-            <div id="final-items-list">
-                <!-- Items injected here -->
-            </div>
-            <div class="final-total-display" id="grand-total">$0.00</div>
-            
-            <hr style="border: 0; border-top: 1px solid rgba(157,124,253,0.2); margin: 30px 0;">
-            
-            <button onclick="generateReceipt()" class="print-btn" style="width: 100%; background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: 600;">
-                Review Receipt 🖨️
-            </button>
-            <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 15px;">
-                Verified Secure Transaction • VinciFoods 2026
-            </p>
-        </div>
-    </section>
+    </div>
 
     <script>
-        // --- COOL TRANSITION LOGIC ---
         function navTo(url) {
             const loader = document.getElementById('loader-layer');
             loader.style.left = '0';
@@ -171,115 +163,43 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 100);
-        });
+            setTimeout(() => { document.body.classList.add('loaded'); }, 100);
 
-        // Auth Check
-        if (!localStorage.getItem('currentUser')) {
-            window.location.href = 'login.html';
-        }
+            // Load Total from LocalStorage
+            const basket = JSON.parse(localStorage.getItem('userCart')) || [];
+            const total = basket.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('display-total').innerText = `$${total.toFixed(2)}`;
 
-        const basket = JSON.parse(localStorage.getItem('userCart')) || [];
-        const itemsContainer = document.getElementById('final-items-list');
-        const totalDisplay = document.getElementById('grand-total');
-        let total = 0;
-
-        if (basket.length === 0) {
-            window.location.href = 'order.html';
-        }
-
-        basket.forEach(item => {
-            total += item.price;
-            const div = document.createElement('div');
-            div.className = 'summary-item';
-            div.innerHTML = `
-                <span style="color: var(--text-white)">${item.name}</span>
-                <span style="color: var(--accent-gold); font-weight: bold;">$${item.price.toFixed(2)}</span>
-            `;
-            itemsContainer.appendChild(div);
-        });
-
-        totalDisplay.innerText = `Total: $${total.toFixed(2)}`;
-
-        function generateReceipt() {
-            const form = document.getElementById('paymentForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
+            // Auto-fill name if logged in
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                document.getElementById('cName').value = user.name || user.user;
             }
+        });
 
-            const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custPhone').value;
-            const addr = document.getElementById('custAddr').value;
-            const method = document.getElementById('payMethod').value;
-            const date = new Date().toLocaleString();
-            
-            const receiptWindow = window.open('', '_blank');
-            receiptWindow.document.write(`
-                <html>
-                <head>
-                    <title>VinciFoods Receipt | ${name}</title>
-                    <style>
-                        body { font-family: 'Courier New', Courier, monospace; padding: 40px; color: #1a1a1a; line-height: 1.6; max-width: 500px; margin: auto; }
-                        .header { text-align: center; border-bottom: 2px dashed #333; padding-bottom: 20px; }
-                        .details { margin: 20px 0; font-size: 0.9rem; }
-                        .item { display: flex; justify-content: space-between; margin: 5px 0; }
-                        .total { border-top: 2px solid #333; margin-top: 20px; padding-top: 10px; font-weight: bold; font-size: 1.2rem; text-align: right; }
-                        .footer { text-align: center; margin-top: 40px; font-style: italic; font-size: 0.8rem; }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <h1 style="margin:0;">VINCIFOODS</h1>
-                        <p>Order Date: ${date}</p>
-                    </div>
-                    <div class="details">
-                        <p><strong>Customer:</strong> ${name}</p>
-                        <p><strong>Contact:</strong> ${phone}</p>
-                        <p><strong>Address:</strong> ${addr}</p>
-                        <p><strong>Payment:</strong> ${method}</p>
-                    </div>
-                    <hr>
-                    <div>
-                        ${basket.map(item => `
-                            <div class="item">
-                                <span>${item.name}</span>
-                                <span>$${item.price.toFixed(2)}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="total">Total Paid: $${total.toFixed(2)}</div>
-                    <div class="footer">
-                        <p>Stay Hungry, Stay Purple. ✨</p>
-                        <p>Thank you for choosing VinciFoods!</p>
-                    </div>
-                    <script>
-                        window.onload = function() { window.print(); }
-                    <\/script>
-                </body>
-                </html>
-            `);
-            receiptWindow.document.close();
-        }
-
-        document.getElementById('paymentForm').onsubmit = (e) => {
+        document.getElementById('checkoutForm').onsubmit = (e) => {
             e.preventDefault();
-            const wantReceipt = confirm("Order Confirmed! Would you like to print your receipt? ✨");
-
-            if (wantReceipt) {
-                generateReceipt();
-            }
-
-            localStorage.removeItem('userCart');
-            const btn = document.querySelector('.submit-btn');
-            btn.innerText = "Order Placed! Redirecting...";
-            btn.style.background = "var(--success-green)";
             
-            setTimeout(() => {
-                navTo('index.html');
-            }, 2000);
+            // Create Order Record
+            const newOrder = {
+                id: "ORD-" + Math.floor(Math.random() * 100000),
+                items: JSON.parse(localStorage.getItem('userCart')),
+                customer: document.getElementById('cName').value,
+                address: document.getElementById('cAddress').value,
+                method: document.getElementById('cPayment').value,
+                date: new Date().toLocaleString()
+            };
+
+            // Save to Admin accessible orders
+            let orders = JSON.parse(localStorage.getItem('vinci_orders')) || [];
+            orders.push(newOrder);
+            localStorage.setItem('vinci_orders', JSON.stringify(orders));
+
+            // Clear Basket
+            localStorage.removeItem('userCart');
+
+            alert("Order Placed! Thank you for choosing VinciFoods.");
+            navTo('index.html');
         };
     </script>
 </body>
