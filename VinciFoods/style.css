@@ -20,17 +20,17 @@
     to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
+@keyframes fadeOutDown {
+    from { opacity: 1; transform: translateY(0); filter: blur(0); }
+    to { opacity: 0; transform: translateY(20px); filter: blur(10px); }
+}
+
 @keyframes glowPulse {
     0%, 100% { box-shadow: 0 0 5px var(--accent-purple); }
     50% { box-shadow: 0 0 25px var(--accent-purple), 0 0 10px var(--accent-neon); }
 }
 
-@keyframes shine {
-    from { transform: translateX(-100%) skewX(-15deg); }
-    to { transform: translateX(200%) skewX(-15deg); }
-}
-
-/* --- PAGE STRUCTURE --- */
+/* --- PAGE STRUCTURE & TRANSITIONS --- */
 html {
     height: auto;
     overflow-y: visible;
@@ -40,22 +40,26 @@ body {
     background: radial-gradient(circle at 50% 0%, #1e0f3c 0%, var(--bg-dark) 100%);
     color: var(--text-white);
     min-height: 100vh;
-    height: auto; /* Allows the page to grow with content */
+    height: auto; 
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: auto; /* Restores scrolling */
+    overflow-y: auto; 
     scroll-behavior: smooth;
-    animation: fadeInUp 0.8s ease-out forwards;
     font-family: 'Poppins', sans-serif;
+    /* Initial state for fade-in */
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
 }
 
-/* Admin Grid Background Utility */
-body.admin-mode {
-    background-image: 
-        linear-gradient(rgba(157, 124, 253, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(157, 124, 253, 0.03) 1px, transparent 1px);
-    background-size: 30px 30px;
+/* Page Transition States */
+body.loaded {
+    opacity: 1;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+body.fade-out {
+    animation: fadeOutDown 0.5s ease-in forwards;
 }
 
 /* --- NAVIGATION --- */
@@ -79,6 +83,8 @@ nav {
     text-shadow: 0 0 15px rgba(157, 124, 253, 0.5);
     letter-spacing: 3px;
     transition: var(--transition-smooth);
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .nav-links {
@@ -111,25 +117,10 @@ nav {
     transition: var(--transition-smooth);
 }
 
-/* --- BUTTONS --- */
-.cta-button, .submit-btn {
-    background: linear-gradient(135deg, var(--accent-gold), #ffaa00);
-    color: #000;
-    padding: 18px 40px;
-    border-radius: 16px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border: none;
-    cursor: pointer;
-    transition: var(--transition-smooth);
-}
+/* --- FIXED LAYER MANAGEMENT --- */
 
-/* --- FIXED LAYER MANAGEMENT (Z-INDEX) --- */
-
-/* The Floating Basket Icon */
 .cart-toggle {
-    position: fixed; /* Keep it pinned to the screen */
+    position: fixed; 
     bottom: 30px;
     right: 30px;
     background: var(--accent-purple);
@@ -141,11 +132,16 @@ nav {
     align-items: center;
     font-size: 1.8rem;
     cursor: pointer;
-    z-index: 9999; /* Ensure it stays above everything */
+    z-index: 9999; 
     animation: glowPulse 3s infinite;
     transition: var(--transition-smooth);
     color: white;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.cart-toggle:hover {
+    transform: scale(1.1) rotate(-5deg);
+    background: var(--accent-neon);
 }
 
 #cart-count {
@@ -161,7 +157,6 @@ nav {
     border: 3px solid var(--bg-dark);
 }
 
-/* Sidebar */
 .cart-sidebar {
     position: fixed;
     top: 0;
@@ -187,20 +182,5 @@ footer {
     border-top: 1px solid rgba(157, 124, 253, 0.1);
     color: var(--text-muted);
     font-size: 0.9rem;
-    margin-top: auto; /* Pushes footer to bottom of content */
-}
-
-/* --- UTILITIES --- */
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    padding: 40px 0;
-}
-
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb {
-    background: var(--accent-purple);
-    border-radius: 10px;
+    margin-top: auto; 
 }
