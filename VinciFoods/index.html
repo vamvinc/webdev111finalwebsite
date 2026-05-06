@@ -1,306 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinciFoods | Fresh & Fast</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        /* --- LOGO TRANSITION STYLES --- */
-        #loader-layer {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100vh;
-            background: #0a051a;
-            z-index: 10001;
-            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinciFoods | Fresh & Fast</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- LOGO TRANSITION STYLES --- */
+        #loader-layer {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #0a051a;
+            z-index: 10001;
+            transition: left 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
 
-        #loader-logo {
-            width: 220px;
-            height: auto;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            filter: drop-shadow(0 0 25px rgba(157, 124, 253, 0.6));
-        }
+        #loader-logo {
+            width: 220px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 0 25px rgba(157, 124, 253, 0.6));
+        }
 
-        #loader-layer.active #loader-logo {
-            opacity: 1;
-            transform: scale(1);
-        }
+        #loader-layer.active #loader-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
 
-        /* --- FLOATING CART STYLES --- */
-        .cart-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--accent-purple);
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(157, 124, 253, 0.4);
-            z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        /* --- FLOATING CART STYLES --- */
+        .cart-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-purple);
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(157, 124, 253, 0.4);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-        .cart-container:hover {
-            transform: scale(1.1) rotate(-5deg);
-            background: #af8dff;
-        }
+        .cart-container:hover {
+            transform: scale(1.1) rotate(-5deg);
+            background: #af8dff;
+        }
 
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--accent-gold);
-            color: #000;
-            font-weight: 800;
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 12px;
-            border: 2px solid var(--bg-dark);
-        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-gold);
+            color: #000;
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            border: 2px solid var(--bg-dark);
+        }
 
-        /* Hero Layout & Animations */
-        .hero {
-            padding: 140px 10% 100px 10%;
-            text-align: center;
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
+        /* Hero Layout & Animations */
+        .hero {
+            padding: 140px 10% 100px 10%;
+            text-align: center;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-        .hero h1, .hero p, .hero-btns, .feature-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition-cool);
-        }
+        .hero h1, .hero p, .hero-btns, .feature-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition-cool);
+        }
 
-        body.loaded .hero h1 { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-        body.loaded .hero p  { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-        body.loaded .hero-btns { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+        body.loaded .hero h1 { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+        body.loaded .hero p  { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+        body.loaded .hero-btns { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
 
-        .hero h1 {
-            font-size: clamp(3.5rem, 8vw, 6rem);
-            line-height: 1;
-            font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: -4px;
-        }
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            line-height: 1;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -4px;
+        }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
 
-        .feature-item {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px solid rgba(157, 124, 253, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .feature-item {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(157, 124, 253, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-        .feature-item:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-purple);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
+        .feature-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
 
-        @media (max-width: 768px) {
-            .hero { padding-top: 100px; }
-            .hero h1 { font-size: 3rem; letter-spacing: -1px; }
-        }
-    </style>
+        @media (max-width: 768px) {
+            .hero { padding-top: 100px; }
+            .hero h1 { font-size: 3rem; letter-spacing: -1px; }
+        }
+    </style>
 </head>
 <body id="page-body">
-    <div id="loader-layer">
-        <img src="Image_20260212_002545_039.png" id="loader-logo" alt="Vinci Logo">
-    </div>
+    <div id="loader-layer">
+        <img src="Image_20260212_002545_039.png" id="loader-logo" alt="Vinci Logo">
+    </div>
 
-    <nav>
-        <div class="logo-container" onclick="navTo('index.html')" style="cursor: pointer; display: flex; align-items: center; gap: 12px;">
-            <img src="Image_20260212_002545_039.png" alt="V" style="height: 40px; filter: drop-shadow(0 0 5px var(--accent-purple));">
-            <span class="logo">VinciFoods</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="javascript:void(0)" class="active" onclick="navTo('index.html')">Home</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
-            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
-            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
-        </ul>
-    </nav>
+    <nav>
+        <div class="logo-container" onclick="navTo('index.html')" style="cursor: pointer; display: flex; align-items: center; gap: 12px;">
+            <img src="Image_20260212_002545_039.png" alt="V" style="height: 40px; filter: drop-shadow(0 0 5px var(--accent-purple));">
+            <span class="logo">VinciFoods</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="javascript:void(0)" class="active" onclick="navTo('index.html')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('aboutus.html')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="navTo('order.html')">Order</a></li>
+            <li><a href="javascript:void(0)" id="authLink" onclick="handleAuthClick(event)">Login</a></li>
+        </ul>
+    </nav>
 
-    <main>
-        <header class="hero">
-            <div id="welcome-msg" class="user-welcome" style="display: none; margin-bottom: 20px; background: rgba(212, 175, 55, 0.1); padding: 8px 20px; border-radius: 50px; color: var(--accent-gold); font-weight: 700;"></div>
-            <h1>Freshly Made.<br><span style="color: var(--accent-purple); text-shadow: 0 0 30px rgba(157, 124, 253, 0.3);">Fast Delivery.</span></h1>
-            <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin-bottom: 40px;">Your favorite meals delivered with a touch of purple. High quality, locally sourced, no cap.</p>
-            <div class="hero-btns" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                <a href="javascript:void(0)" class="btn-primary" onclick="navTo('order.html')">Order Now</a>
-                <a href="javascript:void(0)" class="btn-secondary" onclick="navTo('aboutus.html')">Learn More</a>
-            </div>
-        </header>
+    <main>
+        <header class="hero">
+            <div id="welcome-msg" class="user-welcome" style="display: none; margin-bottom: 20px; background: rgba(212, 175, 55, 0.1); padding: 8px 20px; border-radius: 50px; color: var(--accent-gold); font-weight: 700;"></div>
+            <h1>Freshly Made.<br><span style="color: var(--accent-purple); text-shadow: 0 0 30px rgba(157, 124, 253, 0.3);">Fast Delivery.</span></h1>
+            <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin-bottom: 40px;">Your favorite meals delivered with a touch of purple. High quality, locally sourced, no cap.</p>
+            <div class="hero-btns" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="javascript:void(0)" class="btn-primary" onclick="navTo('order.html')">Order Now</a>
+                <a href="javascript:void(0)" class="btn-secondary" onclick="navTo('aboutus.html')">Learn More</a>
+            </div>
+        </header>
 
-        <section class="features-section" style="padding: 100px 10%; position: relative;">
-            <div style="text-align: center; margin-bottom: 60px;">
-                <h2 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The <span style="color: var(--accent-purple);">Vinci</span> Standard</h2>
-                <p style="color: var(--text-muted);">Why we're the main character of food delivery.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div style="font-size: 3.5rem; margin-bottom: 20px;">⚡</div>
-                    <h3>Flash Delivery</h3>
-                    <p>Hot food in 30 mins or less. Zoomer speed included in every order.</p>
-                </div>
-                <div class="feature-item">
-                    <div style="font-size: 3.5rem; margin-bottom: 20px;">🌿</div>
-                    <h3>Organic Sourced</h3>
-                    <p>Main character energy ingredients. Fresh, healthy, and locally produced.</p>
-                </div>
-                <div class="feature-item">
-                    <div style="font-size: 3.5rem; margin-bottom: 20px;">💜</div>
-                    <h3>24/7 Support</h3>
-                    <p>We're here whenever the midnight cravings hit. Our squad is always standby.</p>
-                </div>
-            </div>
-        </section>
-    </main>
+        <section class="features-section" style="padding: 100px 10%; position: relative;">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">The <span style="color: var(--accent-purple);">Vinci</span> Standard</h2>
+                <p style="color: var(--text-muted);">Why we're the main character of food delivery.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">⚡</div>
+                    <h3>Flash Delivery</h3>
+                    <p>Hot food in 30 mins or less. Zoomer speed included in every order.</p>
+                </div>
+                <div class="feature-item">
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">🌿</div>
+                    <h3>Organic Sourced</h3>
+                    <p>Main character energy ingredients. Fresh, healthy, and locally produced.</p>
+                </div>
+                <div class="feature-item">
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">💜</div>
+                    <h3>24/7 Support</h3>
+                    <p>We're here whenever the midnight cravings hit. Our squad is always standby.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <!-- FLOATING CART -->
-    <div class="cart-container" onclick="toggleCart()" id="floating-cart">
-        <div class="cart-icon-wrapper" style="position: relative;">
-            <span style="font-size: 1.6rem;">🛒</span>
-            <span id="cart-count" class="cart-badge">0</span>
-        </div>
-    </div>
-    
-    <!-- SIDEBAR -->
-    <div id="sidebar" class="cart-sidebar">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px; border-bottom: 1px solid rgba(157, 124, 253, 0.1);">
-            <h3 style="font-size: 1.5rem; font-weight: 800; margin:0; color: #fff;">Your Basket</h3>
-            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem; line-height:1;">&times;</button>
-        </div>
-        <div id="cart-items" style="flex: 1; overflow-y: auto; padding: 15px;"></div>
-        <div style="padding: 25px; border-top: 1px solid rgba(157, 124, 253, 0.2); background: rgba(0,0,0,0.3);">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <span style="font-weight: 400; color: var(--text-muted);">Total:</span>
-                <span id="total-price" style="color:var(--accent-gold); font-weight:800; font-size: 1.4rem;">$0.00</span>
-            </div>
-            <button class="submit-btn" style="width: 100%; height: 55px;" onclick="checkout()">Proceed to Checkout</button>
-        </div>
-    </div>
+    <!-- FLOATING CART -->
+    <div class="cart-container" onclick="toggleCart()" id="floating-cart">
+        <div class="cart-icon-wrapper" style="position: relative;">
+            <span style="font-size: 1.6rem;">🛒</span>
+            <span id="cart-count" class="cart-badge">0</span>
+        </div>
+    </div>
+    
+    <!-- SIDEBAR -->
+    <div id="sidebar" class="cart-sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px; border-bottom: 1px solid rgba(157, 124, 253, 0.1);">
+            <h3 style="font-size: 1.5rem; font-weight: 800; margin:0; color: #fff;">Your Basket</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem; line-height:1;">&times;</button>
+        </div>
+        <div id="cart-items" style="flex: 1; overflow-y: auto; padding: 15px;"></div>
+        <div style="padding: 25px; border-top: 1px solid rgba(157, 124, 253, 0.2); background: rgba(0,0,0,0.3);">
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                <span style="font-weight: 400; color: var(--text-muted);">Total:</span>
+                <span id="total-price" style="color:var(--accent-gold); font-weight:800; font-size: 1.4rem;">$0.00</span>
+            </div>
+            <button class="submit-btn" style="width: 100%; height: 55px;" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
 
-    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p></footer>
+    <footer><p>&copy; 2026 VinciFoods | Stay Hungry, Stay Purple. ✨</p></footer>
 
-    <script>
-        // NAVIGATION & TRANSITION
-        function navTo(url) {
-            const loader = document.getElementById('loader-layer');
-            loader.style.left = '0';
-            setTimeout(() => loader.classList.add('active'), 50);
-            setTimeout(() => { window.location.href = url; }, 750);
-        }
+    <script>
+        // NAVIGATION & TRANSITION
+        function navTo(url) {
+            const loader = document.getElementById('loader-layer');
+            loader.style.left = '0';
+            setTimeout(() => loader.classList.add('active'), 50);
+            setTimeout(() => { window.location.href = url; }, 750);
+        }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-                checkSession();
-                updateUI();
-            }, 100);
-        });
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                checkSession();
+                updateUI();
+            }, 100);
+        });
 
-        function checkSession() {
-            const welcomeMsg = document.getElementById('welcome-msg');
-            const authLink = document.getElementById('authLink');
-            const userData = JSON.parse(localStorage.getItem('currentUser'));
-            if (userData) {
-                welcomeMsg.innerText = `Welcome back, ${userData.user || "Vince"}! ✨`;
-                welcomeMsg.style.display = "inline-block";
-                authLink.innerText = "Logout";
-            } else {
-                welcomeMsg.style.display = "none";
-                authLink.innerText = "Login";
-            }
-        }
+        function checkSession() {
+            const welcomeMsg = document.getElementById('welcome-msg');
+            const authLink = document.getElementById('authLink');
+            const userData = JSON.parse(localStorage.getItem('currentUser'));
+            if (userData) {
+                welcomeMsg.innerText = `Welcome back, ${userData.user || "Vince"}! ✨`;
+                welcomeMsg.style.display = "inline-block";
+                authLink.innerText = "Logout";
+            } else {
+                welcomeMsg.style.display = "none";
+                authLink.innerText = "Login";
+            }
+        }
 
-        function handleAuthClick(e) {
-            if (localStorage.getItem('currentUser')) {
-                if(confirm("Log out of VinciFoods?")) {
-                    localStorage.removeItem('currentUser'); 
-                    navTo('index.html');
-                }
-            } else { navTo('login.html'); }
-        }
+        function handleAuthClick(e) {
+            if (localStorage.getItem('currentUser')) {
+                if(confirm("Log out of VinciFoods?")) {
+                    localStorage.removeItem('currentUser'); 
+                    navTo('index.html');
+                }
+            } else { navTo('login.html'); }
+        }
 
-        // CART ENGINE (Synced from order.html)
-        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
-        
-        function toggleCart() { 
-            document.getElementById('sidebar').classList.toggle('active'); 
-        }
+        // CART ENGINE (Synced from order.html)
+        let basket = JSON.parse(localStorage.getItem('userCart')) || [];
+        
+        function toggleCart() { 
+            document.getElementById('sidebar').classList.toggle('active'); 
+        }
 
-        function updateUI() {
-            const container = document.getElementById('cart-items');
-            const countLabel = document.getElementById('cart-count');
-            const totalLabel = document.getElementById('total-price');
-            const floatingCart = document.getElementById('floating-cart');
-            
-            container.innerHTML = ''; 
-            let total = 0;
+        function updateUI() {
+            const container = document.getElementById('cart-items');
+            const countLabel = document.getElementById('cart-count');
+            const totalLabel = document.getElementById('total-price');
+            const floatingCart = document.getElementById('floating-cart');
+            
+            container.innerHTML = ''; 
+            let total = 0;
 
-            if (basket.length === 0) { 
-                container.innerHTML = '<div style="text-align:center; padding:40px 20px; opacity:0.6;"><p style="color:var(--text-muted);">Your basket is empty.</p></div>';
-                floatingCart.style.opacity = "0.8";
-            } else { 
-                floatingCart.style.opacity = "1";
-                basket.forEach((item, index) => { 
-                    total += item.price;
-                    const div = document.createElement('div'); 
-                    div.style = "display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(157, 124, 253, 0.05); margin-bottom: 10px; border-radius: 12px; border: 1px solid rgba(157, 124, 253, 0.1);";
-                    div.innerHTML = `
-                        <div style="text-align: left;">
-                            <p style="font-weight:600; font-size:0.9rem; margin:0; color:#fff;">${item.name}</p>
-                            <p style="font-size:0.8rem; color:var(--accent-gold); margin:0;">$${item.price.toFixed(2)}</p>
-                        </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:700; font-size: 0.7rem;">REMOVE</button>`;
-                    container.appendChild(div); 
-                });
-            }
-            countLabel.innerText = basket.length; 
-            totalLabel.innerText = `$${total.toFixed(2)}`;
-            localStorage.setItem('userCart', JSON.stringify(basket));
-        }
+            if (basket.length === 0) { 
+                container.innerHTML = '<div style="text-align:center; padding:40px 20px; opacity:0.6;"><p style="color:var(--text-muted);">Your basket is empty.</p></div>';
+                floatingCart.style.opacity = "0.8";
+            } else { 
+                floatingCart.style.opacity = "1";
+                basket.forEach((item, index) => { 
+                    total += item.price;
+                    const div = document.createElement('div'); 
+                    div.style = "display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(157, 124, 253, 0.05); margin-bottom: 10px; border-radius: 12px; border: 1px solid rgba(157, 124, 253, 0.1);";
+                    div.innerHTML = `
+                        <div style="text-align: left;">
+                            <p style="font-weight:600; font-size:0.9rem; margin:0; color:#fff;">${item.name}</p>
+                            <p style="font-size:0.8rem; color:var(--accent-gold); margin:0;">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-weight:700; font-size: 0.7rem;">REMOVE</button>`;
+                    container.appendChild(div); 
+                });
+            }
+            countLabel.innerText = basket.length; 
+            totalLabel.innerText = `$${total.toFixed(2)}`;
+            localStorage.setItem('userCart', JSON.stringify(basket));
+        }
 
-        function removeItem(index) { 
-            basket.splice(index, 1); 
-            updateUI(); 
-        }
+        function removeItem(index) { 
+            basket.splice(index, 1); 
+            updateUI(); 
+        }
 
-        function checkout() { 
-            if (basket.length === 0) return alert("Basket is empty!");
-            if (!localStorage.getItem('currentUser')) { 
-                alert("Please login first."); 
-                navTo('login.html'); 
-            } else { navTo('checkout.html'); } 
-        }
-    </script>
+        function checkout() { 
+            if (basket.length === 0) return alert("Basket is empty!");
+            if (!localStorage.getItem('currentUser')) { 
+                alert("Please login first."); 
+                navTo('login.html'); 
+            } else { navTo('checkout.html'); } 
+        }
+    </script>
 </body>
 </html>
