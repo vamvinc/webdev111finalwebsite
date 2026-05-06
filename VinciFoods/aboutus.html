@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VinciFoods | Our Story</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="page-body">
     <nav>
         <div class="logo">VinciFoods</div>
         <ul class="nav-links">
@@ -16,15 +17,15 @@
         </ul>
     </nav>
 
-    <!-- CENTERED HERO SECTION -->
-    <header class="hero" style="text-align: center; padding: 100px 10% 40px;">
-        <h1 style="font-size: 4rem; color: var(--accent-purple); margin-bottom: 15px;">Our Story</h1>
-        <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <h1>Our Story</h1>
+        <p style="max-width: 700px; margin: 0 auto;">
             Founded in 2026, VinciFoods was built on a passion for quality and speed. ✨
         </p>
     </header>
 
-    <!-- MAIN CONTENT WRAPPER FOR CENTERING -->
+    <!-- MAIN CONTENT -->
     <main style="max-width: 1000px; margin: 0 auto; padding: 20px; text-align: center;">
         
         <section style="margin-bottom: 60px;">
@@ -34,27 +35,27 @@
             </p>
         </section>
 
-        <!-- CENTERED MISSION CARD -->
-        <div style="background: var(--bg-card); padding: 45px; border-radius: 25px; border-bottom: 4px solid var(--accent-gold); box-shadow: 0 15px 40px rgba(0,0,0,0.4); margin-bottom: 80px;">
+        <!-- MISSION CARD (Using .delivery-card class for glassmorphism) -->
+        <div class="delivery-card" style="padding: 45px; margin-bottom: 80px; text-align: center;">
             <h3 style="color: var(--accent-gold); margin-bottom: 15px; font-size: 1.8rem; font-weight: 700;">Our Mission</h3>
-            <p style="font-size: 1.25rem; font-weight: 300; line-height: 1.6;">
+            <p style="font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: var(--text-white);">
                 To deliver high-quality, chef-inspired meals with lightning speed, while maintaining the highest standards of food safety and customer satisfaction.
             </p>
         </div>
 
         <!-- FEATURES GRID -->
-        <section class="features-grid" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; padding-bottom: 80px;">
-            <div class="feature-item" style="background: var(--bg-card); padding: 35px; border-radius: 20px; flex: 1; min-width: 250px; max-width: 300px;">
+        <section class="features-grid">
+            <div class="feature-item">
                 <span style="font-size: 2.5rem; display: block; margin-bottom: 15px;">👨‍🍳</span>
                 <h3 style="color: var(--accent-purple); margin-bottom: 10px;">The Chefs</h3>
                 <p style="font-size: 0.95rem; color: var(--text-muted);">Mastering the art of flavor with every single order.</p>
             </div>
-            <div class="feature-item" style="background: var(--bg-card); padding: 35px; border-radius: 20px; flex: 1; min-width: 250px; max-width: 300px;">
+            <div class="feature-item">
                 <span style="font-size: 2.5rem; display: block; margin-bottom: 15px;">💻</span>
                 <h3 style="color: var(--accent-purple); margin-bottom: 10px;">The Devs</h3>
                 <p style="font-size: 0.95rem; color: var(--text-muted);">Building the tech that keeps your hunger satisfied.</p>
             </div>
-            <div class="feature-item" style="background: var(--bg-card); padding: 35px; border-radius: 20px; flex: 1; min-width: 250px; max-width: 300px;">
+            <div class="feature-item">
                 <span style="font-size: 2.5rem; display: block; margin-bottom: 15px;">🏍️</span>
                 <h3 style="color: var(--accent-purple); margin-bottom: 10px;">The Riders</h3>
                 <p style="font-size: 0.95rem; color: var(--text-muted);">The fastest wheels in the city, guaranteed.</p>
@@ -73,12 +74,12 @@
             <button onclick="toggleCart()" style="background:none; border:none; color:var(--accent-purple); cursor:pointer; font-size:2rem;">&times;</button>
         </div>
         <div id="cart-items"></div>
-        <div class="cart-total">
+        <div class="cart-total" style="padding: 20px; border-top: 1px solid rgba(157,124,253,0.2);">
             <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
                 <span>Total:</span>
                 <span id="total-price" style="color:var(--accent-gold); font-weight:bold;">$0.00</span>
             </div>
-            <button class="submit-btn" onclick="checkout()">Checkout</button>
+            <button class="submit-btn" style="width: 100%;" onclick="checkout()">Checkout</button>
         </div>
     </div>
 
@@ -87,6 +88,20 @@
     </footer>
 
     <script>
+        // --- PAGE TRANSITION LOGIC ---
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', e => {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith("#") && href !== "index.html" && href !== "aboutus.html" && href !== "order.html" && href !== "login.html") return;
+                
+                if (href && !href.startsWith("#")) {
+                    e.preventDefault();
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => { window.location.href = href; }, 500);
+                }
+            });
+        });
+
         // --- PERSISTENT CART LOGIC ---
         let basket = JSON.parse(localStorage.getItem('userCart')) || [];
 
@@ -109,7 +124,7 @@
                     total += item.price;
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'cart-item';
-                    itemDiv.style = "display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);";
+                    itemDiv.style = "display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid rgba(157,124,253,0.1);";
                     itemDiv.innerHTML = `
                         <div style="text-align: left;">
                             <p style="font-weight:bold; font-size:0.9rem;">${item.name}</p>
@@ -130,7 +145,6 @@
             updateUI();
         }
 
-        // Updated: Redirection to checkout.html
         function checkout() {
             if (basket.length === 0) {
                 alert("Basket is empty!");
@@ -140,29 +154,30 @@
                 alert("Please login first!");
                 window.location.href = 'login.html';
             } else {
-                // Now consistent with order.html
                 window.location.href = 'checkout.html';
             }
         }
 
+        // Staggered loading for feature items
+        const items = document.querySelectorAll('.feature-item');
+        items.forEach((item, index) => {
+            item.style.opacity = "0";
+            item.style.animation = `fadeInUp 0.6s ease forwards ${0.4 + (index * 0.15)}s`;
+        });
+
         updateUI();
 
-        // --- IMPROVED AUTH MANAGEMENT ---
+        // AUTH MANAGEMENT
         const authLink = document.getElementById('authLink');
         const userSession = localStorage.getItem('currentUser');
 
         if (userSession) {
             authLink.innerText = "Logout";
-            authLink.href = "#"; 
             authLink.onclick = (e) => {
                 e.preventDefault();
                 localStorage.removeItem('currentUser');
                 window.location.reload();
             };
-        } else {
-            authLink.innerText = "Login";
-            authLink.href = "login.html";
-            authLink.onclick = null; 
         }
     </script>
 </body>
